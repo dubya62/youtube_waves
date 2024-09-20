@@ -7,11 +7,11 @@ Things to implement:
 - yeah...
 - audio clips ofc ofc
 
-## SAM	As a user, I can like/dislike comments and replies to comments	
-		Make the...
-		Access the...
-		Create the...
-		Register the...
+## SAM		As a user, I can like/dislike content and see views counts 
+		Create basic feature 
+		Ability to like or dislike on comments 
+		Ability to see the amount of views 
+		Ability to reply to a comment to a comment or audio 
 		Review & check-in
 		Document
 ## TRISHA	As a user, I see a home page with a feed of audio clips, a search bar, a naviagation menu, and my profile icon.	
