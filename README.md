@@ -2,7 +2,7 @@
 
 
 Things to implement:
-- Basic web app file structure (html/css/js files, etc)
+- Proper branching for all of our features
 - uh
 - yeah...
 - audio clips ofc ofc
