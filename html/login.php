@@ -5,6 +5,7 @@
         <title>
             Youtube Waves
         </title>
+
     </head>
 
     <body>
@@ -12,7 +13,7 @@
             Login:
         </h1>
 
-        <form method='post'>
+        <form action='create_user.php' method='post'>
             <label for='username'>Username:</label>
             <input type='text' name='username'/>
             <br>
