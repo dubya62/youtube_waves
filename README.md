@@ -15,11 +15,12 @@ Things to implement:
 		Review & check-in
 		Document
 ## TRISHA	As a user, I see a home page with a feed of audio clips, a search bar, a naviagation menu, and my profile icon.	
-		Create Layout (main page, profile pages); Design, UX/UI
-		Ability to comment on posts
-		Ability to post audio clips
-		Review & check-in
-		Document
+		Create main webpage with design for main feed, search bar, profile icon, and navigation menu
+        Create navigation menu upon click of navigation menu icon
+        Create functionality to access profile on click of profile icon
+        Design and implement in HTML the layout of audio clips on Home Page
+
+        Working with HTML, Javascript, and PHP for functional ity and deisgn
 ## CALVIN	As a user, I can view any user’s profile information and clips on one page	
 		Create a profile page wireframe
 		Implement UI design + dev
