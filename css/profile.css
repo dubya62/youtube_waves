@@ -30,9 +30,11 @@ body {
 /* Contains followers, following, wavecount */
 #acc-stats {
     /* width: 60vw; */
+    height: 60px;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     margin: 30px 0;
 }
 
@@ -44,12 +46,17 @@ body {
     border-right: 1px solid black;
 }
 
+/* Each stat block's CSS */
+/* Makes text stack neatly */
 .stat {
     width: 70px;
     margin: 0 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.stat > * {
+    margin: 3px 0;
 }
 
 #clip-div {
