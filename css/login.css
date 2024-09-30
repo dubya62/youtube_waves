@@ -1,0 +1,27 @@
+
+body {
+    background-color: var(--color-bg-primary);
+}
+
+#loginBox {
+    background-color: var(--color-bg-secondary);
+
+    border: 3px solid var(--color-border);
+
+    text-align: center;
+    align-content: center;
+    padding-top: 20%;
+    padding-bottom: 20%;
+    margin-left: 20%;
+    margin-right: 20%;
+
+    color: var(--color-text-primary);
+
+}
+
+#statusBox {
+    color: red;
+}
+
+
+

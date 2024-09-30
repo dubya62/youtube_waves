@@ -41,20 +41,26 @@ function check_user($conn, $username) {
         $rows++;
     }
 
-    echo "Rows: " . $rows;
-    
     $stmt->close();
-    
+
+    if ($rows > 0){
+        return 1;
+    }
+    return 0;
 
 }
 
 # function to create a new user
 function create_user($conn, $username, $password, $description) {
     # check if user already exists
-    check_user($conn, $username);
+    $exists = check_user($conn, $username);
+    if ($exists){
+        echo "User already exists!";
+        return 0;
+    }
 
     # prepare query
-    $stmt = $conn->prepare("INSERT INTO users (username, password, description) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (username, password, description) VALUES (?, PASSWORD(?), ?)");
 
     # bind params
     $stmt->bind_param("sss", $username, $password, $description);
@@ -70,7 +76,7 @@ function create_user($conn, $username, $password, $description) {
 # function to check whether or not a user provided the correct credentials
 function authenticate_user($conn, $username, $password){
     # prepare query
-    $stmt = $conn->prepare("SELECT username FROM users WHERE username=? AND password=?");
+    $stmt = $conn->prepare("SELECT username FROM users WHERE username=? AND password=PASSWORD(?)");
 
     # bind params
     $stmt->bind_param("ss", $username, $password);
@@ -89,17 +95,16 @@ function authenticate_user($conn, $username, $password){
     }
 
     if ($rows > 0){
-        echo "user authenticated";
         return 1;
     }
-    echo "authentication failed";
     return 0;
 }
+
 
 # function to generate cookies
 function get_cookie_val($conn, $username, $password) {
     # prepare query
-    $stmt = $conn->prepare("SELECT PASSWORD(password) FROM users WHERE username=? AND password=?");
+    $stmt = $conn->prepare("SELECT password FROM users WHERE username=? AND password=PASSWORD(?)");
 
     # bind params
     $stmt->bind_param("ss", $username, $password);
@@ -117,7 +122,6 @@ function get_cookie_val($conn, $username, $password) {
     }
 
     return "DefaultCookie";
-
 }
 
 

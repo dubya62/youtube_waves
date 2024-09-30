@@ -7,3 +7,5 @@ all:
 	cp -r js $(WEBROOT)
 	cp -r img $(WEBROOT)
 
+clean:
+	rm -rf $(WEBROOT)/*
