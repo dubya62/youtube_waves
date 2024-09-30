@@ -1,0 +1,128 @@
+<?php
+# The purpose of this file is to provide functions for other
+# pages to include and execute
+
+# functions will include database functionality
+# and the algorithm
+
+################################################
+# Database Functions
+
+# Connect to local database and return db instance
+function initDb() {
+    $db = new mysqli("localhost", "root", "databasePassword$", "waves");
+
+    return $db;
+}
+
+# function to close a database connection
+function closeDb($db) {
+    mysqli_close($db) or die("Failed to close database connection!");
+}
+
+
+# function to check if a user is in the database
+function check_user($conn, $username) {
+    # prepare query
+    $stmt = $conn->prepare("SELECT username FROM users WHERE username=?");
+
+    # bind params
+    $stmt->bind_param("s", $username);
+
+    # execute statement
+    $stmt->execute();
+
+    $result = "";
+
+    $stmt->bind_result($result);
+
+    $rows = 0;
+    while ($stmt->fetch()){
+        $rows++;
+    }
+
+    echo "Rows: " . $rows;
+    
+    $stmt->close();
+    
+
+}
+
+# function to create a new user
+function create_user($conn, $username, $password, $description) {
+    # check if user already exists
+    check_user($conn, $username);
+
+    # prepare query
+    $stmt = $conn->prepare("INSERT INTO users (username, password, description) VALUES (?, ?, ?)");
+
+    # bind params
+    $stmt->bind_param("sss", $username, $password, $description);
+
+    # execute statement
+    $result = $stmt->execute();
+    echo "New User Created!";
+
+    $stmt->close();
+
+}
+
+# function to check whether or not a user provided the correct credentials
+function authenticate_user($conn, $username, $password){
+    # prepare query
+    $stmt = $conn->prepare("SELECT username FROM users WHERE username=? AND password=?");
+
+    # bind params
+    $stmt->bind_param("ss", $username, $password);
+
+    # execute statement
+    $stmt->execute();
+
+    $result = "";
+
+    # bind results
+    $stmt->bind_result($result);
+    $rows = 0;
+
+    while ($stmt->fetch()){
+        $rows++;
+    }
+
+    if ($rows > 0){
+        echo "user authenticated";
+        return 1;
+    }
+    echo "authentication failed";
+    return 0;
+}
+
+# function to generate cookies
+function get_cookie_val($conn, $username, $password) {
+    # prepare query
+    $stmt = $conn->prepare("SELECT PASSWORD(password) FROM users WHERE username=? AND password=?");
+
+    # bind params
+    $stmt->bind_param("ss", $username, $password);
+
+    # execute statement
+    $stmt->execute();
+
+    $result = "";
+
+    # bind results
+    $stmt->bind_result($result);
+
+    while ($stmt->fetch()){
+        return $result;
+    }
+
+    return "DefaultCookie";
+
+}
+
+
+
+################################################
+
+
+?>

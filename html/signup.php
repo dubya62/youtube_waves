@@ -10,10 +10,10 @@
 
     <body>
         <h1>
-            Login:
+            Sign-Up:
         </h1>
 
-        <form action='authenticate.php' method='post'>
+        <form action='create_user.php' method='post'>
             <label for='username'>Username:</label>
             <input type='text' name='username'/>
             <br>
