@@ -68,15 +68,28 @@ body {
 #clip-div {
     width: 100vw;
     height: 300px;
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+
+#clip-nav {
+    border-top: 1px solid grey;
+    margin-top: 0;
+    width: 100vw;
+    height: 50px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-#clip-div > * {
+.clip-nav {
     width: 50vw;
-    height: 300px;
+    text-align: center;
+    border: 1px solid black;
 }
 
 .red { background-color: red;}
