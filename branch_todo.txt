@@ -5,4 +5,4 @@ Left to do for profilePage branch:
 - JS functionality for switching b/w clips and playlists
     - CSS for which one is active (js implementation of CSS)
 - Implement coloring CSS
-
+- JS mock for pulling profile info
