@@ -1,0 +1,18 @@
+Standup Notes
+
+September 30 2024
+    What did you do?
+        - set up the database schema 
+        - set up the signup page
+    What are you going to do?
+        - create login page
+        - set and manage cookies for user sessions
+    Are there any blocking issues?
+        - no
+
+
+
+
+
+
+
