@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Waves</title>
+    <style>
+        body {
+            font-family: Roboto, Alternate Gothic;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #006B3D;
+            color: #2C2C2C;
+        }
+        .search-bar input {
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 15px;    
+        }
+        .audio-section {
+            padding: 20px;
+            background-color: #2C2C2C;
+        }
+        .audio-file {
+            margin-bottom: 20px;
+        }
+        audio {
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!--Navigation Menu Icon at left of Header-->
+    <div class="nav-menu-icon">
+        
+    </div>
+    <div class="search-bar">
+        <form action="" method="GET">
+            <input type="text" name="search" placeholder="Search audio files...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <!--On click of profile icon, redirect to profile page-->
+    <php
+        // PHP code to redirect to profile page on click of profile icon
+        <a href="profile_page.html">
+            <div class="profile-icon">
+                <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+            </div>
+        </a>
+    </div>
+
+    <title>Upload Audio Clip</title>
+    <style>
+        /* Ensure the button stays at the bottom of the page */
+        .file-upload-button {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #D35400;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</header>
+
+<div class="audio-section">
+    <h2 style="color: white">
+        "Audio Files"
+    </h2>
+    <php
+        // PHP code to display audio files from a directory
+        $audioDir = ""
+        if (is_dir($audioDir))
+            $audioFiles = scandir($audioDir)
+            foreach ($audioFiles as $file) {
+                if ($file != "." && $file != "..")
+                    <div class="audio-file">
+                    <audio controls><source src="' . $audioDir . $file . '" type="audio/mpeg"></audio>
+</div>
+</body>
+</html>
