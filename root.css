@@ -18,6 +18,7 @@
     /* Hover and Active States */
     --color-hover-green: #008F53; /* Slightly lighter green for hover effects */
     --color-hover-orange: #E67E22; /* Slightly lighter orange for hover effects */
+    --color-hover-gray: #3A3A3A; /* Slightly lighter gray for hover effects */
   
     /* Miscellaneous */
     --color-shadow: rgba(0, 0, 0, 0.5); /* Subtle shadow for depth in dark mode */

@@ -9,5 +9,10 @@ let profileInfo = {
     ],
     liked: [
 
+    ],
+    clips: [
+        {id: 1, title: "Clip 1"},
+        {id: 2, title: "Clip 2"},
+        {id: 3, title: "Clip 3"},
     ]
 }
