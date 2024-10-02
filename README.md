@@ -1,5 +1,13 @@
 # YOUTUBE WAVES
 
+## How to run
+-   Set up the following file structure
+    - includes/
+        - scripts.php
+    - root/ (the web server's root directory)
+        - everything in root
+
+
 
 Things to implement:
 - Proper branching for all of our features

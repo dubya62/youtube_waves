@@ -6,8 +6,8 @@
             Youtube Waves
         </title>
 
-        <link rel='stylesheet' type='text/css' href='css/root.css'/>
-        <link rel='stylesheet' type='text/css' href='css/login.css'/>
+        <link rel='stylesheet' type='text/css' href='../root.css'/>
+        <link rel='stylesheet' type='text/css' href='signup.css'/>
     </head>
 
     <body>
@@ -30,7 +30,7 @@
                 if (isset($_POST['username'])){
                     if (isset($_POST['password'])){
                         # add database functionality for the login form
-                        include 'scripts.php';
+                        include '../../includes/scripts.php';
 
 
                         # open database connection
@@ -42,7 +42,7 @@
                         closeDb($conn);
 
                         if ($created){
-                            echo "<script>window.location='login.php';</script>";
+                            echo "<script>window.location='/login/login.php';</script>";
                         }
 
                     }

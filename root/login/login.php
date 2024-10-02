@@ -6,8 +6,8 @@
             Youtube Waves
         </title>
 
-        <link rel='stylesheet' type='text/css' href='css/root.css'/>
-        <link rel='stylesheet' type='text/css' href='css/login.css'/>
+        <link rel='stylesheet' type='text/css' href='../root.css'/>
+        <link rel='stylesheet' type='text/css' href='login.css'/>
     </head>
 
     <body>
@@ -17,7 +17,7 @@
                 # if the user is already authenticated,
                 # send them to the home page
                 if (isset($_COOKIE["session"])){
-                    echo "<script>window.location = 'index.html';</script>";
+                    echo "<script>window.location = '/index.html';</script>";
                 }
             ?>
 
@@ -38,7 +38,7 @@
                 # add database functionality for the login form
                 if (isset($_POST['username'])){
                     if (isset($_POST['password'])){
-                        include 'scripts.php';
+                        include '../../includes/scripts.php';
 
                         # open database connection
                         $conn = initDb();
