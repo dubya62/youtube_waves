@@ -7,6 +7,7 @@ body {
     background-color: var(--color-bg-secondary);
 
     border: 3px solid var(--color-border);
+    border-radius: 20px;
 
     text-align: center;
     align-content: center;
@@ -14,6 +15,8 @@ body {
     padding-bottom: 20%;
     margin-left: 20%;
     margin-right: 20%;
+    margin-top: 20%;
+    margin-bottom: 20%;
 
     color: var(--color-text-primary);
 

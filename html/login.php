@@ -12,6 +12,15 @@
 
     <body>
         <div id='loginBox'>
+
+            <?php
+                # if the user is already authenticated,
+                # send them to the home page
+                if (isset($_COOKIE["session"])){
+                    echo "<script>window.location = 'index.html';</script>";
+                }
+            ?>
+
             <h1>
                 Login:
             </h1>

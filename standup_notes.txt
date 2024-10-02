@@ -12,6 +12,16 @@ September 30 2024
     Are there any blocking issues?
         - no
 
+October 2 2024
+    What did you do?
+        - Finished basic versions of signup and login pages
+        - Finished cookie setup
+    What are you going to do?
+        - Add more styling to login and signup pages
+        - Create functions for easier manipulation of user data using the cookie
+    Are there any blocking issues?
+        - no
+
 
 
 

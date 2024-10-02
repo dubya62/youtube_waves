@@ -36,10 +36,14 @@
                         # open database connection
                         $conn = initDb();
 
-                        create_user($conn, $_POST['username'], $_POST['password'], "N/A");
+                        $created = create_user($conn, $_POST['username'], $_POST['password'], "N/A");
 
                         # close database connection
                         closeDb($conn);
+
+                        if ($created){
+                            echo "<script>window.location='login.php';</script>";
+                        }
 
                     }
                 }
