@@ -16,3 +16,22 @@ let profileInfo = {
         {id: 3, title: "Clip 3"},
     ]
 }
+
+window.addEventListener("load", function() {
+    listClips();
+});
+
+// Add all of user's clips to profile page from JSON
+function listClips() {
+    let listDiv = document.getElementById("clip-list");
+    let clipList = profileInfo.clips;
+    // Add each to list on profile.php
+    for (clip in clipList) {
+        let clipDiv = document.createElement("div");
+        // Add id for filtering later
+        clipDiv.id = `clip-${clipList[clip].id}`;
+        clipDiv.innerHTML = clipList[clip].title;
+        listDiv.appendChild(clipDiv);
+    }
+    
+}

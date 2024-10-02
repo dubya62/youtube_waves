@@ -39,6 +39,11 @@
             <div id="show-clips" class="clip-nav green-bg">Clips</div>
             <div id="show-playlists" class="clip-nav grey-bg">Playlists</div>
         </div>        
+        <div id="clip-list">
+        
+        </div>
     </div>
+
+    <script src="profile.js"></script>
 </body>
 </html>
