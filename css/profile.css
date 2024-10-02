@@ -1,5 +1,6 @@
 html {
     overflow: hidden; /* Stops any scrolling left or right at all */
+    background-color: var(--color-bg-primary);
 }
 
 body {
