@@ -127,7 +127,45 @@ function get_cookie_val($conn, $username, $password) {
 
 
 
-################################################
+////////////////////////////////////////////////
+// Backend Database Connection functionality
+
+// get list of likes from user by user id
+function getLikesByUserId($conn, $user_id){
+    // prepare statement to select every comment
+    // by the user's id
+    $stmt = $conn->prepare("SELECT * FROM liked_clips WHERE user_id=?");
+
+    $stmt->bind_param("s", $user_id);
+    
+    $stmt->execute();
+
+    $result = NULL;
+    $stmt->bind_result($result);
+
+    return mysqli_fetch_all($result);
+}
+
+// get list of likes from user by user's cookie
+function getLikesByCookie($conn, $cookie){
+    // first, figure out the user id of the cookie owner
+
+    // next, getLikesByUserId
+}
+
+// get list of likes from current user
+function getCurrentLikes(){
+    $conn = initDb();
+    // getLikesByCookie with the current cookie
+    getLikesByCookie($conn, $_COOKIE["session"]);
+
+    closeDb($conn);
+}
+
+
+
+
+
 
 
 ?>
