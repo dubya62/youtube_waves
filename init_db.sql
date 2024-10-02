@@ -3,37 +3,37 @@ CREATE DATABASE waves;
 use waves;
 
 CREATE TABLE tags(
-    id int,
+    id int AUTO_INCREMENT,
     tag varchar(255),
     PRIMARY KEY (id)
 );
 
-CREATE TABLE liked_clips(
-    id int,
-    clip_id int,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE subscriptions(
-    id int,
-    subscription varchar(255),
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE users (
-    id int,
+    id int AUTO_INCREMENT,
     username varchar(255) NOT NULL,
     password varchar(511) NOT NULL,
     description varchar(255),
-    subscriptions int,
-    liked int,
-    FOREIGN KEY (subscriptions) REFERENCES subscriptions(id),
-    FOREIGN KEY (liked) REFERENCES liked_clips(id),
     PRIMARY KEY (id)
 );
 
+CREATE TABLE liked_clips(
+    id int AUTO_INCREMENT,
+    user_id int,
+    clip_id int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE subscriptions(
+    id int AUTO_INCREMENT,
+    user_id int,
+    subscription int, -- references a user's id
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE clips (
-    id int,
+    id int AUTO_INCREMENT,
     views int,
     likes int,
     dislikes int,
@@ -44,7 +44,7 @@ CREATE TABLE clips (
 
 
 CREATE TABLE comments(
-    id int,
+    id int AUTO_INCREMENT,
     author int,
     parent int,
     FOREIGN KEY (author) REFERENCES users(id),

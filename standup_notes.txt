@@ -1,0 +1,30 @@
+Haha, this guy pushed his standup notes to main
+
+Standup Notes
+
+September 30 2024
+    What did you do?
+        - set up the database schema 
+        - set up the signup page
+    What are you going to do?
+        - create login page
+        - set and manage cookies for user sessions
+    Are there any blocking issues?
+        - no
+
+October 2 2024
+    What did you do?
+        - Finished basic versions of signup and login pages
+        - Finished cookie setup
+    What are you going to do?
+        - Add more styling to login and signup pages
+        - Create functions for easier manipulation of user data using the cookie
+    Are there any blocking issues?
+        - no
+
+
+
+
+
+
+

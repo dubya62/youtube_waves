@@ -1,0 +1,101 @@
+html {
+    overflow: hidden; /* Stops any scrolling left or right at all */
+    background-color: var(--color-bg-primary);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw; /* 100% of the viewport width */
+    height: 100vh; /* 100% of the viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Entire top portion of profile page */
+/* Contains name, image, stats */
+#acc-info {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#acc-img {
+    width: 150px;
+    /* border-radius: 200px; */
+}
+
+/* Small portion inside of #acc-info */
+/* Contains followers, following, wavecount */
+#acc-stats {
+    /* width: 60vw; */
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0 0 0;
+}
+
+
+/* Makes middle statistic have borders on left and right */
+#acc-stats > :nth-child(4) {
+    padding: 0 40px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+/* Each stat block's CSS */
+/* Makes text stack neatly */
+.stat {
+    width: 70px;
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.stat > * {
+    margin: 3px 0;
+}
+
+#follow-btn {
+    width: 200px;
+    height: 40px;
+    margin: 30px 0;
+}
+
+#clip-div {
+    width: 100vw;
+    height: 300px;
+    /* display: flex; */
+    /* flex-direction: row; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+
+#clip-nav-bar {
+    border-top: 1px solid grey;
+    margin-top: 0;
+    width: 100vw;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.clip-nav {
+    width: 50vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.red { background-color: red;}
+.green { background-color: green;}
+.blue { background-color: blue;}

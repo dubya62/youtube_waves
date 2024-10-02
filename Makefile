@@ -1,9 +1,11 @@
 
 WEBROOT := /srv/http
+INCLUDES := /srv/includes
 
 all:
-	cp -r html/* $(WEBROOT)
-	cp -r css $(WEBROOT)
-	cp -r js $(WEBROOT)
-	cp -r img $(WEBROOT)
+	cp -r root/* $(WEBROOT)
+	cp scripts.php $(INCLUDES)
 
+clean:
+	rm -rf $(WEBROOT)/*
+	rm -rf $(INCLUDES)/*
