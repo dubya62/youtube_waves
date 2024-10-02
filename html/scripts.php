@@ -70,6 +70,7 @@ function create_user($conn, $username, $password, $description) {
     echo "New User Created!";
 
     $stmt->close();
+    return 1;
 
 }
 
