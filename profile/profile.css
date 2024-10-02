@@ -122,3 +122,20 @@ body {
 #show-playlists:hover {
     background-color: var(--color-hover-gray);
 }
+
+#clip-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.clip-list-item {
+    width: 90vw;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid white;
+}

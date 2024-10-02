@@ -11,9 +11,9 @@ let profileInfo = {
 
     ],
     clips: [
-        {id: 1, title: "Clip 1"},
-        {id: 2, title: "Clip 2"},
-        {id: 3, title: "Clip 3"},
+        {id: 1, title: "Clip 1", length:"3:45"},
+        {id: 2, title: "Clip 2", length:"5:12"},
+        {id: 3, title: "Clip 3", length:"2:33"},
     ]
 }
 
@@ -28,9 +28,19 @@ function listClips() {
     // Add each to list on profile.php
     for (clip in clipList) {
         let clipDiv = document.createElement("div");
+        clipDiv.classList.add("clip-list-item");
         // Add id for filtering later
         clipDiv.id = `clip-${clipList[clip].id}`;
-        clipDiv.innerHTML = clipList[clip].title;
+
+        // Put title and time in div
+        let clipTitle = document.createElement("p");
+        clipTitle.innerHTML = clipList[clip].title;
+        let clipTime = document.createElement("p");
+        clipTime.innerHTML = clipList[clip].length;
+
+        // Append all divs to page
+        clipDiv.appendChild(clipTitle);
+        clipDiv.appendChild(clipTime);
         listDiv.appendChild(clipDiv);
     }
     
