@@ -1,6 +1,22 @@
 html {
     overflow: hidden; /* Stops any scrolling left or right at all */
     background-color: var(--color-bg-primary);
+    color: var(--color-text-primary)
+}
+
+.orange-bg {
+    background-color: var(--color-orange);
+    color: var(--color-text-primary);
+}
+
+.green-bg {
+    background-color: var(--color-green);
+    color: var(--color-text-primary);
+}
+
+.grey-bg {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
 }
 
 body {
@@ -10,6 +26,7 @@ body {
     height: 100vh; /* 100% of the viewport height */
     display: flex;
     flex-direction: column;
+    font-family: Arial, sans-serif; /* or use Google Fonts for custom fonts */
 }
 
 /* Entire top portion of profile page */
@@ -37,11 +54,13 @@ body {
     justify-content: center;
     align-items: center;
     margin: 30px 0 0 0;
+    padding: 8px;
+    box-shadow: 3px 3px 3px var(--color-shadow);
 }
 
 
 /* Makes middle statistic have borders on left and right */
-#acc-stats > :nth-child(4) {
+#following {
     padding: 0 40px;
     border-left: 1px solid black;
     border-right: 1px solid black;
@@ -64,6 +83,11 @@ body {
     width: 200px;
     height: 40px;
     margin: 30px 0;
+    box-shadow: 3px 3px 3px var(--color-shadow);
+}
+
+#follow-btn:hover {
+    background-color: var(--color-hover-orange);
 }
 
 #clip-div {
@@ -77,14 +101,12 @@ body {
 
 
 #clip-nav-bar {
-    border-top: 1px solid grey;
+    border-top: 1px solid var(--color-border);
     margin-top: 0;
     width: 100vw;
     height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Equal width for Clips and Playlists */
 }
 
 .clip-nav {
@@ -93,9 +115,29 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
+    border: 1px solid var(--color-border);
 }
 
+#show-playlists:hover {
+    background-color: var(--color-hover-gray);
+}
+
+#clip-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.clip-list-item {
+    width: 90vw;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid white;
+}
 .red { background-color: red;}
 .green { background-color: green;}
 .blue { background-color: blue;}
