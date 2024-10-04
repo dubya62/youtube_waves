@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="profile.css"/>
     <link rel="stylesheet" href="clips.css"/>
+    <link rel="stylesheet" href="playlists.css"/>
 </head>
 <body>
     <div id="acc-info">
@@ -58,6 +59,15 @@
         <div id="clip-list">
         
         </div>
+
+        <!-- 
+        Div where list of user's playlists goes. 
+        Empty now, as info is dynamically added by JS 
+        -->
+        <div id="playlists-list">
+        
+        </div>
+
     </div>
 
     <script src="profile.js"></script>

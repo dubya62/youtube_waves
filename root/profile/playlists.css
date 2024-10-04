@@ -1,0 +1,21 @@
+/* 
+This file includes any styling pertaining to the playlists
+feature at the bottom of the profile page.
+*/
+
+#playlists-list {
+    /* margin: 0 10vw; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    padding: 20px 60px 0 60px;
+}
+
+.playlist-list-item {
+    max-width: 25vw;
+    height: 40px;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    margin-top: 10px;
+    padding: 0 20px;
+}
