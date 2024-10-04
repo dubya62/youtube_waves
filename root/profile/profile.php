@@ -36,9 +36,24 @@
     <div id="clip-div">
         <!-- Used to select between profile's clips and playlists -->
         <div id="clip-nav-bar">
-            <div id="show-clips" class="clip-nav green-bg">Clips</div>
-            <div id="show-playlists" class="clip-nav grey-bg">Playlists</div>
+            <div 
+                id="show-clips" class="clip-nav active"
+                onclick="viewClipsActive()"
+            >
+                Clips
+            </div>
+            <div 
+                id="show-playlists" class="clip-nav"
+                onclick="viewPlaylistsActive()"
+            >
+                Playlists
+            </div>
         </div>        
+        
+        <!-- 
+        Div where list of user's clips goes. 
+        Empty now, as info is dynamically added by JS 
+        -->
         <div id="clip-list">
         
         </div>

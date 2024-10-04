@@ -49,8 +49,21 @@ function listClips() {
 // Function to change active tab on profile page
 let viewClipsActive = () => {
     let viewClips = document.getElementById("show-clips");
+    let viewPlaylists = document.getElementById("show-playlists");
+    let clipDiv = document.getElementById("clip-list");
 
     viewClips.classList.add("active");
-    viewSubs.classList.remove("active");
-    viewLiked.classList.remove("active");
+    viewPlaylists.classList.remove("active");
+    clipDiv.style.display = "flex";
+}
+
+// Function to change active tab on profile page
+let viewPlaylistsActive = () => {
+    let viewClips = document.getElementById("show-clips");
+    let viewPlaylists = document.getElementById("show-playlists");
+    let clipDiv = document.getElementById("clip-list");
+
+    viewPlaylists.classList.add("active");
+    viewClips.classList.remove("active");
+    clipDiv.style.display = "none";
 }
