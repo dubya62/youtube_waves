@@ -1,0 +1,25 @@
+:root {
+    /* Primary Colors */
+    --color-green: #006B3D; /* A dark green, works well as an accent color */
+    --color-orange: #D35400; /* A vibrant orange, good for highlighting or alerts */
+    --color-gray: #2C2C2C; /* A dark gray, ideal for background in dark mode */
+  
+    /* Text Colors */
+    --color-text-primary: #E0E0E0; /* Light gray for readability on dark background */
+    --color-text-secondary: #B0B0B0; /* Slightly dimmed text for secondary content */
+    
+    /* Background Colors */
+    --color-bg-primary: var(--color-gray); /* Dark gray as the main background */
+    --color-bg-secondary: #1A1A1A; /* Even darker gray for sections, containers, or cards */
+  
+    /* Border Colors */
+    --color-border: #444444; /* Soft borders that complement the dark background */
+  
+    /* Hover and Active States */
+    --color-hover-green: #008F53; /* Slightly lighter green for hover effects */
+    --color-hover-orange: #E67E22; /* Slightly lighter orange for hover effects */
+    --color-hover-gray: #3A3A3A; /* Slightly lighter gray for hover effects */
+  
+    /* Miscellaneous */
+    --color-shadow: rgba(0, 0, 0, 0.5); /* Subtle shadow for depth in dark mode */
+  }
