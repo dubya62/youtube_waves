@@ -45,3 +45,13 @@ function listClips() {
     }
     
 }
+
+// Function to change active tab on profile page
+let viewClipsActive = () => {
+    let viewClips = document.getElementById("show-clips");
+    ¡
+
+    viewClips.classList.add("active");
+    viewSubs.classList.remove("active");
+    viewLiked.classList.remove("active");
+}

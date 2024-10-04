@@ -29,7 +29,7 @@
                 <p>Waves</p>
             </div>
         </div>
-        <button id="follow-btn" class="orange-bg">Follow</button>
+        <button id="follow-btn" class="green-bg">Follow</button>
     </div>
 
     <!-- Includes navbar for clip/playlist and clips/playlists list-->
