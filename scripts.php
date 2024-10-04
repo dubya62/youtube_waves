@@ -130,6 +130,26 @@ function get_cookie_val($conn, $username, $password) {
 ////////////////////////////////////////////////
 // Backend Database Connection functionality
 
+// function to get user's id by their cookie value
+// returns -1 when the user is not authenticated
+function getUserIdByCookie($conn) {
+    $stmt = $conn->prepare("SELECT id FROM users WHERE password=?");
+
+    if (!isset($_COOKIE['session'])){
+        return -1;
+    }
+
+    $stmt->bind_param("s", $_COOKIE['session']);
+
+    $stmt->execute();
+    $result = -1;
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+    return $result;
+}
+
 // get list of likes from user by user id
 function getLikesByUserId($conn, $user_id){
     // prepare statement to select every comment
@@ -162,6 +182,46 @@ function getCurrentLikes(){
     closeDb($conn);
 }
 
+// function to get number of likes on a clip
+function getLikesByClipId($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_clips WHERE clip_id=?");
+    
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
+
+// function to get whether or not a user has liked a clip
+function isLikedById($conn, $user_id, $clip_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_clips WHERE user_id=? AND clip_id=?");
+
+    $stmt->bind_param("ss", $user_id, $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    if ($result > 0){
+        return 1;
+    }
+    return 0;
+
+}
+
+// function to get whether or not current user has liked this clip
+function isLikedByCookie($conn, $clip_id){
+    $user_id = getUserIdByCookie($conn);
+    echo "user_id: " . $user_id;
+    return isLikedById($conn, $user_id, $clip_id);
+}
 
 
 
