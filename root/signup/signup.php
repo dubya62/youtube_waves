@@ -27,10 +27,20 @@
             </form>
 
             <?php
+                include '../../includes/scripts.php';
+                $conn1 = initDb();
+
+                $result = isLikedByCookie($conn1, 1);
+                echo "liked?: " . $result;
+
+                closeDb($conn1);
+            ?>
+
+            <?php
                 if (isset($_POST['username'])){
                     if (isset($_POST['password'])){
                         # add database functionality for the login form
-                        include '../../includes/scripts.php';
+                        //include '../../includes/scripts.php';
 
 
                         # open database connection

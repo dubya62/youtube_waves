@@ -16,13 +16,6 @@ CREATE TABLE users (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE liked_clips(
-    id int AUTO_INCREMENT,
-    user_id int,
-    clip_id int,
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
 
 CREATE TABLE subscriptions(
     id int AUTO_INCREMENT,
@@ -42,6 +35,14 @@ CREATE TABLE clips (
     FOREIGN KEY (tags) REFERENCES tags(id)
 );
 
+CREATE TABLE liked_clips(
+    id int AUTO_INCREMENT,
+    user_id int,
+    clip_id int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (clip_id) REFERENCES clips(id)
+);
 
 CREATE TABLE comments(
     id int AUTO_INCREMENT,
