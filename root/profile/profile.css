@@ -138,3 +138,6 @@ body {
     align-items: center;
     border-bottom: 1px solid white;
 }
+.red { background-color: red;}
+.green { background-color: green;}
+.blue { background-color: blue;}
