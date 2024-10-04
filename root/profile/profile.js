@@ -11,9 +11,9 @@ let profileInfo = {
 
     ],
     clips: [
-        {id: 1, title: "Clip 1", length:"3:45"},
-        {id: 2, title: "Clip 2", length:"5:12"},
-        {id: 3, title: "Clip 3", length:"2:33"},
+        {id: 1, title: "How to be a capybara", length:"3:45"},
+        {id: 2, title: "The art of balancing oranges on a head", length:"5:12"},
+        {id: 3, title: "Serenity in a wooden barrel: a dialogue", length:"2:33"},
     ]
 }
 

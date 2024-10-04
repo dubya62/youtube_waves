@@ -6,6 +6,7 @@
     <title>Acc Name goes here</title>
     <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="profile.css"/>
+    <link rel="stylesheet" href="clips.css"/>
 </head>
 <body>
     <div id="acc-info">
