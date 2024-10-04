@@ -7,10 +7,13 @@
     <title>YouTube Waves</title>
     <style>
         body {
+            height: 100%;
             font-family: Roboto, sans-serif;
             margin: 0;
             padding: 0;
             background-color: var(--color-bg-secondary);
+            align-items: center;
+            flex-direction: column;
         }
         header {
             display: flex;
@@ -24,57 +27,58 @@
             font-size: 16px;
             border-radius: 15px;    
         }
-        .audio-file {
-            margin-bottom: 20px;
+        .footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--color-bg-primary);
         }
-        audio {
-            width: 100%;
-            max-width: 600px;
+        .clickable {
+            cursor: pointer;
+        }
+        .upload-button {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            padding: 8px 20px;
+            font-size: 36px;
+            border-radius: 15px;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <!--Navigation Menu Icon at left of Header-->
-    <div class="nav-menu-icon">
-        
+
+    <div>
+        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px">
     </div>
+
     <div class="search-bar">
         <form action="" method="GET">
             <input type="text" name="search" placeholder="Search audio files...">
-            <button type="submit">Search</button>
+            <button class="clickable" type="submit">Search</button>
         </form>
     </div>
 
     <!--On click of profile icon, redirect to profile page-->
-        <button onclick="window.location.href='profile/profile.php'">
-            <div class="profile-icon">
-                <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
-            </div>
-        </button>
+        <div class="clickable" onclick="window.location.href='profile/profile.php'">
+            <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+        </div>
+        
     </div>
 </header>
+<h2 style="color: var(--color-text-secondary)">
+    <center>Discover Page</center>
+</h2>
 
 <div>
-    <h2 style="color: var(--color-text-primary)">
-        "Audio Files"
-    </h2>
-    <!-- <php
-        // PHP code to display audio files from a directory
-        $audioDir = ""
-        if (is_dir($audioDir))
-            $audioFiles = scandir($audioDir)
-            foreach ($audioFiles as $file) {
-                if ($file != "." && $file != "..")
-                    <div class="audio-file">
-                    <audio controls><source src="' . $audioDir . $file . '" type="audio/mpeg"></audio> -->
-</div>
-
-<div
-    class="file-upload-button"
-    <!--On click of file upload button, redirect to file upload page-->
-
+    <button class="upload-button" type="submit">+</button>
 </div>
 </body>
 </html>
