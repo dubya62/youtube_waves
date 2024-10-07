@@ -44,8 +44,10 @@ function listClips() {
         // Put title and time in div
         let clipTitle = document.createElement("p");
         clipTitle.innerHTML = clipList[clip].title;
+        clipTitle.classList.add("wave-name");
         let clipTime = document.createElement("p");
         clipTime.innerHTML = clipList[clip].length;
+        clipTime.classList.add("wave-time");
 
         // Append all divs to page
         clipDiv.appendChild(clipTitle);
@@ -65,13 +67,19 @@ function listPlaylists() {
         // Add id for filtering later
         playlistDiv.id = `playlist-${playlistList[playlist].title}`;
 
+        // Add placeholder image
+        let playlistImage = document.createElement("img");
+        playlistImage.src = "../img/bara.jpg";
+
         // Put title in div
         let playlistTitle = document.createElement("p");
+        playlistTitle.classList.add("playlist-name");
         playlistTitle.innerHTML = playlistList[playlist].title;
         console.log(playlistList[playlist].title);
 
         // Append all divs to page
         playlistDiv.appendChild(playlistTitle);
+        playlistDiv.appendChild(playlistImage);
         listDiv.appendChild(playlistDiv);
     }
 }
@@ -85,7 +93,7 @@ let viewClipsActive = () => {
 
     viewClips.classList.add("active");
     viewPlaylists.classList.remove("active");
-    clipDiv.style.display = "flex";
+    clipDiv.style.display = "block";
     playlistDiv.style.display = "none";
 }
 

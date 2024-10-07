@@ -32,26 +32,47 @@ feature at the bottom of the profile page.
 }
 
 #clip-list {
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    padding-top: 10px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #2C2C2C; /* Dark background */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .clip-list-item {
-    width: 60vw;
-    height: 40px;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    margin-top: 10px;
-    padding: 0 20px;
+    padding: 10px;
+    border-bottom: 1px solid #444444; /* Subtle border between waves */
 }
 
 .clip-list-item:hover {
     background-color: var(--color-bg-secondary);
+}
+
+/* Last item does not have a bottom border */
+.clip-list:last-child {
+    border-bottom: none;
+}
+
+/* Wave name styling */
+.wave-name {
+    color: #E0E0E0;
+    font-size: 1.1rem;
+    flex-grow: 1; /* Let the name take up the remaining space */
+}
+
+/* Time of the wave */
+.wave-time {
+    color: #B0B0B0;
+    font-size: 0.9rem;
+}
+
+/* Hover effects */
+.wave-item:hover {
+    background-color: #1A1A1A; /* Slightly darker background on hover */
 }

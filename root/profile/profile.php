@@ -13,7 +13,7 @@
     <div id="acc-info">
         <h2>NotACapybara</h2>
 
-        <img id="acc-img" src="../img/bara"/>
+        <img id="acc-img" src="../img/bara.jpg"/>
 
         <!-- NOTE: -->
         <!-- The filler divs are solely for making flex work. No functionality -->
