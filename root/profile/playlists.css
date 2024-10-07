@@ -23,7 +23,7 @@ feature at the bottom of the profile page.
 
 /* Styling the playlist grid container */
 #playlists-list {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(3, 1fr); /* 3 columns */
     gap: 20px;
     max-width: 1200px;
