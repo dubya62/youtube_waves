@@ -29,12 +29,11 @@
             <br>
             <strong>Already a user? <a href="/login/login.php">log in</a></strong>
 
-
             <?php
                 if (isset($_POST['username'])){
                     if (isset($_POST['password'])){
                         # add database functionality for the login form
-                        //include '../../includes/scripts.php';
+                        include '../../includes/scripts.php';
 
 
                         # open database connection
