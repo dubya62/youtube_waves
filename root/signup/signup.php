@@ -30,8 +30,9 @@
                 include '../../includes/scripts.php';
                 $conn1 = initDb();
 
-                $result = isLikedByCookie($conn1, 1);
-                echo "liked?: " . $result;
+                $result = getClipsByCookie($conn1);
+                echo "following: ";
+                print_r($result);
 
                 closeDb($conn1);
             ?>

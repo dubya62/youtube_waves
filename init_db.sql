@@ -19,23 +19,34 @@ CREATE TABLE users (
 
 CREATE TABLE subscriptions(
     id int AUTO_INCREMENT,
-    user_id int,
+    user_id int, -- user_id subscribes to subscription
     subscription int, -- references a user's id
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (subscription) REFERENCES users(id)
 );
 
 CREATE TABLE clips (
     id int AUTO_INCREMENT,
-    views int,
-    likes int,
-    dislikes int,
+    owner int,
+    name varchar(255),
+    time date,
     tags int,
     PRIMARY KEY (id),
+    FOREIGN KEY (owner) REFERENCES users(id),
     FOREIGN KEY (tags) REFERENCES tags(id)
 );
 
 CREATE TABLE liked_clips(
+    id int AUTO_INCREMENT,
+    user_id int,
+    clip_id int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (clip_id) REFERENCES clips(id)
+);
+
+CREATE TABLE disliked_clips(
     id int AUTO_INCREMENT,
     user_id int,
     clip_id int,

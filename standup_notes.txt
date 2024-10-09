@@ -22,6 +22,21 @@ October 2 2024
     Are there any blocking issues?
         - no
 
+October 4 2024
+    What did you do?
+        - Started creating functions for manipulation of user data with cookies
+    What are you going to do?
+        - Continue creating functions for manipulation of user data with cookies
+    Are there any blocking issues?
+        - no
+
+October 7 2024
+    What did you do?
+        - Continued creating functions for manipulation of user data with cookies
+    What are you going to do?
+        - Continue creating functions for manipulation of user data with cookies
+    Are there any blocking issues?
+        - no
 
 
 
