@@ -17,7 +17,7 @@
                 # if the user is already authenticated,
                 # send them to the home page
                 if (isset($_COOKIE["session"])){
-                    echo "<script>window.location = '/index.html';</script>";
+                    echo "<script>window.location = '/home_page/home_page.html';</script>";
                 }
             ?>
 
@@ -49,10 +49,7 @@
                         $authenticated = authenticate_user($conn, $_POST['username'], $_POST['password']);
 
                         if ($authenticated){
-                            echo "Authentication successful <BR>";
-                            echo "Setting Cookie<BR>";
                             setcookie("session", get_cookie_val($conn, $_POST['username'], $_POST['password']), time() + (86400 * 30), "/");
-                            echo "Cookie Set<BR>";
                         } else {
                             echo "<div id='statusBox'>Authentication Failed!<BR></div>";
                         }
@@ -60,8 +57,15 @@
 
                         # close database connection
                         closeDb($conn);
+
+                        if ($authenticated){
+                            echo "<script>window.location = '/home_page/home_page.html';</script>";
+                        }
                     }
                 }
+
+
+
 
             ?>
         </div>

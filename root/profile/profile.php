@@ -10,8 +10,18 @@
     <link rel="stylesheet" href="playlists.css"/>
 </head>
 <body>
+    <?php
+        include '../../includes/scripts.php';
+    ?>
     <div id="acc-info">
-        <h2>NotACapybara</h2>
+        <h2>
+            <?php
+                // put the username on the screen
+                $conn = initDb();
+                echo htmlspecialchars(getUsername($conn, getUserIdByCookie($conn)));
+                closeDb($conn);
+            ?>
+        </h2>
 
         <img id="acc-img" src="../img/bara.jpg"/>
 
