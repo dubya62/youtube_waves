@@ -126,6 +126,11 @@ function get_cookie_val($conn, $username, $password) {
 }
 
 
+function logout(){
+    setcookie("session", '', -1, '/');
+    return true;
+}
+
 
 ////////////////////////////////////////////////
 // Backend Database Connection functionality
@@ -150,52 +155,6 @@ function getUserIdByCookie($conn) {
     return $result;
 }
 
-// get list of likes from user by user id
-function getLikesByUserId($conn, $user_id){
-    // prepare statement to select every comment
-    // by the user's id
-    $stmt = $conn->prepare("SELECT * FROM liked_clips WHERE user_id=?");
-
-    $stmt->bind_param("s", $user_id);
-    
-    $stmt->execute();
-
-    $result = NULL;
-    $stmt->bind_result($result);
-
-    return mysqli_fetch_all($result);
-}
-
-// get list of likes from user by user's cookie
-function getLikesByCookie($conn, $cookie){
-    // first, figure out the user id of the cookie owner
-
-    // next, getLikesByUserId
-}
-
-// get list of likes from current user
-function getCurrentLikes(){
-    $conn = initDb();
-    // getLikesByCookie with the current cookie
-    getLikesByCookie($conn, $_COOKIE["session"]);
-
-    closeDb($conn);
-}
-
-// function to get number of likes on a clip
-function getLikesByClipId($conn, $clip_id){
-    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_clips WHERE clip_id=?");
-    
-    $stmt->bind_param("s", $clip_id);
-
-    $stmt->execute();
-
-    $stmt->bind_result($result);
-
-    $stmt->fetch();
-
-    return $result;
-}
 
 // function to get whether or not a user has liked a clip
 function isLikedById($conn, $user_id, $clip_id){
@@ -213,7 +172,24 @@ function isLikedById($conn, $user_id, $clip_id){
         return 1;
     }
     return 0;
+}
 
+// function to get whether or not a user has disliked a clip
+function isDislikedById($conn, $user_id, $clip_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM disliked_clips WHERE user_id=? AND clip_id=?");
+
+    $stmt->bind_param("ss", $user_id, $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    if ($result > 0){
+        return 1;
+    }
+    return 0;
 }
 
 // function to get whether or not current user has liked this clip
@@ -223,6 +199,216 @@ function isLikedByCookie($conn, $clip_id){
     return isLikedById($conn, $user_id, $clip_id);
 }
 
+// function to get whether or not current user has disliked this clip
+function isDislikedByCookie($conn, $clip_id){
+    $user_id = getUserIdByCookie($conn);
+    echo "user_id: " . $user_id;
+    return isDislikedById($conn, $user_id, $clip_id);
+}
+
+
+// function to get number of subscribers by user id
+function getSubscriberCount($conn, $user_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM subscriptions WHERE subscription=?");
+
+    $stmt->bind_param("s", $user_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+    
+    return $result;
+}
+
+// function to return a list of users that the current user is following
+function getFollowing($conn){
+    $stmt = $conn->prepare("SELECT user_id FROM subscriptions WHERE user_id=?");
+
+    // get the current user's id
+    $user_id = getUserIdByCookie($conn);
+
+    if ($user_id == -1){
+        return [];
+    }
+
+    $stmt->bind_param("s", $user_id);
+
+    $stmt->execute();
+
+    $res = [];
+
+    $stmt->bind_result($result);
+
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    print_r($res);
+
+    return $res;
+}
+
+// function to get clips posted by a certain user
+function getClipsByUserId($conn, $user_id){
+    $stmt = $conn->prepare("SELECT id FROM clips WHERE owner=?");
+
+    $stmt->bind_param("s", $user_id);
+
+    $stmt->execute();
+
+    $res = [];
+
+    $stmt->bind_result($result);
+
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    return $res;
+}
+
+// function to get clips posted by the current user
+function getClipsByCookie($conn){
+    $user_id = getUserIdByCookie($conn);
+
+    if ($user_id == -1){
+        return [];
+    }
+
+    return getClipsByUserId($conn, $user_id);
+
+}
+
+// function to get the name of a clip by its id
+function getClipName($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT name FROM clips WHERE id=?");
+
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
+
+// function to get the number of likes on a clip
+function getClipLikes($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_clips WHERE clip_id=?");
+
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+
+}
+
+// function to get the number of dislikes on a clip
+function getClipDislikes($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM disliked_clips WHERE clip_id=?");
+
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+    
+
+}
+
+// function to get owner (user_id) of a comment
+function getCommentOwner($conn, $comment_id){
+    $stmt = $conn->prepare("SELECT author FROM comments WHERE id=?");
+
+    $stmt->bind_param("s", $comment_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
+
+// function to get the username from user id
+function getUsername($conn, $user_id){
+    $stmt = $conn->prepare("SELECT username FROM users WHERE id=?");
+
+    $stmt->bind_param("s", $user_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
+
+// like a clip
+function unlikeClip($conn, $clip_id){
+    $stmt = $conn->prepare("DELETE FROM liked_clips WHERE clip_id=? AND user_id=?");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $clip_id, $user_id);
+
+    $stmt->execute();
+
+}
+
+function likeClip($conn, $clip_id){
+    unlikeClip($conn, $clip_id);
+
+    $stmt = $conn->prepare("INSERT INTO liked_clips (user_id, clip_id) VALUES (?, ?)");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $user_id, $clip_id);
+
+    $stmt->execute();
+
+}
+
+
+// dislike a clip
+function undislikeClip($conn, $clip_id){
+    $stmt = $conn->prepare("DELETE FROM disliked_clips WHERE clip_id=? AND user_id=?");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $clip_id, $user_id);
+
+    $stmt->execute();
+
+}
+
+function dislikeClip($conn, $clip_id){
+    undislikeClip($conn, $clip_id);
+
+    $stmt = $conn->prepare("INSERT INTO disliked_clips (user_id, clip_id) VALUES (?, ?)");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $user_id, $clip_id);
+
+    $stmt->execute();
+
+}
 
 
 
