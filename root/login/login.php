@@ -33,6 +33,9 @@
                 <br>
                 <input type='submit' value='login'/>
             </form>
+            <br>
+            <br>
+            <strong>New around here? <a href="/signup/signup.php">sign up</a></strong>
 
             <?php
                 # add database functionality for the login form

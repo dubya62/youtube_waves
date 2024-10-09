@@ -126,6 +126,11 @@ function get_cookie_val($conn, $username, $password) {
 }
 
 
+function logout(){
+    setcookie("session", '', -1, '/');
+    return true;
+}
+
 
 ////////////////////////////////////////////////
 // Backend Database Connection functionality
