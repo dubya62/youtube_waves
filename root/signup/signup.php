@@ -25,17 +25,10 @@
                 <br>
                 <input type='submit' value='login'/>
             </form>
+            <br>
+            <br>
+            <strong>Already a user? <a href="/login/login.php">log in</a></strong>
 
-            <?php
-                include '../../includes/scripts.php';
-                $conn1 = initDb();
-
-                $result = getClipsByCookie($conn1);
-                echo "following: ";
-                print_r($result);
-
-                closeDb($conn1);
-            ?>
 
             <?php
                 if (isset($_POST['username'])){
