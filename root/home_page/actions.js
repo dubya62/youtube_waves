@@ -1,17 +1,30 @@
-let likeCount = 0;
-let dislikeCount = 0;
+let counters = {
+    'like-counter-1': 0,
+    'dislike-counter-1': 0,
+    'like-counter-2': 0,
+    'dislike-counter-2': 0,
+    'like-counter-3': 0,
+    'dislike-counter-3': 0,
+    'like-counter-4': 0,
+    'dislike-counter-4': 0,
+    'like-counter-5': 0,
+    'dislike-counter-5': 0,
+    'like-counter-6': 0,
+    'dislike-counter-6': 0,
+};
 
 // Function to increment LIKE count
-function incrementLike() {
-    likeCount++;
-    document.getElementById('like-counter').textContent = likeCount;
+function incrementLike(counterId) {
+    counters[counterId]++;
+    document.getElementById(counterId).textContent = counters[counterId];
 }
 
 // Function to increment DISLIKE count
-function incrementDislike() {
-    dislikeCount++;
-    document.getElementById('dislike-counter').textContent = dislikeCount;
+function incrementDislike(counterId) {
+    counters[counterId]++;
+    document.getElementById(counterId).textContent = counters[counterId];
 }
+
 
 // Popup for Rant submission
 let popup = document.getElementById('popup');
