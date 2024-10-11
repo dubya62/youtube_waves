@@ -27,7 +27,14 @@
             padding: 10px 20px;
             background-color: var(--color-bg-primary);
         }
+        .nav-bar {
+            align-items: center;
+            color: var(--color-green);
+            background-color: var(--color-shadow);
+            padding: 10px;
+        }
         .search-bar input {
+            width: 300px;
             padding: 5px;
             font-size: 16px;
             border-radius: 15px;    
@@ -76,7 +83,6 @@
             margin-bottom: 20px;
             width: 33%;
         }
-
         .thumbnail {
             width: 100px;
             height: 100px;
@@ -90,6 +96,38 @@
         }
         .audio-player {
             width: 300px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .popup-content {
+            color: var(--color-text-secondary);
+            background-color: var(--color-bg-primary);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+
+        }
+
+        .close {
+            color: var(--color-hover-orange);
+            transition: color 0.3s ease, transform 0.3s ease;
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: var(--color-orange); 
+            transform: scale(1.2);
         }
     </style>
 </head>
@@ -116,13 +154,13 @@
         
     </div>
 </header>
-<h1 style="color: var(--color-green)">
-    <center>Discover Page</center>
+<h1 class="nav-bar">
+    <center>Discover</center>
 </h1>
 <div class="audio-container">
     <div class="audio-item">
         <img src="images-3.jpeg" alt="Thumbnail 1" class="thumbnail">
-        <div class="audio-title">Moo Deng Scream</div>
+        <div class="audio-title">Moo Deng</div>
         <audio controls class="audio-player">
             <source src="audios/audio4.mp3" type="audio/mp3">
             Your browser does not support the audio element.
@@ -170,7 +208,7 @@
 
     <div class="audio-item">
         <img src="images-4.jpeg" alt="Thumbnail 2" class="thumbnail">
-        <div class="audio-title">Pesto Packing ASMR</div>
+        <div class="audio-title">Pesto ASMR</div>
         <audio controls class="audio-player">
             <source src="audios/audio1.mp3" type="audio/mp3">
             Your browser does not support the audio element.
@@ -410,7 +448,34 @@
     </div>
 </div>
 <div>
-    <button class="upload-button" type="submit">+</button>
+
+    <button id="upload-button" class="upload-button" type="submit">+</button>
+
+    <div id="popupForm" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <form id="uploadForm">
+                <h2 style="color: var(--color-text-primary)">Create New Post</h2>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+
+                <label for="audio">Upload Audio:</label>
+                <input type="file" id="audio" name="audio" accept="audio/*" required><br><br>
+
+                <label for="image">Upload Photo/GIF:</label>
+                <input type="file" id="image" name="image" accept="image/*,image/gif" required><br><br>
+
+                <label for="description">Description:</label>
+                <input type="text" id="desc" name="desc"><br><br>
+
+                <button class="clickable" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="upload_button.js"></script>
+
+
 </div>
 </body>
 </html>
