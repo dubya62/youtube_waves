@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fancy Button Thingy</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- Link to the JavaScript file -->
+    <script src="actions.js" defer></script>
+</head>
+<body>
+
+    <div class="button-container">
+        <!-- LIKE Button -->
+        <button class="btn-23" onclick="incrementLike()">
+            <span class="text">LIKE</span>
+            <span class="marquee">LIKE</span>
+        </button>
+        <p id="like-counter">0</p>  <!-- Like counter -->
+
+        <!-- DISLIKE Button -->
+        <button class="btn-23" onclick="incrementDislike()">
+            <span class="text">DISLIKE</span>
+            <span class="marquee">DISLIKE</span>    
+        </button>
+        <p id="dislike-counter">0</p> <!-- Dislike counter -->
+    </div>
+
+    <!-- COMMENT Button -->
+    <div class="comment-container">
+        <button class="btn-23" onclick="openCommentPopup()">
+            <span class="text">RANT</span>
+            <span class="marquee">RANT</span>
+        </button>
+
+        <!-- Popup for Rant Submission -->
+        <div class="popup" id="popup">
+            <h2>Your RANT has been submitted!</h2>
+            <button type="button" onclick="closePopup()">OK</button>
+        </div>
+    </div>
+        
+    <!-- COMMENT Textbox Popup-->
+    <div class="popup" id="comment-popup">
+        <h2>Start your RANT here!</h2>
+        <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+        <button type="button" onclick="submitComment()">Submit</button>
+        <button type="button" onclick="closeCommentPopup()">Cancel</button>
+    </div>
+
+</body>
+</html>

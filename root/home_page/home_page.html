@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 <link rel="stylesheet" href="../root.css">
+<!-- Link to external CSS file -->
+<link rel="stylesheet" type="text/css" href="styles.css">
+<!-- Link to the JavaScript file -->
+<script src="actions.js" defer></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Waves</title>
@@ -141,7 +146,7 @@
         </form>
     </div>
 
-        <input type='button' onclick='window.location="/logout.php";' value='log out'/>
+    <input type='button' onclick='window.location="/logout.php";' value='logout'/>
     <!--On click of profile icon, redirect to profile page-->
         <div class="clickable" onclick="window.location.href='/profile/profile.php'">
             <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
@@ -160,6 +165,45 @@
             <source src="audios/audio4.mp3" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+
+        <div class="button-container">
+            <!-- LIKE Button -->
+            <button class="btn-23" onclick="incrementLike('like-counter-1')">
+                <span class="text">LIKE</span>
+                <span class="marquee">LIKE</span>
+            </button>
+            <p id="like-counter-1">0</p>  <!-- Like counter -->
+            
+            <!-- DISLIKE Button -->
+            <button class="btn-23" onclick="incrementDislike('dislike-counter-1')">
+                <span class="text">DISLIKE</span>
+                <span class="marquee">DISLIKE</span>    
+            </button>
+            <p id="dislike-counter-1">0</p> <!-- Dislike counter -->
+        </div>
+        
+            <!-- COMMENT Button -->
+            <div class="comment-container">
+                <button class="btn-23" onclick="openCommentPopup()">
+                    <span class="text">RANT</span>
+                    <span class="marquee">RANT</span>
+                </button>
+        
+                <!-- Popup for Rant Submission -->
+                <div class="popup" id="popup">
+                    <h2>Your RANT has been submitted!</h2>
+                    <button type="button" onclick="closePopup()">OK</button>
+                </div>
+            </div>
+                
+            <!-- COMMENT Textbox Popup-->
+            <div class="popup" id="comment-popup">
+                <h2>Start your RANT here!</h2>
+                <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+                <button type="button" onclick="submitComment()">Submit</button>
+                <button type="button" onclick="closeCommentPopup()">Cancel</button>
+            </div>
+
     </div>
 
     <div class="audio-item">
@@ -169,6 +213,45 @@
             <source src="audios/audio1.mp3" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+
+        <div class="button-container">
+            <!-- LIKE Button -->
+            <button class="btn-23" onclick="incrementLike('like-counter-2')">
+                <span class="text">LIKE</span>
+                <span class="marquee">LIKE</span>
+            </button>
+            <p id="like-counter-2">0</p>  <!-- Like counter -->
+            
+            <!-- DISLIKE Button -->
+            <button class="btn-23" onclick="incrementDislike('dislike-counter-2')">
+                <span class="text">DISLIKE</span>
+                <span class="marquee">DISLIKE</span>    
+            </button>
+            <p id="dislike-counter-2">0</p> <!-- Dislike counter -->
+        </div>
+    
+        <!-- COMMENT Button -->
+        <div class="comment-container">
+            <button class="btn-23" onclick="openCommentPopup()">
+                <span class="text">RANT</span>
+                <span class="marquee">RANT</span>
+            </button>
+    
+            <!-- Popup for Rant Submission -->
+            <div class="popup" id="popup">
+                <h2>Your RANT has been submitted!</h2>
+                <button type="button" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+            
+        <!-- COMMENT Textbox Popup-->
+        <div class="popup" id="comment-popup">
+            <h2>Start your RANT here!</h2>
+            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+            <button type="button" onclick="submitComment()">Submit</button>
+            <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        </div>
+
     </div>
 
     <div class="audio-item">
@@ -178,6 +261,45 @@
             <source src="audios/audio3.mp3" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+
+        <div class="button-container">
+            <!-- LIKE Button -->
+            <button class="btn-23" onclick="incrementLike('like-counter-3')">
+                <span class="text">LIKE</span>
+                <span class="marquee">LIKE</span>
+            </button>
+            <p id="like-counter-3">0</p>  <!-- Like counter -->
+            
+            <!-- DISLIKE Button -->
+            <button class="btn-23" onclick="incrementDislike('dislike-counter-3')">
+                <span class="text">DISLIKE</span>
+                <span class="marquee">DISLIKE</span>    
+            </button>
+            <p id="dislike-counter-3">0</p> <!-- Dislike counter -->
+        </div>
+    
+        <!-- COMMENT Button -->
+        <div class="comment-container">
+            <button class="btn-23" onclick="openCommentPopup()">
+                <span class="text">RANT</span>
+                <span class="marquee">RANT</span>
+            </button>
+    
+            <!-- Popup for Rant Submission -->
+            <div class="popup" id="popup">
+                <h2>Your RANT has been submitted!</h2>
+                <button type="button" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+            
+        <!-- COMMENT Textbox Popup-->
+        <div class="popup" id="comment-popup">
+            <h2>Start your RANT here!</h2>
+            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+            <button type="button" onclick="submitComment()">Submit</button>
+            <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        </div>
+
     </div>
 
     
@@ -188,6 +310,45 @@
             <source src="audios/audio5.mp3" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+
+        <div class="button-container">
+            <!-- LIKE Button -->
+            <button class="btn-23" onclick="incrementLike('like-counter-4')">
+                <span class="text">LIKE</span>
+                <span class="marquee">LIKE</span>
+            </button>
+            <p id="like-counter-4">0</p>  <!-- Like counter -->
+            
+            <!-- DISLIKE Button -->
+            <button class="btn-23" onclick="incrementDislike('dislike-counter-4')">
+                <span class="text">DISLIKE</span>
+                <span class="marquee">DISLIKE</span>    
+            </button>
+            <p id="dislike-counter-4">0</p> <!-- Dislike counter -->
+        </div>
+    
+        <!-- COMMENT Button -->
+        <div class="comment-container">
+            <button class="btn-23" onclick="openCommentPopup()">
+                <span class="text">RANT</span>
+                <span class="marquee">RANT</span>
+            </button>
+    
+            <!-- Popup for Rant Submission -->
+            <div class="popup" id="popup">
+                <h2>Your RANT has been submitted!</h2>
+                <button type="button" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+            
+        <!-- COMMENT Textbox Popup-->
+        <div class="popup" id="comment-popup">
+            <h2>Start your RANT here!</h2>
+            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+            <button type="button" onclick="submitComment()">Submit</button>
+            <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        </div>
+
     </div>
 
     <div class="audio-item">
@@ -197,6 +358,45 @@
             <source src="audios/audio6.mp3" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+
+        <div class="button-container">
+            <!-- LIKE Button -->
+            <button class="btn-23" onclick="incrementLike('like-counter-5')">
+                <span class="text">LIKE</span>
+                <span class="marquee">LIKE</span>
+            </button>
+            <p id="like-counter-5">0</p>  <!-- Like counter -->
+            
+            <!-- DISLIKE Button -->
+            <button class="btn-23" onclick="incrementDislike('dislike-counter-5')">
+                <span class="text">DISLIKE</span>
+                <span class="marquee">DISLIKE</span>    
+            </button>
+            <p id="dislike-counter-5">0</p> <!-- Dislike counter -->
+        </div>
+    
+        <!-- COMMENT Button -->
+        <div class="comment-container">
+            <button class="btn-23" onclick="openCommentPopup()">
+                <span class="text">RANT</span>
+                <span class="marquee">RANT</span>
+            </button>
+    
+            <!-- Popup for Rant Submission -->
+            <div class="popup" id="popup">
+                <h2>Your RANT has been submitted!</h2>
+                <button type="button" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+            
+        <!-- COMMENT Textbox Popup-->
+        <div class="popup" id="comment-popup">
+            <h2>Start your RANT here!</h2>
+            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+            <button type="button" onclick="submitComment()">Submit</button>
+            <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        </div>
+
     </div>
 
     <div class="audio-item">
@@ -206,9 +406,49 @@
             <source src="audios/audio2.mp3" type="audio/mp3">
             Your browser does not support the audio element.
         </audio>
+
+        <div class="button-container">
+            <!-- LIKE Button -->
+            <button class="btn-23" onclick="incrementLike('like-counter-6')">
+                <span class="text">LIKE</span>
+                <span class="marquee">LIKE</span>
+            </button>
+            <p id="like-counter-6">0</p>  <!-- Like counter -->
+            
+            <!-- DISLIKE Button -->
+            <button class="btn-23" onclick="incrementDislike('dislike-counter-6')">
+                <span class="text">DISLIKE</span>
+                <span class="marquee">DISLIKE</span>    
+            </button>
+            <p id="dislike-counter-6">0</p> <!-- Dislike counter -->
+        </div>
+    
+        <!-- COMMENT Button -->
+        <div class="comment-container">
+            <button class="btn-23" onclick="openCommentPopup()">
+                <span class="text">RANT</span>
+                <span class="marquee">RANT</span>
+            </button>
+    
+            <!-- Popup for Rant Submission -->
+            <div class="popup" id="popup">
+                <h2>Your RANT has been submitted!</h2>
+                <button type="button" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+            
+        <!-- COMMENT Textbox Popup-->
+        <div class="popup" id="comment-popup">
+            <h2>Start your RANT here!</h2>
+            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+            <button type="button" onclick="submitComment()">Submit</button>
+            <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        </div>
+
     </div>
 </div>
 <div>
+
     <button id="upload-button" class="upload-button" type="submit">+</button>
 
     <div id="popupForm" class="popup">
@@ -234,6 +474,7 @@
     </div>
 
     <script src="upload_button.js"></script>
+
 
 </div>
 </body>
