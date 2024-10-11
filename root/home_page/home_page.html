@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <html lang="en">
 <head>
 <link rel="stylesheet" href="../root.css">
 <!-- Link to external CSS file -->
 <link rel="stylesheet" type="text/css" href="styles.css">
 <!-- Link to the JavaScript file -->
-<script src="actions.js" defer></script>
+<script src="actions.js" ></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,7 +96,7 @@
         .audio-player {
             width: 300px;
         }
-        .popup {
+        .otherPopup {
             display: none;
             position: fixed;
             z-index: 1;
@@ -158,6 +157,22 @@
     <center>Discover</center>
 </h1>
 <div class="audio-container">
+
+    <!-- COMMENT Textbox Popup-->
+    <div class="popup" id="comment-popup">
+        <h2>Start your RANT here!</h2>
+        <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+        <button type="button" onclick="submitComment()">Submit</button>
+        <button type="button" onclick="closeCommentPopup()">Cancel</button>
+    </div>
+
+    <!-- Popup for Rant Submission -->
+    <div class="popup" id="popup">
+        <h2>Your RANT has been submitted!</h2>
+        <button type="button" onclick="betterClosePopup()">OK</button>
+    </div>
+
+
     <div class="audio-item">
         <img src="images-3.jpeg" alt="Thumbnail 1" class="thumbnail">
         <div class="audio-title">Moo Deng</div>
@@ -189,20 +204,8 @@
                     <span class="marquee">RANT</span>
                 </button>
         
-                <!-- Popup for Rant Submission -->
-                <div class="popup" id="popup">
-                    <h2>Your RANT has been submitted!</h2>
-                    <button type="button" onclick="closePopup()">OK</button>
-                </div>
             </div>
                 
-            <!-- COMMENT Textbox Popup-->
-            <div class="popup" id="comment-popup">
-                <h2>Start your RANT here!</h2>
-                <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-                <button type="button" onclick="submitComment()">Submit</button>
-                <button type="button" onclick="closeCommentPopup()">Cancel</button>
-            </div>
 
     </div>
 
@@ -237,21 +240,8 @@
                 <span class="marquee">RANT</span>
             </button>
     
-            <!-- Popup for Rant Submission -->
-            <div class="popup" id="popup">
-                <h2>Your RANT has been submitted!</h2>
-                <button type="button" onclick="closePopup()">OK</button>
-            </div>
         </div>
             
-        <!-- COMMENT Textbox Popup-->
-        <div class="popup" id="comment-popup">
-            <h2>Start your RANT here!</h2>
-            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-            <button type="button" onclick="submitComment()">Submit</button>
-            <button type="button" onclick="closeCommentPopup()">Cancel</button>
-        </div>
-
     </div>
 
     <div class="audio-item">
@@ -285,20 +275,8 @@
                 <span class="marquee">RANT</span>
             </button>
     
-            <!-- Popup for Rant Submission -->
-            <div class="popup" id="popup">
-                <h2>Your RANT has been submitted!</h2>
-                <button type="button" onclick="closePopup()">OK</button>
-            </div>
         </div>
             
-        <!-- COMMENT Textbox Popup-->
-        <div class="popup" id="comment-popup">
-            <h2>Start your RANT here!</h2>
-            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-            <button type="button" onclick="submitComment()">Submit</button>
-            <button type="button" onclick="closeCommentPopup()">Cancel</button>
-        </div>
 
     </div>
 
@@ -334,20 +312,8 @@
                 <span class="marquee">RANT</span>
             </button>
     
-            <!-- Popup for Rant Submission -->
-            <div class="popup" id="popup">
-                <h2>Your RANT has been submitted!</h2>
-                <button type="button" onclick="closePopup()">OK</button>
-            </div>
         </div>
             
-        <!-- COMMENT Textbox Popup-->
-        <div class="popup" id="comment-popup">
-            <h2>Start your RANT here!</h2>
-            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-            <button type="button" onclick="submitComment()">Submit</button>
-            <button type="button" onclick="closeCommentPopup()">Cancel</button>
-        </div>
 
     </div>
 
@@ -382,20 +348,8 @@
                 <span class="marquee">RANT</span>
             </button>
     
-            <!-- Popup for Rant Submission -->
-            <div class="popup" id="popup">
-                <h2>Your RANT has been submitted!</h2>
-                <button type="button" onclick="closePopup()">OK</button>
-            </div>
         </div>
             
-        <!-- COMMENT Textbox Popup-->
-        <div class="popup" id="comment-popup">
-            <h2>Start your RANT here!</h2>
-            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-            <button type="button" onclick="submitComment()">Submit</button>
-            <button type="button" onclick="closeCommentPopup()">Cancel</button>
-        </div>
 
     </div>
 
@@ -430,28 +384,15 @@
                 <span class="marquee">RANT</span>
             </button>
     
-            <!-- Popup for Rant Submission -->
-            <div class="popup" id="popup">
-                <h2>Your RANT has been submitted!</h2>
-                <button type="button" onclick="closePopup()">OK</button>
-            </div>
         </div>
             
-        <!-- COMMENT Textbox Popup-->
-        <div class="popup" id="comment-popup">
-            <h2>Start your RANT here!</h2>
-            <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-            <button type="button" onclick="submitComment()">Submit</button>
-            <button type="button" onclick="closeCommentPopup()">Cancel</button>
-        </div>
-
     </div>
 </div>
 <div>
 
     <button id="upload-button" class="upload-button" type="submit">+</button>
 
-    <div id="popupForm" class="popup">
+    <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
             <form id="uploadForm">

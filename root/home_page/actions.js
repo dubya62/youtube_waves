@@ -26,30 +26,44 @@ function incrementDislike(counterId) {
 }
 
 
-// Popup for Rant submission
-let popup = document.getElementById('popup');
-
 // Function to open the submission popup
 function openPopup() {
-    popup.classList.add("open-popup");
+    let popup = document.getElementById('popup');
+    if (popup != null){
+        popup.classList.replace("popup", "open-popup");
+    }
 }
 
 // Function to close the submission popup
-function closePopup() {
-    popup.classList.remove("open-popup");
+function betterClosePopup() {
+    let popup = document.getElementById('popup');
+    if (popup != null){
+        popup.classList.replace("open-popup", "popup");
+    }
 }
 
-// Comment popup
-let commentPopup = document.getElementById('comment-popup');
 
 // Function to open the comment popup
 function openCommentPopup() {
-    commentPopup.classList.add("open-popup");
+    // Comment popup
+    let commentPopup = document.getElementById('comment-popup');
+    if (commentPopup != null){
+        commentPopup.classList.replace("popup", "open-popup");
+    } else {
+        console.log("oh, no!");
+    }
+
 }
 
 // Function to close the comment popup
 function closeCommentPopup() {
-    commentPopup.classList.remove("open-popup");
+    // Comment popup
+    let commentPopup = document.getElementById('comment-popup');
+    if (commentPopup != null){
+        commentPopup.classList.replace("open-popup", "popup");
+    } else {
+        console.log("oh, no!");
+    }
 }
 
 // Function to submit the comment
