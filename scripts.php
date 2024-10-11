@@ -60,10 +60,10 @@ function create_user($conn, $username, $password, $description) {
     }
 
     # prepare query
-    $stmt = $conn->prepare("INSERT INTO users (username, password, description) VALUES (?, PASSWORD(?), ?)");
+    $stmt = $conn->prepare("INSERT INTO users (username, password, description) VALUES (?, ?, ?)");
 
     # bind params
-    $stmt->bind_param("sss", $username, $password, $description);
+    $stmt->bind_param("sss", $username, hash('sha256', $password), $description);
 
     # execute statement
     $result = $stmt->execute();
@@ -77,10 +77,10 @@ function create_user($conn, $username, $password, $description) {
 # function to check whether or not a user provided the correct credentials
 function authenticate_user($conn, $username, $password){
     # prepare query
-    $stmt = $conn->prepare("SELECT username FROM users WHERE username=? AND password=PASSWORD(?)");
+    $stmt = $conn->prepare("SELECT username FROM users WHERE username=? AND password=?");
 
     # bind params
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("ss", $username, hash('sha256', $password));
 
     # execute statement
     $stmt->execute();
@@ -105,10 +105,10 @@ function authenticate_user($conn, $username, $password){
 # function to generate cookies
 function get_cookie_val($conn, $username, $password) {
     # prepare query
-    $stmt = $conn->prepare("SELECT password FROM users WHERE username=? AND password=PASSWORD(?)");
+    $stmt = $conn->prepare("SELECT password FROM users WHERE username=? AND password=?");
 
     # bind params
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("ss", $username, hash('sha256', $password));
 
     # execute statement
     $stmt->execute();
