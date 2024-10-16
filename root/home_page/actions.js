@@ -74,15 +74,3 @@ function submitComment() {
     closeCommentPopup();
     openPopup();  // Show the submission success popup
 }
-
-// Function to redirect to the search page with parameters from the input field
-function redirectSearch() {
-    // Get the value from the input field
-    var query = document.getElementById('search-input').value;
-
-    // Construct the URL with the search query
-    var searchUrl = 'http://localhost:9000/root/search/search.php?query=' + encodeURIComponent(query);
-
-    // Redirect to the new URL
-    window.location.href = searchUrl;
-};
