@@ -139,10 +139,24 @@
     </div>
 
     <div class="search-bar">
-        <form action="" method="GET">
-            <input type="text" name="search" id="search-input" placeholder="Search audio files...">
-            <button class="clickable" onclick="redirectSearch()" type="submit">Search</button>
+        <!-- Search Form -->
+        <form method="GET">
+            <input type="text" name="query" placeholder="Search for something..." required>
+            <button type="submit">Search</button>
         </form>
+
+        <?php
+        // Check if the 'query' parameter is set in the URL
+        if (isset($_GET['query'])) {
+            // Get the search query from the form input
+            $search_query = htmlspecialchars($_GET['query']);
+
+            // Redirect to search page with the query as a URL parameter
+            // Replace 'search_page.php' with your actual search page
+            header("Location: ../search/index.php?query=" . urlencode($search_query));
+            exit(); // Make sure to exit after the redirect to prevent further code execution
+        }
+        ?>
     </div>
 
     <input type='button' onclick='window.location="/logout.php";' value='logout'/>
