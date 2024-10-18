@@ -64,3 +64,12 @@ CREATE TABLE comments(
     PRIMARY KEY (id)
 );
 
+CREATE TABLE user_tag_interactions (
+    id int AUTO_INCREMENT,
+    user_id int,  -- references the user interacting with the tag
+    tag_id int,   -- references the tag being interacted with
+    interaction_count int DEFAULT 0,  -- stores the count of interactions
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
