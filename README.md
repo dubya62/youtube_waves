@@ -14,6 +14,7 @@ Things to implement:
 - uh
 - yeah...
 - audio clips ofc ofc
+- might be cooked for actual capston (p≧w≦q) hurray! (disregard my schizo message from last night) 
 
 ## SAM		As a user, I can like/dislike content and see views counts 
 		Create basic feature 
