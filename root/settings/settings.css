@@ -1,0 +1,13 @@
+/*Stylesheet for the settings page*/
+#acc-info {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#acc-img {
+    width: 150px;
+    /* border-radius: 200px; */
+}

@@ -32,7 +32,6 @@
                         # add database functionality for the login form
                         include '../../includes/scripts.php';
 
-
                         # open database connection
                         $conn = initDb();
 

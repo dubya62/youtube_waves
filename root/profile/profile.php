@@ -71,5 +71,6 @@
     </div>
 
     <script src="profile.js"></script>
+    <?php include '../navigationBar/navigationBar.php'; ?>
 </body>
 </html>

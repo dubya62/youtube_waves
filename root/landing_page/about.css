@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw; /* 100% of the viewport width */
+    height: 100vh; /* 100% of the viewport height */
+    display: center;
+    flex-direction: column;
+    font-family: Arial, sans-serif; 
+}
+#redirect:hover {
+    background-color: var(--color-green);
+    color: var(--color-text-primary);
+}
