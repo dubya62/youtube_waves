@@ -390,12 +390,36 @@
 </div>
 <div>
 
-    <button id="upload-button" class="upload-button" type="submit">+</button>
+    <?php
+        include '../../includes/scripts.php';
+        // handle uploads
+        if (isset($_POST["name"])){
+            if (isset($_POST["audio"])){
+                if (isset($_POST["image"])){
+                    if (isset($_POST["tags"])){
+                        // we have a valid upload.
+                        // we need to create a database entry for it
+                        $conn = initDb();
+                        
+                        createClipEntry($conn, $_POST["name"], $_POST["tags"]);
+                        
+                        closeDb($conn);
+
+                        // TODO: create a file to store the clip in
+                        
+                    }
+                }
+            }
+        }
+
+    ?>
+
+    <button id="upload-button" class="upload-button" type="button">+</button>
 
     <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <form id="uploadForm">
+            <form method="post" id="uploadForm">
                 <h2 style="color: var(--color-text-primary)">Create New Post</h2>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required><br><br>
@@ -406,10 +430,10 @@
                 <label for="image">Upload Photo/GIF:</label>
                 <input type="file" id="image" name="image" accept="image/*,image/gif" required><br><br>
 
-                <label for="description">Description:</label>
-                <input type="text" id="desc" name="desc"><br><br>
+                <label for="tags">Tags:</label>
+                <input type="text" id="tags" name="tags"><br><br>
 
-                <button class="clickable" type="submit">Submit</button>
+                <input class="clickable" type="submit" value="upload">
             </form>
         </div>
     </div>

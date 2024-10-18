@@ -22,8 +22,10 @@ window.addEventListener("click", function(event) {
 });
 
 // Handle form submission
+/*
 document.getElementById("uploadForm").addEventListener("submit", function(event) {
     event.preventDefault();
     alert("Form submitted!");
     popupForm.style.display = "none"; // Close the popup after submission
 });
+*/
