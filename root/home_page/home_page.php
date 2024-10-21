@@ -128,6 +128,14 @@
             color: var(--color-orange); 
             transform: scale(1.2);
         }
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: var(--color-text-secondary);
+        }
+
+
     </style>
 </head>
 <body>
@@ -144,6 +152,7 @@
             <button class="clickable" type="submit">Search</button>
         </form>
     </div>
+
 
     <input type='button' onclick='window.location="/logout.php";' value='logout'/>
     <!--On click of profile icon, redirect to profile page-->
@@ -278,9 +287,8 @@
         </div>
             
 
-    </div>
+    </div>   
 
-    
     <div class="audio-item">
         <img src="china-skala.gif" alt="Thumbnail 3" class="thumbnail">
         <div class="audio-title">🤨</div>
