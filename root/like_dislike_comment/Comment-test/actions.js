@@ -1,15 +1,20 @@
-// Function to increment the like counter
-function incrementLike(counterId) {
-    const counter = document.getElementById(counterId);
-    let count = parseInt(counter.innerText);
-    counter.innerText = ++count;
+let likeCount = 0;
+let dislikeCount = 0;
+
+// Function to increment LIKE count
+function incrementLike() {
+    likeCount++;
+    const likeCounter = document.getElementById('like-counter');
+    likeCounter.textContent = likeCount;
+    likeCounter.style.color = "red"; // Force red color
 }
 
-// Function to increment the dislike counter
-function incrementDislike(counterId) {
-    const counter = document.getElementById(counterId);
-    let count = parseInt(counter.innerText);
-    counter.innerText = ++count;
+// Function to increment DISLIKE count
+function incrementDislike() {
+    dislikeCount++;
+    const dislikeCounter = document.getElementById('dislike-counter');
+    dislikeCounter.textContent = dislikeCount;
+    dislikeCounter.style.color = "red"; // Force red color
 }
 
 // Function to open the comment popup for the rant

@@ -81,6 +81,23 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+
+@-webkit-keyframes marquee {
+  0% {
+    transform: translateX(var(--start));
+  }
+  to {
+    transform: translateX(var(--end));
+  }
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(var(--start));
+  }
+  to {
+    transform: translateX(var(--end));
+  }
+}
 /* CSS STYLE FOR BUTTONS */ 
 
 
@@ -180,21 +197,6 @@
 }
 
 
-@-webkit-keyframes marquee {
-  0% {
-    transform: translateX(var(--start));
-  }
-  to {
-    transform: translateX(var(--end));
-  }
-}
-@keyframes marquee {
-  0% {
-    transform: translateX(var(--start));
-  }
-  to {
-    transform: translateX(var(--end));
-  }
-}
+
 
 
