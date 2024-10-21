@@ -410,6 +410,47 @@ function dislikeClip($conn, $clip_id){
 
 }
 
+// create a tags entry (returns the tag_id)
+function createTagEntry($conn, $tag_string){
+    // only insert if the tag does not exist. otherwise, return the tag's id
+    $tag_id = -1;
+    $stmt1 = $conn->prepare("SELECT id FROM tags WHERE tag=?");
+    $stmt1->bind_param("s", $tag_string);
+    $stmt1->execute();
+    $stmt1->bind_result($tag_id);
+    $stmt1->fetch();
+    if ($tag_id != -1){
+        return $tag_id;
+    }
+
+    $stmt = $conn->prepare("INSERT INTO tags (tag) VALUES (?)");
+
+    $stmt->bind_param("s", $tag_string);
+
+    $stmt->execute();
+
+    return mysqli_insert_id($conn);
+}
+
+
+// create a clip entry (returns the clip_id)
+function createClipEntry($conn, $name, $tags){
+    // TODO: make this parse the tags
+    $tag_id = createTagEntry($conn, $tags);
+
+    // get the current user's id
+    $user_id = getUserIdByCookie($conn);
+
+    // prepare the statement to create the clip entry
+    $stmt = $conn->prepare("INSERT INTO clips (owner, name, time, tags) VALUES (?, ?, NOW(), ?)");
+
+    $stmt->bind_param("sss", $user_id, $name, $tag_id);
+
+    $stmt->execute();
+
+    return mysqli_insert_id($conn);
+}
+
 
 
 

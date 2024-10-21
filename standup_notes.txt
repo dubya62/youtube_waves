@@ -46,7 +46,14 @@ October 9 2024
     Are there any blocking issues?
         - no
 
-
+October 18 2024
+    What did you do?
+        - Worked on making the upload button create an entry in the database
+    What are you going to do?
+        - Work on the popup interface when clicking a clip's picture
+    Are there any blocking issues?
+        - no
+    
 
 
 
