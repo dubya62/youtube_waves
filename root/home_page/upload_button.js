@@ -25,7 +25,7 @@ window.addEventListener("click", function(event) {
 /*
 document.getElementById("uploadForm").addEventListener("submit", function(event) {
     event.preventDefault();
-    alert("Form submitted!");
+    alert("Form submitted! Check your profile to make sure the audio has been uploaded.");
     popupForm.style.display = "none"; // Close the popup after submission
 });
 */
