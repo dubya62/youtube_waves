@@ -19,7 +19,7 @@
 </head>
 <body>
     <h1>Search Results</h1>
-    <form action="search.php" method="get">
+    <form action="index.php" method="get">
         <input type="text" name="query" placeholder="Search...">
         <button type="submit">Search</button>
     </form>
