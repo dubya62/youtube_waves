@@ -26,23 +26,26 @@
 
     <div class="search-results">
         <?php
-        if (isset($_GET['query'])) {
-            $query = htmlspecialchars($_GET['query']);
-            // Dummy data for demonstration purposes
-            $results = [
-                "Result 1 for $query",
-                "Result 2 for $query",
-                "Result 3 for $query",
-            ];
+            include '../../includes/scripts.php';
 
-            if (count($results) > 0) {
-                foreach ($results as $result) {
-                    echo "<div class='result-item'>$result</div>";
-                }
-            } else {
-                echo "<p>No results found for '$query'</p>";
-            }
-        }
+            // $searchTerm = $_GET['query'];  // Get the search term from URL
+            // $query = "SELECT * FROM filtered_clips WHERE 
+            //         clip_title LIKE CONCAT('%', ?, '%') 
+            //         OR user_description LIKE CONCAT('%', ?, '%') 
+            //         OR clip_tag LIKE CONCAT('%', ?, '%')";
+            
+            // $stmt = $mysqli->prepare($query);
+            // $searchTerm = '%' . $searchTerm . '%';  // Prepare the search term with wildcards
+            // $stmt->bind_param('sss', $searchTerm, $searchTerm, $searchTerm);  // Bind the search term to the query
+            // $stmt->execute();
+            // $result = $stmt->get_result();  // Fetch the result
+            
+            // // Process the result
+            // while ($row = $result->fetch_assoc()) {
+            //     echo $row['clip_title'] . " - " . $row['username'] . "<br>";
+            // }
+
+            
         ?>
     </div>
 </body>

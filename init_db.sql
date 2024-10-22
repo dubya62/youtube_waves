@@ -64,3 +64,24 @@ CREATE TABLE comments(
     PRIMARY KEY (id)
 );
 
+-- View to get all search results by filtering through clips
+CREATE VIEW filtered_clips AS
+SELECT c.id, c.name AS clip_title, c.time, u.username, u.description AS user_description, t.tag AS clip_tag
+FROM clips c
+JOIN users u ON c.owner = u.id
+LEFT JOIN tags t ON c.tags = t.id;
+
+DELIMITER $$
+
+CREATE PROCEDURE FilterClips(IN searchTerm VARCHAR(255))
+BEGIN
+    SELECT c.id, c.name AS clip_title, c.time, u.username, u.description AS user_description, t.tag AS clip_tag
+    FROM clips c
+    JOIN users u ON c.owner = u.id
+    LEFT JOIN tags t ON c.tags = t.id
+    WHERE c.name LIKE CONCAT('%', searchTerm, '%')
+       OR u.description LIKE CONCAT('%', searchTerm, '%')
+       OR t.tag LIKE CONCAT('%', searchTerm, '%');
+END$$
+
+DELIMITER ;
