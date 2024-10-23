@@ -215,7 +215,6 @@
         
             </div>
                 
-
     </div>
 
     <div class="audio-item">
@@ -401,6 +400,22 @@
     <?php
         include '../../includes/scripts.php';
         // handle uploads
+        // Mapping MIME types to file extensions
+        $audioMimeToExt = [
+            'audio/mpeg' => 'mp3',
+            'audio/wav' => 'wav',
+            'audio/x-wav' => 'wav',
+            'audio/mp4' => 'm4a',
+            'audio/ogg' => 'ogg',
+        ];
+
+        $imageMimeToExt = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif',
+            'image/webp' => 'webp',
+        ];
+
         if (isset($_POST["name"])){
             if (isset($_POST["audio"])){
                 if (isset($_POST["image"])){
@@ -413,13 +428,40 @@
                         
                         closeDb($conn);
 
-                        // TODO: create a file to store the clip in
+                        // Store the audio file in the audio folder with the name of the clip id
+                        // Handle audio file upload
+                        $audioMimeType = $_FILES['audio']['type'];
+                        if (array_key_exists($audioMimeType, $audioMimeToExt)) {
+                            $audioExt = $audioMimeToExt[$audioMimeType];
+                            $audioTmpPath = $_FILES['audio']['tmp_name'];
+                            $audioFileName = $clipId . "." . $audioExt;
+                            $audioUploadPath = '../home_page/audios/' . $audioFileName;
                         
+                            // Move the audio file
+                            move_uploaded_file($audioTmpPath, $audioUploadPath);
+                        } else {
+                            echo "Invalid audio file type. Accepted types are: mp3, wav, m4a, ogg.";
+                        }
+                        // Store the image file in the image folder with the name of the clip id
+                        // Handle image file upload
+                        $imageMimeType = $_FILES['image']['type'];
+                        if (array_key_exists($imageMimeType, $imageMimeToExt)) {
+                            $imageExt = $imageMimeToExt[$imageMimeType];
+                            $imageTmpPath = $_FILES['image']['tmp_name'];
+                            $imageFileName = $clipId . "." . $imageExt;
+                            $imageUploadPath = '../home_page/images/' . $imageFileName;
+                            
+                            // Move the image file
+                            move_uploaded_file($imageTmpPath, $imageUploadPath);
+                        } else {
+                            echo "Invalid image file type.";
+                            exit();
+                        }
+
                     }
                 }
             }
         }
-
     ?>
 
     <button id="upload-button" class="upload-button" type="button">+</button>
