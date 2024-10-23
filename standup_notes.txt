@@ -53,7 +53,23 @@ October 18 2024
         - Work on the popup interface when clicking a clip's picture
     Are there any blocking issues?
         - no
+
+October 21 2024
+    What did you do?
+        - Worked on the popup menu when clicking clips
+    What are you going to do?
+        - Work on the popup interface when clicking a clip's picture
+    Are there any blocking issues?
+        - no
     
+October 23 2024
+    What did you do?
+        - Worked on the popup menu when clicking clips
+    What are you going to do?
+        - Work on the popup interface when clicking a clip's picture
+    Are there any blocking issues?
+        - no
+
 
 
 
