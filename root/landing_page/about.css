@@ -1,13 +1,69 @@
+/* CSS for about/landing page */
 body {
+    
     margin: 0;
     padding: 0;
-    width: 100vw; /* 100% of the viewport width */
-    height: 100vh; /* 100% of the viewport height */
-    display: center;
-    flex-direction: column;
-    font-family: Arial, sans-serif; 
-}
-#redirect:hover {
-    background-color: var(--color-green);
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#landing-container {
+    text-align: center;
+    width: 70%; 
+    max-width: 700px;
+    padding: 40px 20px; 
+    background-color: var(--color-bg-secondary);
+    box-shadow: 5px 5px 20px var(--color-shadow); 
+    border-radius: 30px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-text {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+}
+
+.sub-text {
+    font-size: 1.5em; 
+    margin-bottom: 40px;
+    color: var(--color-text-secondary);
+}
+
+#button-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+/* Button styling */
+.landing-btn {
+    width: 180px;
+    padding: 15px 25px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 3px 3px 5px var(--color-shadow);
+    transition: background-color 0.3s ease;
+}
+
+.landing-btn:hover {
+    opacity: 0.9;
+}
+
+.green-bg:hover {
+    background-color: var(--color-hover-green);
+}
+
+.orange-bg:hover {
+    background-color: var(--color-hover-orange);
 }
