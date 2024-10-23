@@ -19,21 +19,14 @@
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" value="NotACapybara" class="input-field"/>
+                    /*TODO: Retrieve username from database and be able to update values*/
                 </div>
 
                 <!-- Password Section -->
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" id="password" placeholder="********" class="input-field"/>
-                </div>
-
-                <!-- Privacy Settings -->
-                <div class="form-group">
-                    <label for="privacy">Privacy Settings:</label>
-                    <select id="privacy" class="input-field">
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
-                    </select>
+                    /*TODO: Retrieve password from database and be able to update values*/
                 </div>
 
                 <!-- Save Button -->
