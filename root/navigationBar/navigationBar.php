@@ -2,7 +2,7 @@
 <nav>
     <ul>
         <li><a href="../landing_page/about.php">About</a></li>
-        <li><a href="../home_page/home_page.html">Discover</a></li>
+        <li><a href="../home_page/home_page.php">Discover</a></li>
         <li><a href="../profile/profile.php">Profile</a></li>
         <li><a href="../settings/settings.php">Settings</a></li>
     </ul>
