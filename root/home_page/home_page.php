@@ -160,30 +160,29 @@
     <?php
         include '../../includes/scripts.php';
 
-        function createClip($clip_id){
-            $conn = initDb();
-            echo "<div class='audio-item'>
+        function createClip($conn, $clip_id){
+            echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")'>
                 <img src='photos/" . $clip_id . "' alt='Thumbnail' class='thumbnail'>
                 <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
                 <audio controls class='audio-player'>
-                    <source src='audios/" . $clip_id . "' type='audio/mp3'>
+                    <source src='audios/" . $clip_id . ".mp3' type='audio/mp3'>
                     Your browser does not support the audio element.
                 </audio>
 
                 <div class='button-container'>
                     <!-- LIKE Button -->
-                    <button class='btn-23' onclick='incrementLike('like-counter-1')'>
+                    <button class='btn-23' onclick='incrementLike(\"like-counter-". $clip_id . "\")'>
                         <span class='text'>LIKE</span>
                         <span class='marquee'>LIKE</span>
                     </button>
-                    <p id='like-counter-1'>0</p>  <!-- Like counter -->
+                    <p id='like-counter-" . $clip_id . "'>0</p>  <!-- Like counter -->
                     
                     <!-- DISLIKE Button -->
-                    <button class='btn-23' onclick='incrementDislike('dislike-counter-1')'>
+                    <button class='btn-23' onclick='incrementDislike(\"dislike-counter-" . $clip_id . "\")'>
                         <span class='text'>DISLIKE</span>
                         <span class='marquee'>DISLIKE</span>    
                     </button>
-                    <p id='dislike-counter-1'>0</p> <!-- Dislike counter -->
+                    <p id='dislike-counter-" . $clip_id . "'>0</p> <!-- Dislike counter -->
                 </div>
                 
                     <!-- COMMENT Button -->
@@ -197,9 +196,23 @@
                         
 
                 </div>";
+
+        }
+
+
+        function createClips($clip_ids){
+            $conn = initDb();
+
+            # create each clip
+            foreach ($clip_ids as $clip_id){
+                createClip($conn, $clip_id);
+            }
+
             closeDb($conn);
 
         }
+
+        createClips(array("1", "2", "3", "4"));
 
     ?>
 
@@ -270,7 +283,14 @@
 
     <script src="upload_button.js"></script>
 
+    <script>
+        function openClipMenu(dom_id){
+            let clip_element = document.getElementById(dom_id);
+        }
+
+    </script>
 
 </div>
 </body>
 </html>
+
