@@ -59,7 +59,7 @@
                         closeDb($conn);
 
                         if ($authenticated){
-                            echo "<script>window.location = '/home_page/home_page.php';</script>";
+                            echo "<script>window.location='/root/home_page/home_page.php';</script>";
                         }
                     }
                 }
