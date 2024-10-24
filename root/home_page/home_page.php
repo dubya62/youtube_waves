@@ -174,7 +174,7 @@
                 <img src='photos/" . $clip_id . "' alt='Thumbnail' class='thumbnail'>
                 <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
                 <audio controls class='audio-player'>
-                    <source src='audios/" . $clip_id . ".mp3' type='audio/mp3'>
+                    <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
                     Your browser does not support the audio element.
                 </audio>
 
@@ -209,19 +209,34 @@
         }
 
 
-        function createClips($clip_ids){
-            $conn = initDb();
+        function createClips($conn, $clip_ids){
 
             # create each clip
             foreach ($clip_ids as $clip_id){
                 createClip($conn, $clip_id);
             }
 
-            closeDb($conn);
-
         }
 
-        createClips(array("1", "2", "3", "4"));
+        $currentClipNumber = 0;
+
+        function getNextClipBatch($batchSize){
+            $conn = initDb();
+
+            # get a batch of clip_ids
+            $clip_ids = getClipBatch($conn, $currentClipNumber, $batchSize);
+
+            # increment how many we have seen so far
+            $currentClipNumber += $batchSize;
+
+            # display the clips on the home page
+            createClips($conn,  $clip_ids);
+
+            closeDB($conn);
+        }
+
+        # start with displaying a batch of at most 30 clips for now
+        getNextClipBatch(30);
 
     ?>
 
@@ -262,25 +277,28 @@
         ];
 
         if (isset($_POST["name"])){
-            if (isset($_POST["audio"])){
-                if (isset($_POST["image"])){
+            if (isset($_FILES["audio"]["name"])){
+                if (isset($_FILES["image"]["name"])){
                     if (isset($_POST["tags"])){
                         // we have a valid upload.
                         // we need to create a database entry for it
                         $conn = initDb();
                         
-                        createClipEntry($conn, $_POST["name"], $_POST["tags"]);
+                        $clipId = createClipEntry($conn, $_POST["name"], $_POST["tags"]);
                         
-                        closeDb($conn);
 
                         // Store the audio file in the audio folder with the name of the clip id
                         // Handle audio file upload
                         $audioMimeType = $_FILES['audio']['type'];
+
                         if (array_key_exists($audioMimeType, $audioMimeToExt)) {
                             $audioExt = $audioMimeToExt[$audioMimeType];
                             $audioTmpPath = $_FILES['audio']['tmp_name'];
                             $audioFileName = $clipId . "." . $audioExt;
                             $audioUploadPath = '../home_page/audios/' . $audioFileName;
+
+                            // save the extension in the database
+                            setClipExtension($conn, $clipId, $audioExt);
                         
                             // Move the audio file
                             move_uploaded_file($audioTmpPath, $audioUploadPath);
@@ -303,6 +321,8 @@
                             exit();
                         }
 
+                        closeDb($conn);
+
                     }
                 }
             }
@@ -314,7 +334,7 @@
     <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <form method="post" id="uploadForm">
+            <form method="post" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();}, 10);">
                 <h2 style="color: var(--color-text-primary)">Create New Post</h2>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required><br><br>
