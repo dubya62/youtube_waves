@@ -245,7 +245,6 @@ function getFollowing($conn){
         $res[] = $result;
     }
 
-    print_r($res);
 
     return $res;
 }
@@ -452,6 +451,50 @@ function createClipEntry($conn, $name, $tags){
 }
 
 
+// get a clip's extension
+function getClipExtension($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT extension FROM clips WHERE id=?");
+
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
+
+// set a clip extension to a value
+function setClipExtension($conn, $clip_id, $extension){
+    $stmt = $conn->prepare("UPDATE clips SET extension=? WHERE id=?");
+
+    $stmt->bind_param("ss", $extension, $clip_id);
+
+    $stmt->execute();
+
+}
+
+// get a batch of clips using the algorithm
+function getClipBatch($conn, $currentClipNumber, $batchSize){
+    // TODO: use the algorithm instead of just selecting in order
+    $stmt = $conn->prepare("SELECT id FROM clips LIMIT ? OFFSET ?");
+
+    $stmt->bind_param("ss", $batchSize, $currentClipNumber);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $res = [];
+
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    return $res;
+}
 
 
 

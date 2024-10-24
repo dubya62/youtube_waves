@@ -32,6 +32,7 @@ CREATE TABLE clips (
     name varchar(255),
     time datetime,
     tags int,
+    extension varchar(16),
     PRIMARY KEY (id),
     FOREIGN KEY (owner) REFERENCES users(id),
     FOREIGN KEY (tags) REFERENCES tags(id)
