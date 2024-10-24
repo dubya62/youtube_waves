@@ -71,6 +71,7 @@ FROM clips c
 JOIN users u ON c.owner = u.id
 LEFT JOIN tags t ON c.tags = t.id;
 
+-- Procedure attempt to filter clips by search term
 DELIMITER $$
 
 CREATE PROCEDURE FilterClips(IN searchTerm VARCHAR(255))
@@ -85,3 +86,15 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- Full Text Search Option
+ALTER TABLE clips ADD FULLTEXT(clip_title);
+ALTER TABLE users ADD FULLTEXT(description);
+ALTER TABLE tags ADD FULLTEXT(tag);
+SELECT c.id, c.name AS clip_title, u.description AS user_description, t.tag AS clip_tag
+FROM clips c
+JOIN users u ON c.owner = u.id
+LEFT JOIN tags t ON c.tags = t.id
+WHERE MATCH(c.name) AGAINST(?) 
+   OR MATCH(u.description) AGAINST(?) 
+   OR MATCH(t.tag) AGAINST(?);

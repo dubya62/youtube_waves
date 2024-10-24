@@ -153,7 +153,7 @@
 
             // Redirect to search page with the query as a URL parameter
             // Replace 'search_page.php' with your actual search page
-            header("Location: ../search/index.php?query=" . urlencode($search_query));
+            header("Location: ../search/search.php?query=" . urlencode($search_query));
             exit(); // Make sure to exit after the redirect to prevent further code execution
         }
         ?>

@@ -410,7 +410,20 @@ function dislikeClip($conn, $clip_id){
 
 }
 
+// Get all info from a clip into a single string for algorithm
+function getAllCLipStrings($conn, $clip_id) {
+    $stmt = $conn->prepare("SELECT FROM clips WHERE id=?");
 
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
 
 
 
