@@ -5,7 +5,7 @@
 
     <body>
         <script>
-            window.location="login/login.php";
+            window.location="root/login/login.php";
         </script>
 
     </body>

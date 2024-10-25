@@ -128,6 +128,17 @@
             color: var(--color-orange); 
             transform: scale(1.2);
         }
+<<<<<<< HEAD
+=======
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: var(--color-text-secondary);
+        }
+
+
+>>>>>>> origin/main
     </style>
 </head>
 <body>
@@ -139,6 +150,7 @@
     </div>
 
     <div class="search-bar">
+<<<<<<< HEAD
         <!-- Search Form -->
         <form method="GET">
             <input type="text" name="query" placeholder="Search for something..." required>
@@ -159,6 +171,15 @@
         ?>
     </div>
 
+=======
+        <form action="" method="GET">
+            <input type="text" name="search" placeholder="Search audio files...">
+            <button class="clickable" type="submit">Search</button>
+        </form>
+    </div>
+
+
+>>>>>>> origin/main
     <input type='button' onclick='window.location="/logout.php";' value='logout'/>
     <!--On click of profile icon, redirect to profile page-->
         <div class="clickable" onclick="window.location.href='/profile/profile.php'">
@@ -171,6 +192,82 @@
     <center>Discover</center>
 </h1>
 <div class="audio-container">
+<<<<<<< HEAD
+=======
+    <?php
+        include '../../includes/scripts.php';
+
+        function createClip($conn, $clip_id){
+            echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")'>
+                <img src='photos/" . $clip_id . "' alt='Thumbnail' class='thumbnail'>
+                <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
+                <audio controls class='audio-player'>
+                    <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
+                    Your browser does not support the audio element.
+                </audio>
+
+                <div class='button-container'>
+                    <!-- LIKE Button -->
+                    <button class='btn-23' onclick='incrementLike(\"like-counter-". $clip_id . "\")'>
+                        <span class='text'>LIKE</span>
+                        <span class='marquee'>LIKE</span>
+                    </button>
+                    <p id='like-counter-" . $clip_id . "'>0</p>  <!-- Like counter -->
+                    
+                    <!-- DISLIKE Button -->
+                    <button class='btn-23' onclick='incrementDislike(\"dislike-counter-" . $clip_id . "\")'>
+                        <span class='text'>DISLIKE</span>
+                        <span class='marquee'>DISLIKE</span>    
+                    </button>
+                    <p id='dislike-counter-" . $clip_id . "'>0</p> <!-- Dislike counter -->
+                </div>
+                
+                    <!-- COMMENT Button -->
+                    <div class='comment-container'>
+                        <button class='btn-23' onclick='openCommentPopup()'>
+                            <span class='text'>RANT</span>
+                            <span class='marquee'>RANT</span>
+                        </button>
+                
+                    </div>
+                        
+
+                </div>";
+
+        }
+
+
+        function createClips($conn, $clip_ids){
+
+            # create each clip
+            foreach ($clip_ids as $clip_id){
+                createClip($conn, $clip_id);
+            }
+
+        }
+
+        $currentClipNumber = 0;
+
+        function getNextClipBatch($batchSize){
+            $conn = initDb();
+
+            # get a batch of clip_ids
+            $clip_ids = getClipBatch($conn, $currentClipNumber, $batchSize);
+
+            # increment how many we have seen so far
+            $currentClipNumber += $batchSize;
+
+            # display the clips on the home page
+            createClips($conn,  $clip_ids);
+
+            closeDB($conn);
+        }
+
+        # start with displaying a batch of at most 30 clips for now
+        getNextClipBatch(30);
+
+    ?>
+>>>>>>> origin/main
 
     <!-- COMMENT Textbox Popup-->
     <div class="popup" id="comment-popup">
@@ -187,6 +284,7 @@
     </div>
 
 
+<<<<<<< HEAD
     <div class="audio-item">
         <img src="images-3.jpeg" alt="Thumbnail 1" class="thumbnail">
         <div class="audio-title">Moo Deng</div>
@@ -405,11 +503,92 @@
 <div>
 
     <button id="upload-button" class="upload-button" type="submit">+</button>
+=======
+</div>
+<div>
+
+    <?php
+        // handle uploads
+        // Mapping MIME types to file extensions
+        $audioMimeToExt = [
+            'audio/mpeg' => 'mp3',
+            'audio/wav' => 'wav',
+            'audio/x-wav' => 'wav',
+            'audio/mp4' => 'm4a',
+            'audio/ogg' => 'ogg',
+        ];
+
+        $imageMimeToExt = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif',
+            'image/webp' => 'webp',
+        ];
+
+        if (isset($_POST["name"])){
+            if (isset($_FILES["audio"]["name"])){
+                if (isset($_FILES["image"]["name"])){
+                    if (isset($_POST["tags"])){
+                        // we have a valid upload.
+                        // we need to create a database entry for it
+                        $conn = initDb();
+                        
+                        $clipId = createClipEntry($conn, $_POST["name"], $_POST["tags"]);
+                        
+
+                        // Store the audio file in the audio folder with the name of the clip id
+                        // Handle audio file upload
+                        $audioMimeType = $_FILES['audio']['type'];
+
+                        if (array_key_exists($audioMimeType, $audioMimeToExt)) {
+                            $audioExt = $audioMimeToExt[$audioMimeType];
+                            $audioTmpPath = $_FILES['audio']['tmp_name'];
+                            $audioFileName = $clipId . "." . $audioExt;
+                            $audioUploadPath = '../home_page/audios/' . $audioFileName;
+
+                            // save the extension in the database
+                            setClipExtension($conn, $clipId, $audioExt);
+                        
+                            // Move the audio file
+                            move_uploaded_file($audioTmpPath, $audioUploadPath);
+                        } else {
+                            echo "Invalid audio file type. Accepted types are: mp3, wav, m4a, ogg.";
+                        }
+                        // Store the image file in the image folder with the name of the clip id
+                        // Handle image file upload
+                        $imageMimeType = $_FILES['image']['type'];
+                        if (array_key_exists($imageMimeType, $imageMimeToExt)) {
+                            $imageExt = $imageMimeToExt[$imageMimeType];
+                            $imageTmpPath = $_FILES['image']['tmp_name'];
+                            $imageFileName = $clipId . "." . $imageExt;
+                            $imageUploadPath = '../home_page/images/' . $imageFileName;
+                            
+                            // Move the image file
+                            move_uploaded_file($imageTmpPath, $imageUploadPath);
+                        } else {
+                            echo "Invalid image file type.";
+                            exit();
+                        }
+
+                        closeDb($conn);
+
+                    }
+                }
+            }
+        }
+    ?>
+
+    <button id="upload-button" class="upload-button" type="button">+</button>
+>>>>>>> origin/main
 
     <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
+<<<<<<< HEAD
             <form id="uploadForm">
+=======
+            <form method="post" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();}, 10);">
+>>>>>>> origin/main
                 <h2 style="color: var(--color-text-primary)">Create New Post</h2>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required><br><br>
@@ -420,17 +599,37 @@
                 <label for="image">Upload Photo/GIF:</label>
                 <input type="file" id="image" name="image" accept="image/*,image/gif" required><br><br>
 
+<<<<<<< HEAD
                 <label for="description">Description:</label>
                 <input type="text" id="desc" name="desc"><br><br>
 
                 <button class="clickable" type="submit">Submit</button>
+=======
+                <label for="tags">Tags:</label>
+                <input type="text" id="tags" name="tags"><br><br>
+
+                <input class="clickable" type="submit" value="upload">
+>>>>>>> origin/main
             </form>
         </div>
     </div>
 
     <script src="upload_button.js"></script>
 
+<<<<<<< HEAD
+=======
+    <script>
+        function openClipMenu(dom_id){
+            let clip_element = document.getElementById(dom_id);
+        }
+
+    </script>
+>>>>>>> origin/main
 
 </div>
 </body>
 </html>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main

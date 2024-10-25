@@ -28,10 +28,11 @@ CREATE TABLE subscriptions(
 
 CREATE TABLE clips (
     id int AUTO_INCREMENT,
-    owner int,
+    owner int, -- user's id
     name varchar(255),
-    time date,
+    time datetime,
     tags int,
+    extension varchar(16),
     PRIMARY KEY (id),
     FOREIGN KEY (owner) REFERENCES users(id),
     FOREIGN KEY (tags) REFERENCES tags(id)

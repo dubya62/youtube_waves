@@ -1,0 +1,80 @@
+/*Stylesheet for the settings page*/
+html {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+/* Settings page container */
+#settings-info {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Profile image */
+#acc-img {
+    width: 150px;
+    border-radius: 50%; /* Circular profile image */
+    margin-bottom: 20px;
+}
+
+/* Form container */
+#settings-form {
+    width: 300px;
+    padding: 20px;
+    box-shadow: 3px 3px 3px var(--color-shadow);
+    background-color: var(--color-bg-secondary);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Individual form group styling */
+.form-group {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input fields */
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid var(--color-shadow);
+    border-radius: 5px;
+    background-color: var(--color-input-bg);
+    color: var(--color-text-primary);
+}
+
+/* Save button */
+#save-settings {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: var(--color-green);
+    color: var(--color-text-primary);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 3px 3px 3px var(--color-shadow);
+}
+
+#save-settings:hover {
+    background-color: var(--color-hover-green);
+}
