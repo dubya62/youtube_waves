@@ -628,9 +628,6 @@
 >>>>>>> origin/main
 
 </div>
+<?php include '../navigationBar/navigationBar.php'; ?>
 </body>
 </html>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
