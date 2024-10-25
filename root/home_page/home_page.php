@@ -199,7 +199,7 @@
 
         function createClip($conn, $clip_id){
             echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")'>
-                <img src='photos/" . $clip_id . "' alt='Thumbnail' class='thumbnail'>
+                <img src='images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "' alt='Thumbnail' class='thumbnail'>
                 <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
                 <audio controls class='audio-player'>
                     <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
@@ -248,14 +248,11 @@
 
         $currentClipNumber = 0;
 
-        function getNextClipBatch($batchSize){
+        function getNextClipBatch($batchSize, $currentClipNumber){
             $conn = initDb();
 
             # get a batch of clip_ids
             $clip_ids = getClipBatch($conn, $currentClipNumber, $batchSize);
-
-            # increment how many we have seen so far
-            $currentClipNumber += $batchSize;
 
             # display the clips on the home page
             createClips($conn,  $clip_ids);
@@ -264,7 +261,8 @@
         }
 
         # start with displaying a batch of at most 30 clips for now
-        getNextClipBatch(30);
+        getNextClipBatch(30, $currentClipNumber);
+        $currentClipNumber += 30;
 
     ?>
 >>>>>>> origin/main
@@ -562,6 +560,9 @@
                             $imageTmpPath = $_FILES['image']['tmp_name'];
                             $imageFileName = $clipId . "." . $imageExt;
                             $imageUploadPath = '../home_page/images/' . $imageFileName;
+                            
+                            // save the image extension in the database
+                            setImageExtension($conn, $clipId, $imageExt);
                             
                             // Move the image file
                             move_uploaded_file($imageTmpPath, $imageUploadPath);
