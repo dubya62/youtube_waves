@@ -410,8 +410,14 @@ function dislikeClip($conn, $clip_id){
 
 }
 
+// Add an interaction between the current user and a specific tag
+// -- Meant to be used for the algorithm, all clips use this for every tag
+function userClipInteraction($conn, $tag_id) {
+    $user_id = getUserIdByCookie($conn);
 
-
-
+    $stmt = $conn->prepare("INSERT INTO user_tags (user_id, tag_id) VALUES (?, ?)");
+    $stmt->bind_param("ii", $user_id, $tag_id);
+    $stmt->execute();
+}
 
 ?>
