@@ -128,8 +128,6 @@
             color: var(--color-orange); 
             transform: scale(1.2);
         }
-<<<<<<< HEAD
-=======
 
         .message {
             margin-top: 20px;
@@ -138,7 +136,6 @@
         }
 
 
->>>>>>> origin/main
     </style>
 </head>
 <body>
@@ -150,7 +147,6 @@
     </div>
 
     <div class="search-bar">
-<<<<<<< HEAD
         <!-- Search Form -->
         <form method="GET">
             <input type="text" name="query" placeholder="Search for something..." required>
@@ -171,7 +167,6 @@
         ?>
     </div>
 
-=======
         <form action="" method="GET">
             <input type="text" name="search" placeholder="Search audio files...">
             <button class="clickable" type="submit">Search</button>
@@ -179,7 +174,6 @@
     </div>
 
 
->>>>>>> origin/main
     <input type='button' onclick='window.location="/logout.php";' value='logout'/>
     <!--On click of profile icon, redirect to profile page-->
         <div class="clickable" onclick="window.location.href='/profile/profile.php'">
@@ -192,8 +186,6 @@
     <center>Discover</center>
 </h1>
 <div class="audio-container">
-<<<<<<< HEAD
-=======
     <?php
         include '../../includes/scripts.php';
 
@@ -267,7 +259,6 @@
         getNextClipBatch(30);
 
     ?>
->>>>>>> origin/main
 
     <!-- COMMENT Textbox Popup-->
     <div class="popup" id="comment-popup">
@@ -284,226 +275,6 @@
     </div>
 
 
-<<<<<<< HEAD
-    <div class="audio-item">
-        <img src="images-3.jpeg" alt="Thumbnail 1" class="thumbnail">
-        <div class="audio-title">Moo Deng</div>
-        <audio controls class="audio-player">
-            <source src="audios/audio4.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-
-        <div class="button-container">
-            <!-- LIKE Button -->
-            <button class="btn-23" onclick="incrementLike('like-counter-1')">
-                <span class="text">LIKE</span>
-                <span class="marquee">LIKE</span>
-            </button>
-            <p id="like-counter-1">0</p>  <!-- Like counter -->
-            
-            <!-- DISLIKE Button -->
-            <button class="btn-23" onclick="incrementDislike('dislike-counter-1')">
-                <span class="text">DISLIKE</span>
-                <span class="marquee">DISLIKE</span>    
-            </button>
-            <p id="dislike-counter-1">0</p> <!-- Dislike counter -->
-        </div>
-        
-            <!-- COMMENT Button -->
-            <div class="comment-container">
-                <button class="btn-23" onclick="openCommentPopup()">
-                    <span class="text">RANT</span>
-                    <span class="marquee">RANT</span>
-                </button>
-        
-            </div>
-                
-
-    </div>
-
-    <div class="audio-item">
-        <img src="images-4.jpeg" alt="Thumbnail 2" class="thumbnail">
-        <div class="audio-title">Pesto ASMR</div>
-        <audio controls class="audio-player">
-            <source src="audios/audio2.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-
-        <div class="button-container">
-            <!-- LIKE Button -->
-            <button class="btn-23" onclick="incrementLike('like-counter-2')">
-                <span class="text">LIKE</span>
-                <span class="marquee">LIKE</span>
-            </button>
-            <p id="like-counter-2">0</p>  <!-- Like counter -->
-            
-            <!-- DISLIKE Button -->
-            <button class="btn-23" onclick="incrementDislike('dislike-counter-2')">
-                <span class="text">DISLIKE</span>
-                <span class="marquee">DISLIKE</span>    
-            </button>
-            <p id="dislike-counter-2">0</p> <!-- Dislike counter -->
-        </div>
-    
-        <!-- COMMENT Button -->
-        <div class="comment-container">
-            <button class="btn-23" onclick="openCommentPopup()">
-                <span class="text">RANT</span>
-                <span class="marquee">RANT</span>
-            </button>
-    
-        </div>
-            
-    </div>
-
-    <div class="audio-item">
-        <img src="images-5.jpeg" alt="Thumbnail 3" class="thumbnail">
-        <div class="audio-title">...You gonna finish that?</div>
-        <audio controls class="audio-player">
-            <source src="audios/audio1.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-
-        <div class="button-container">
-            <!-- LIKE Button -->
-            <button class="btn-23" onclick="incrementLike('like-counter-3')">
-                <span class="text">LIKE</span>
-                <span class="marquee">LIKE</span>
-            </button>
-            <p id="like-counter-3">0</p>  <!-- Like counter -->
-            
-            <!-- DISLIKE Button -->
-            <button class="btn-23" onclick="incrementDislike('dislike-counter-3')">
-                <span class="text">DISLIKE</span>
-                <span class="marquee">DISLIKE</span>    
-            </button>
-            <p id="dislike-counter-3">0</p> <!-- Dislike counter -->
-        </div>
-    
-        <!-- COMMENT Button -->
-        <div class="comment-container">
-            <button class="btn-23" onclick="openCommentPopup()">
-                <span class="text">RANT</span>
-                <span class="marquee">RANT</span>
-            </button>
-    
-        </div>
-            
-
-    </div>
-
-    
-    <div class="audio-item">
-        <img src="china-skala.gif" alt="Thumbnail 3" class="thumbnail">
-        <div class="audio-title">🤨</div>
-        <audio controls class="audio-player">
-            <source src="audios/audio5.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-
-        <div class="button-container">
-            <!-- LIKE Button -->
-            <button class="btn-23" onclick="incrementLike('like-counter-4')">
-                <span class="text">LIKE</span>
-                <span class="marquee">LIKE</span>
-            </button>
-            <p id="like-counter-4">0</p>  <!-- Like counter -->
-            
-            <!-- DISLIKE Button -->
-            <button class="btn-23" onclick="incrementDislike('dislike-counter-4')">
-                <span class="text">DISLIKE</span>
-                <span class="marquee">DISLIKE</span>    
-            </button>
-            <p id="dislike-counter-4">0</p> <!-- Dislike counter -->
-        </div>
-    
-        <!-- COMMENT Button -->
-        <div class="comment-container">
-            <button class="btn-23" onclick="openCommentPopup()">
-                <span class="text">RANT</span>
-                <span class="marquee">RANT</span>
-            </button>
-    
-        </div>
-            
-
-    </div>
-
-    <div class="audio-item">
-        <img src="images-7.jpeg" alt="Thumbnail 3" class="thumbnail">
-        <div class="audio-title">Can I pet that dog?</div>
-        <audio controls class="audio-player">
-            <source src="audios/audio6.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-
-        <div class="button-container">
-            <!-- LIKE Button -->
-            <button class="btn-23" onclick="incrementLike('like-counter-5')">
-                <span class="text">LIKE</span>
-                <span class="marquee">LIKE</span>
-            </button>
-            <p id="like-counter-5">0</p>  <!-- Like counter -->
-            
-            <!-- DISLIKE Button -->
-            <button class="btn-23" onclick="incrementDislike('dislike-counter-5')">
-                <span class="text">DISLIKE</span>
-                <span class="marquee">DISLIKE</span>    
-            </button>
-            <p id="dislike-counter-5">0</p> <!-- Dislike counter -->
-        </div>
-    
-        <!-- COMMENT Button -->
-        <div class="comment-container">
-            <button class="btn-23" onclick="openCommentPopup()">
-                <span class="text">RANT</span>
-                <span class="marquee">RANT</span>
-            </button>
-    
-        </div>
-            
-
-    </div>
-
-    <div class="audio-item">
-        <img src="capybara-square-1.jpg.optimal.jpg" alt="Thumbnail 3" class="thumbnail">
-        <div class="audio-title">Capybara Stream Sound Bytes</div>
-        <audio controls class="audio-player">
-            <source src="audios/audio3.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-
-        <div class="button-container">
-            <!-- LIKE Button -->
-            <button class="btn-23" onclick="incrementLike('like-counter-6')">
-                <span class="text">LIKE</span>
-                <span class="marquee">LIKE</span>
-            </button>
-            <p id="like-counter-6">0</p>  <!-- Like counter -->
-            
-            <!-- DISLIKE Button -->
-            <button class="btn-23" onclick="incrementDislike('dislike-counter-6')">
-                <span class="text">DISLIKE</span>
-                <span class="marquee">DISLIKE</span>    
-            </button>
-            <p id="dislike-counter-6">0</p> <!-- Dislike counter -->
-        </div>
-    
-        <!-- COMMENT Button -->
-        <div class="comment-container">
-            <button class="btn-23" onclick="openCommentPopup()">
-                <span class="text">RANT</span>
-                <span class="marquee">RANT</span>
-            </button>
-    
-        </div>
-            
-    </div>
-</div>
-<div>
-
-    <button id="upload-button" class="upload-button" type="submit">+</button>
-=======
 </div>
 <div>
 
@@ -579,16 +350,11 @@
     ?>
 
     <button id="upload-button" class="upload-button" type="button">+</button>
->>>>>>> origin/main
 
     <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
-<<<<<<< HEAD
-            <form id="uploadForm">
-=======
             <form method="post" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();}, 10);">
->>>>>>> origin/main
                 <h2 style="color: var(--color-text-primary)">Create New Post</h2>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required><br><br>
@@ -599,37 +365,23 @@
                 <label for="image">Upload Photo/GIF:</label>
                 <input type="file" id="image" name="image" accept="image/*,image/gif" required><br><br>
 
-<<<<<<< HEAD
-                <label for="description">Description:</label>
-                <input type="text" id="desc" name="desc"><br><br>
-
-                <button class="clickable" type="submit">Submit</button>
-=======
                 <label for="tags">Tags:</label>
                 <input type="text" id="tags" name="tags"><br><br>
 
                 <input class="clickable" type="submit" value="upload">
->>>>>>> origin/main
             </form>
         </div>
     </div>
 
     <script src="upload_button.js"></script>
 
-<<<<<<< HEAD
-=======
     <script>
         function openClipMenu(dom_id){
             let clip_element = document.getElementById(dom_id);
         }
 
     </script>
->>>>>>> origin/main
 
 </div>
 </body>
 </html>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
