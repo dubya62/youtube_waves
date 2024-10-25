@@ -432,22 +432,52 @@ function createTagEntry($conn, $tag_string){
 }
 
 
+// create the link between clips and their tags
+function createClipTag($conn, $clip_id, $tag){
+    $stmt = $conn->prepare("INSERT INTO clip_tags (clip_id, tag_id) VALUES (?, ?)");
+
+    $stmt->bind_param("ss", $clip_id, $tag);
+
+    $stmt->execute();
+}
+
+
 // create a clip entry (returns the clip_id)
 function createClipEntry($conn, $name, $tags){
-    // TODO: make this parse the tags
-    $tag_id = createTagEntry($conn, $tags);
+    // split the tags up at each #
+    $tags_array = explode('#', $tags);
+    if (count($tags_array) > 0){
+        // ignore everything before the first tag
+        $tags_array = array_slice($tags_array, 1);
+
+        // create tag etnries for each tag
+        $tag_ids = [];
+        foreach ($tags_array as $tag){
+            $tag_id = createTagEntry($conn, $tag);
+            $tags_ids[] = $tag_id;
+        }
+    } else {
+        $tag_id = -1;
+    }
 
     // get the current user's id
     $user_id = getUserIdByCookie($conn);
 
     // prepare the statement to create the clip entry
-    $stmt = $conn->prepare("INSERT INTO clips (owner, name, time, tags) VALUES (?, ?, NOW(), ?)");
+    $stmt = $conn->prepare("INSERT INTO clips (owner, name, time) VALUES (?, ?, NOW())");
 
-    $stmt->bind_param("sss", $user_id, $name, $tag_id);
+    $stmt->bind_param("ss", $user_id, $name);
 
     $stmt->execute();
 
-    return mysqli_insert_id($conn);
+    $clip_id = mysqli_insert_id($conn);
+
+    // create a clip_tag for each tag created
+    foreach ($tags_ids as $tag){
+        createClipTag($conn, $clip_id, $tag);
+    }
+
+    return $clip_id;
 }
 
 
@@ -469,6 +499,31 @@ function getClipExtension($conn, $clip_id){
 // set a clip extension to a value
 function setClipExtension($conn, $clip_id, $extension){
     $stmt = $conn->prepare("UPDATE clips SET extension=? WHERE id=?");
+
+    $stmt->bind_param("ss", $extension, $clip_id);
+
+    $stmt->execute();
+
+}
+
+// get an image's extension
+function getImageExtension($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT image_extension FROM clips WHERE id=?");
+
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
+
+// set an image extension to a value
+function setImageExtension($conn, $clip_id, $extension){
+    $stmt = $conn->prepare("UPDATE clips SET image_extension=? WHERE id=?");
 
     $stmt->bind_param("ss", $extension, $clip_id);
 
