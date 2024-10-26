@@ -1,6 +1,22 @@
 <?php
     include '../../includes/scripts.php';
 
+    function getClipLikeClass($conn, $clip_id){
+        // return either liked or notLiked
+        if (isLikedByCookie($conn, $clip_id)){
+            return "liked";
+        }
+        return "notLiked";
+    }
+
+    function getClipDislikeClass($conn, $clip_id){
+        // return either disliked or notDisliked
+        if (isDislikedByCookie($conn, $clip_id)){
+            return "disliked";
+        }
+        return "notDisliked";
+    }
+
     function createClip($conn, $clip_id){
         echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")'>
             <img src='images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "' alt='Thumbnail' class='thumbnail'>
@@ -12,18 +28,18 @@
 
             <div class='button-container'>
                 <!-- LIKE Button -->
-                <button class='btn-23' onclick='incrementLike(\"like-counter-". $clip_id . "\")'>
+                <button class='btn-23' onclick='incrementLike(". $clip_id . ")'>
                     <span class='text'>LIKE</span>
                     <span class='marquee'>LIKE</span>
                 </button>
-                <p id='like-counter-" . $clip_id . "'>0</p>  <!-- Like counter -->
+                <p class='" . getClipLikeClass($conn, $clip_id) . "' id='like-counter-" . $clip_id . "'>" . getClipLikes($conn, $clip_id) . "</p>  <!-- Like counter -->
                 
                 <!-- DISLIKE Button -->
-                <button class='btn-23' onclick='incrementDislike(\"dislike-counter-" . $clip_id . "\")'>
+                <button class='btn-23' onclick='incrementDislike(" . $clip_id . ")'>
                     <span class='text'>DISLIKE</span>
                     <span class='marquee'>DISLIKE</span>    
                 </button>
-                <p id='dislike-counter-" . $clip_id . "'>0</p> <!-- Dislike counter -->
+                <p class='" . getClipDislikeClass($conn, $clip_id) . "' id='dislike-counter-" . $clip_id . "'>" . getClipDislikes($conn, $clip_id) . "</p> <!-- Dislike counter -->
             </div>
             
                 <!-- COMMENT Button -->

@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="../root.css">
 <!-- Link to external CSS file -->
 <link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="../root.css"/>
 <!-- Link to the JavaScript file -->
 <script src="actions.js" ></script>
 
@@ -81,6 +82,18 @@
             align-items: center;
             margin-bottom: 20px;
             width: 33%;
+            /* Make each clip have a box */
+            background: var(--color-bg-secondary);
+            padding: 2em;
+            border-radius: 10px;
+            border-color: var(--color-bg-primary);
+            border-style: solid;
+            border-width: 2px;
+            box-shadow: 6px 6px black;
+
+        }
+        .audio-item:hover{
+            background: var(--color-bg-primary);
         }
         .thumbnail {
             width: 100px;
@@ -135,6 +148,20 @@
             color: var(--color-text-secondary);
         }
 
+        /* like/dislike button styles based on status */
+        .liked {
+            color:lightblue;
+        }
+        .notLiked {
+            color:red;
+        }
+        .disliked {
+            color:lightblue;
+        }
+        .notDisliked {
+            color:red;
+        }
+
 
     </style>
 </head>
@@ -186,6 +213,8 @@
 <div>
 
     <?php
+        include '../../includes/scripts.php';
+
         // handle uploads
         // Mapping MIME types to file extensions
         $audioMimeToExt = [
