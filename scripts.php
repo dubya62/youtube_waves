@@ -429,7 +429,6 @@ function unlikeClip($conn, $clip_id){
 }
 
 function likeClip($conn, $clip_id){
-    unlikeClip($conn, $clip_id);
 
     $stmt = $conn->prepare("INSERT INTO liked_clips (user_id, clip_id) VALUES (?, ?)");
 
@@ -458,7 +457,6 @@ function undislikeClip($conn, $clip_id){
 }
 
 function dislikeClip($conn, $clip_id){
-    undislikeClip($conn, $clip_id);
 
     $stmt = $conn->prepare("INSERT INTO disliked_clips (user_id, clip_id) VALUES (?, ?)");
 

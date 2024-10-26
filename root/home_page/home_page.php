@@ -167,6 +167,12 @@
             color:red;
         }
 
+        .clip-popup {
+            background-color: black;
+        }
+        .clip-popup:hover{
+            background-color: black;
+        }
 
     </style>
 </head>
@@ -201,7 +207,6 @@
 </h1>
 
 <div id='content-container' class="audio-container">
-
 
     <!-- COMMENT Textbox Popup-->
     <div class="popup" id="comment-popup">
@@ -323,7 +328,7 @@
         </div>
     </div>
 
-    <div style="padding-top:90%">
+    <div style="padding-top:20%">
     </div>
 
 
@@ -331,8 +336,19 @@
     <script src="upload_button.js"></script>
 
     <script>
-        function openClipMenu(dom_id){
-            let clip_element = document.getElementById(dom_id);
+        function openClipMenu(domId){
+            let clip_element = document.getElementById(domId);
+
+            clip_element.classList.add("popup", "open-popup", "clip-popup")
+
+            let clickHandler = function(event){
+                // only close the popup if you click outside of it
+                if (!clip_element.contains(event.target)){
+                    clip_element.classList.remove("popup", "open-popup", "clip-popup");
+                }
+            };
+
+            setTimeout(function(){window.addEventListener("click", clickHandler, {once: true})}, 20);
         }
 
         clipNumber = 0;
@@ -354,10 +370,20 @@
             function () {
                 if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50){
                     // make ajax request to load more clips
+                    let contentContainer = document.getElementById("content-container");
+
                     let xhttp = new XMLHttpRequest();
                     xhttp.onload = function() {
-                        document.getElementById('content-container').innerHTML += this.responseText;
-                        console.log("Loaded 15 more clips");
+                        // make sure that we do not repeat any clip ids (or it will reset the clip progress when 
+                        var tempDiv = document.createElement("div");
+                        tempDiv.innerHTML = this.responseText;
+
+                        for (let currentElement of tempDiv.children){
+                            if (!document.getElementById(currentElement.getAttribute('id'))){
+                                contentContainer.innerHTML += currentElement.outerHTML;
+                            }
+                        }
+
                         clipNumber += 15;
                     }
                     xhttp.open("GET", "load_clips.php?clip_number=" + clipNumber);

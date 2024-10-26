@@ -21,21 +21,21 @@
         echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")'>
             <img src='images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "' alt='Thumbnail' class='thumbnail'>
             <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
-            <audio controls class='audio-player'>
+            <audio controls class='audio-player' onclick='event.stopPropagation()'>
                 <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
                 Your browser does not support the audio element.
             </audio>
 
             <div class='button-container'>
                 <!-- LIKE Button -->
-                <button class='btn-23' onclick='incrementLike(". $clip_id . ")'>
+                <button class='btn-23' onclick='incrementLike(". $clip_id . "); event.stopPropagation()'>
                     <span class='text'>LIKE</span>
                     <span class='marquee'>LIKE</span>
                 </button>
                 <p class='" . getClipLikeClass($conn, $clip_id) . "' id='like-counter-" . $clip_id . "'>" . getClipLikes($conn, $clip_id) . "</p>  <!-- Like counter -->
                 
                 <!-- DISLIKE Button -->
-                <button class='btn-23' onclick='incrementDislike(" . $clip_id . ")'>
+                <button class='btn-23' onclick='incrementDislike(" . $clip_id . "); event.stopPropagation()'>
                     <span class='text'>DISLIKE</span>
                     <span class='marquee'>DISLIKE</span>    
                 </button>
@@ -44,7 +44,7 @@
             
                 <!-- COMMENT Button -->
                 <div class='comment-container'>
-                    <button class='btn-23' onclick='openCommentPopup()'>
+                    <button class='btn-23' onclick='openCommentPopup(); event.stopPropagation()'>
                         <span class='text'>RANT</span>
                         <span class='marquee'>RANT</span>
                     </button>
