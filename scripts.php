@@ -195,14 +195,12 @@ function isDislikedById($conn, $user_id, $clip_id){
 // function to get whether or not current user has liked this clip
 function isLikedByCookie($conn, $clip_id){
     $user_id = getUserIdByCookie($conn);
-    echo "user_id: " . $user_id;
     return isLikedById($conn, $user_id, $clip_id);
 }
 
 // function to get whether or not current user has disliked this clip
 function isDislikedByCookie($conn, $clip_id){
     $user_id = getUserIdByCookie($conn);
-    echo "user_id: " . $user_id;
     return isDislikedById($conn, $user_id, $clip_id);
 }
 
@@ -358,6 +356,63 @@ function getUsername($conn, $user_id){
     return $result;
 }
 
+// function to add a number to a user's sentiment towards a tag
+function addUserSentimentToTag($conn, $user_id, $tag_id, $sentiment){
+    # create an entry in the user_tags table if it does not exist
+    $stmt = $conn->prepare("SELECT COUNT(id) FROM user_tags WHERE user_id=? AND tag_id=?");
+    $stmt->bind_param("ss", $user_id, $tag_id);
+    $stmt->execute();
+    $stmt->bind_result($result1);
+    $stmt->fetch();
+
+    $result = $result1;
+
+    $stmt->free_result();
+
+    // if that tag did not exist, create it and set the sentiment to that value
+    if ($result == 0){
+        $stmt2 = $conn->prepare("INSERT INTO user_tags (user_id, tag_id, sentiment) VALUES (?, ?, ?)");
+        $stmt2->bind_param("sss", $user_id, $tag_id, $sentiment);
+        $stmt2->execute();
+
+    } else { // otherwise, update that tag to add the value
+        // get the current sentiment for that tag
+        $stmt3 = $conn->prepare("SELECT sentiment FROM user_tags WHERE user_id=? AND tag_id=?");
+        $stmt3->bind_param("ss", $user_id, $tag_id);
+        $stmt3->execute();
+        $stmt3->bind_result($previous_sentiment1);
+        $stmt3->fetch();
+
+        $previous_sentiment = $previous_sentiment1;
+        $stmt3->free_result();
+
+        $stmt4 = $conn->prepare("UPDATE user_tags SET sentiment=?+? WHERE user_id=? AND tag_id=?");
+        $stmt4->bind_param("ssss", $sentiment, $previous_sentiment, $user_id, $tag_id);
+        $stmt4->execute();
+
+    }
+}
+
+// function to add a number to a user's sentiment towards a clip
+function addUserSentimentToClip($conn, $user_id, $clip_id, $sentiment){
+    // iterate through the tags on this clip and add the sentiment to each tag
+    $stmt = $conn->prepare("SELECT tag_id FROM clip_tags WHERE clip_id=?");
+    $stmt->bind_param("s", $clip_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+
+    $res = [];
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    // $res now holds each tag_id
+    foreach ($res as $tag_id){
+        addUserSentimentToTag($conn, $user_id, $tag_id, $sentiment);
+    }
+    
+}
+
 // like a clip
 function unlikeClip($conn, $clip_id){
     $stmt = $conn->prepare("DELETE FROM liked_clips WHERE clip_id=? AND user_id=?");
@@ -367,6 +422,9 @@ function unlikeClip($conn, $clip_id){
     $stmt->bind_param("ss", $clip_id, $user_id);
 
     $stmt->execute();
+
+
+    addUserSentimentToClip($conn, $user_id, $clip_id, -1);
 
 }
 
@@ -381,6 +439,8 @@ function likeClip($conn, $clip_id){
 
     $stmt->execute();
 
+    addUserSentimentToClip($conn, $user_id, $clip_id, 1);
+
 }
 
 
@@ -394,6 +454,7 @@ function undislikeClip($conn, $clip_id){
 
     $stmt->execute();
 
+    addUserSentimentToClip($conn, $user_id, $clip_id, 1);
 }
 
 function dislikeClip($conn, $clip_id){
@@ -406,6 +467,8 @@ function dislikeClip($conn, $clip_id){
     $stmt->bind_param("ss", $user_id, $clip_id);
 
     $stmt->execute();
+
+    addUserSentimentToClip($conn, $user_id, $clip_id, -1);
 
 }
 
@@ -533,10 +596,12 @@ function setImageExtension($conn, $clip_id, $extension){
 
 // get a batch of clips using the algorithm
 function getClipBatch($conn, $currentClipNumber, $batchSize){
-    // TODO: use the algorithm instead of just selecting in order
-    $stmt = $conn->prepare("SELECT id FROM clips LIMIT ? OFFSET ?");
+    $user_id = getUserIdByCookie($conn);
 
-    $stmt->bind_param("ss", $batchSize, $currentClipNumber);
+    // use the algorithm to pick clips
+    $stmt = $conn->prepare("SELECT id FROM clips real_c ORDER BY (SELECT SUM(ut.sentiment) FROM user_tags ut, tags t, users u, clips c, clip_tags ct WHERE ut.tag_id=t.id AND t.id=ct.tag_id AND ct.clip_id=c.id AND u.id=ut.user_id AND c.id=real_c.id AND u.id=?) DESC LIMIT ? OFFSET ?");
+
+    $stmt->bind_param("sss", $user_id, $batchSize, $currentClipNumber);
 
     $stmt->execute();
 
@@ -551,6 +616,17 @@ function getClipBatch($conn, $currentClipNumber, $batchSize){
     return $res;
 }
 
+function getClipScore($conn, $clip_id, $user_id){
+    $stmt = $conn->prepare("SELECT SUM(ut.sentiment) FROM user_tags ut, tags t, users u, clips c, clip_tags ct WHERE ut.tag_id=t.id AND t.id=ct.tag_id AND ct.clip_id=c.id AND u.id=ut.user_id AND c.id=? AND u.id=?");
+
+    $stmt->bind_param("ss", $clip_id, $user_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    return $result;
+}
 
 
 ?>

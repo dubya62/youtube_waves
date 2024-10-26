@@ -21,6 +21,7 @@ CREATE TABLE user_tags (
     id int AUTO_INCREMENT,
     user_id int,
     tag_id int,
+    sentiment float,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (tag_id) REFERENCES tags(id)

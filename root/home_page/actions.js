@@ -1,28 +1,48 @@
-let counters = {
-    'like-counter-1': 0,
-    'dislike-counter-1': 0,
-    'like-counter-2': 0,
-    'dislike-counter-2': 0,
-    'like-counter-3': 0,
-    'dislike-counter-3': 0,
-    'like-counter-4': 0,
-    'dislike-counter-4': 0,
-    'like-counter-5': 0,
-    'dislike-counter-5': 0,
-    'like-counter-6': 0,
-    'dislike-counter-6': 0,
-};
 
 // Function to increment LIKE count
-function incrementLike(counterId) {
-    counters[counterId]++;
-    document.getElementById(counterId).textContent = counters[counterId];
+function incrementLike(clip_id) {
+    // make ajax call to either like or unlike
+    let likeElement = document.getElementById("like-counter-" + clip_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-1"){ // this unliked it
+            // change the button color
+            likeElement.classList.remove("liked");
+            likeElement.classList.add("notLiked");
+            likeElement.textContent = parseInt(likeElement.textContent) - 1;
+        } else if (this.responseText == "1"){ // this liked it
+            // change the button color
+            likeElement.classList.remove("notLiked");
+            likeElement.classList.add("liked");
+            likeElement.textContent = parseInt(likeElement.textContent) + 1;
+        }
+
+    }
+    xhttp.open("GET", "like_clip.php?action=1&clip_id=" + clip_id);
+    xhttp.send();
 }
 
 // Function to increment DISLIKE count
-function incrementDislike(counterId) {
-    counters[counterId]++;
-    document.getElementById(counterId).textContent = counters[counterId];
+function incrementDislike(clip_id) {
+    // make ajax call to either dislike or undislike
+    let dislikeElement = document.getElementById("dislike-counter-" + clip_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-0"){ // this undisliked it
+            // change the button color
+            dislikeElement.classList.remove("disliked");
+            dislikeElement.classList.add("notDisliked");
+            dislikeElement.textContent = parseInt(dislikeElement.textContent) - 1;
+        } else if (this.responseText == "0"){ // this disliked it
+            // change the button color
+            dislikeElement.classList.remove("notDisliked");
+            dislikeElement.classList.add("disliked");
+            dislikeElement.textContent = parseInt(dislikeElement.textContent) + 1;
+        }
+
+    }
+    xhttp.open("GET", "like_clip.php?action=0&clip_id=" + clip_id);
+    xhttp.send();
 }
 
 // Function to open a specific comment popup
