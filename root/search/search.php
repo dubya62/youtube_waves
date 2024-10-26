@@ -16,6 +16,9 @@
     <div class="search-results">
         <?php
             include '../../includes/scripts.php';
+
+            $conn = initDb();
+
             if (isset($_GET['query'])) {
                 $search_term = $_GET['query'];
             }
@@ -36,7 +39,7 @@
             ";
 
             // Execute the query
-            $result = $conn->query($sql);
+            $result = $conn->query($sql_search_query);
 
             // Check if any rows are returned
             if ($result->num_rows > 0) {

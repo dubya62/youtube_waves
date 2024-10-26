@@ -10,7 +10,7 @@
 
 # Connect to local database and return db instance
 function initDb() {
-    $db = new mysqli("localhost", "root", "Grass123!", "waves");
+    $db = new mysqli("localhost", "root", "", "waves");
 
     return $db;
 }
