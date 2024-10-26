@@ -4,18 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .search-results {
-            margin-top: 20px;
-        }
-        .result-item {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="../root.css">
 </head>
 <body>
     <h1>Search Results</h1>
@@ -23,7 +13,6 @@
         <input type="text" name="query" placeholder="Search...">
         <button type="submit">Search</button>
     </form>
-
     <div class="search-results">
         <?php
             include '../../includes/scripts.php';
@@ -61,8 +50,11 @@
             } else {
                 echo "No results found for '$search_term'";
             }
-            
+ 
+            // Close the connection
+            $conn->close();
         ?>
     </div>
+    <?php include '../navigationBar/navigationBar.php'; ?>
 </body>
 </html>
