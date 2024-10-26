@@ -1,10 +1,11 @@
-<!DOCTYPE html> <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <link rel="stylesheet" href="../root.css">
 <!-- Link to external CSS file -->
 <link rel="stylesheet" type="text/css" href="styles.css">
 <!-- Link to the JavaScript file -->
-<script src="actions.js" ></script>
+<script src="actions.js"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +27,7 @@
             padding: 10px 20px;
             background-color: var(--color-bg-primary);
         }
+
         .nav-bar {
             align-items: center;
             color: var(--color-green);
@@ -34,6 +36,7 @@
         }
         .search-bar input {
             width: 300px;
+
             padding: 5px;
             font-size: 16px;
             border-radius: 15px;    
@@ -82,6 +85,7 @@
             margin-bottom: 20px;
             width: 33%;
         }
+
         .thumbnail {
             width: 100px;
             height: 100px;
@@ -96,6 +100,7 @@
         .audio-player {
             width: 300px;
         }
+
         .otherPopup {
             display: none;
             position: fixed;
@@ -155,6 +160,7 @@
 
 
     <input type='button' onclick='window.location="/logout.php";' value='logout'/>
+
     <!--On click of profile icon, redirect to profile page-->
         <div class="clickable" onclick="window.location.href='/profile/profile.php'">
             <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
@@ -162,10 +168,12 @@
         
     </div>
 </header>
+
 <h1 class="nav-bar">
     <center>Discover</center>
 </h1>
 <div class="audio-container">
+
     <?php
         include '../../includes/scripts.php';
 
@@ -256,7 +264,11 @@
 </div>
 <div>
 
+ 
+
     <?php
+        include '../../includes/scripts.php';
+
         // handle uploads
         // Mapping MIME types to file extensions
         $audioMimeToExt = [

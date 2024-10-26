@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- Link to the JavaScript file -->
+    <script src="actions.js" defer></script>
+</head>
+<body>
+
+    <div class="button-container">
+        <!-- LIKE Button -->
+        <button class="btn-23" onclick="incrementLike('like-counter')">
+            <span class="text">LIKE</span>
+            <span class="marquee">LIKE</span>
+        </button>
+        <p id="like-counter">0</p>  <!-- Like counter -->
+
+        <!-- DISLIKE Button -->
+        <button class="btn-23" onclick="incrementDislike('dislike-counter')">
+            <span class="text">DISLIKE</span>
+            <span class="marquee">DISLIKE</span>    
+        </button>
+        <p id="dislike-counter">0</p> <!-- Dislike counter -->
+    </div>
+
+    <!-- COMMENT Button -->
+    <div class="comment-container">
+        <button class="btn-23" onclick="openCommentPopup()">
+            <span class="text">RANT</span>
+            <span class="marquee">RANT</span>
+        </button>
+    </div>
+        
+    <!-- COMMENT Textbox and Thread in Popup-->
+    <div class="popup" id="comment-popup">
+        <h2>Start your RANT here!</h2>
+        <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
+        <button type="button" onclick="submitComment()">Submit</button>
+        <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        
+        <!-- Comment section to display the comment thread inside the popup -->
+        <div class="comment-thread" id="comment-thread">
+            <h2>Comments</h2>
+            <div id="comments-container"></div> <!-- Container for dynamically added comments -->
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+<!-- COMMENT Button -->
+<div class="comment-container">
+    <button class="btn-23" onclick="openCommentPopup('comment-popup-2')">
+        <span class="text">RANT</span>
+        <span class="marquee">RANT</span>
+    </button>
+</div>
+
+    <!-- Popup for Rant Submission -->
+    <div class="popup" id="comment-popup-2">
+        <h2>Start your RANT here!</h2>
+        <textarea id="comment-textbox-2" placeholder="Type your rant..."><</textarea>
+        <button type="button" onclick="submitComment('comment-textbox-2', 'comments-container-2')">Submit</button>"
+        <button type="button" onclick="closeCommentPopup('comment-popup-2')">Cancel</button>
+
+        <!-- Comment section to display the comment thread inside the popup -->
+        <div class="comment-thread">
+            <h2>Rants</h2>
+            <div id="comments-container-2"></div>
+        </div>
+    </div>
+</div>
+    
