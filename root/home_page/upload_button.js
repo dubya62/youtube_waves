@@ -11,7 +11,7 @@ openPopupBtn.addEventListener("click", function() {
 // Close popup when 'x' is clicked
 closePopup.addEventListener("click", function() {
     popupForm.style.display = "none";
-    location.reload();
+    //location.reload();
 });
 
 // Close popup when clicking outside of the popup content
