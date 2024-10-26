@@ -45,52 +45,28 @@ function incrementDislike(clip_id) {
     xhttp.send();
 }
 
-
-// Function to open the submission popup
-function openPopup() {
-    let popup = document.getElementById('popup');
-    if (popup != null){
-        popup.classList.replace("popup", "open-popup");
-    }
+// Function to open a specific comment popup
+function openCommentPopup(popupId) {
+    document.getElementById(popupId).classList.add("open-popup");
 }
 
-// Function to close the submission popup
-function betterClosePopup() {
-    let popup = document.getElementById('popup');
-    if (popup != null){
-        popup.classList.replace("open-popup", "popup");
-    }
+// Function to close a specific comment popup
+function closeCommentPopup(popupId) {
+    document.getElementById(popupId).classList.remove("open-popup");
 }
 
+// Function to submit a comment for a specific audio item
+function submitComment(textboxId, containerId) {
+    const commentText = document.getElementById(textboxId).value;
+    if (commentText.trim()) {
+        const comment = document.createElement('div');
+        comment.classList.add('comment');
+        comment.textContent = commentText;
 
-// Function to open the comment popup
-function openCommentPopup() {
-    // Comment popup
-    let commentPopup = document.getElementById('comment-popup');
-    if (commentPopup != null){
-        commentPopup.classList.replace("popup", "open-popup");
-    } else {
-        console.log("oh, no!");
+        // Append the comment to the specific comments container
+        document.getElementById(containerId).appendChild(comment);
+
+        // Clear the textbox
+        document.getElementById(textboxId).value = '';
     }
-
-}
-
-// Function to close the comment popup
-function closeCommentPopup() {
-    // Comment popup
-    let commentPopup = document.getElementById('comment-popup');
-    if (commentPopup != null){
-        commentPopup.classList.replace("open-popup", "popup");
-    } else {
-        console.log("oh, no!");
-    }
-}
-
-// Function to submit the comment
-function submitComment() {
-    // Reset the comment textbox
-    document.getElementById('comment-textbox').value = '';
-    // You can handle the comment submission here, e.g., saving the comment.
-    closeCommentPopup();
-    openPopup();  // Show the submission success popup
 }
