@@ -9,14 +9,19 @@
 </head>
 <body>
     <h1>Search Results</h1>
-    <form action="index.php" method="get">
+    <form action="search.php" method="get">
         <input type="text" name="query" placeholder="Search...">
         <button type="submit">Search</button>
     </form>
     <div class="search-results">
         <?php
             include '../../includes/scripts.php';
-            $search_term = $_GET['search_term'];
+
+            $conn = initDb();
+
+            if (isset($_GET['query'])) {
+                $search_term = $_GET['query'];
+            }
 
             // Escape special characters for security (prevent SQL injection)
             $search_term = $conn->real_escape_string($search_term);
@@ -34,7 +39,7 @@
             ";
 
             // Execute the query
-            $result = $conn->query($sql);
+            $result = $conn->query($sql_search_query);
 
             // Check if any rows are returned
             if ($result->num_rows > 0) {

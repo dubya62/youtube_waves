@@ -1,76 +1,119 @@
-let counters = {
-    'like-counter-1': 0,
-    'dislike-counter-1': 0,
-    'like-counter-2': 0,
-    'dislike-counter-2': 0,
-    'like-counter-3': 0,
-    'dislike-counter-3': 0,
-    'like-counter-4': 0,
-    'dislike-counter-4': 0,
-    'like-counter-5': 0,
-    'dislike-counter-5': 0,
-    'like-counter-6': 0,
-    'dislike-counter-6': 0,
-};
 
 // Function to increment LIKE count
-function incrementLike(counterId) {
-    counters[counterId]++;
-    document.getElementById(counterId).textContent = counters[counterId];
+function incrementLike(clip_id) {
+    // make ajax call to either like or unlike
+    let likeElement = document.getElementById("like-counter-" + clip_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-1"){ // this unliked it
+            // change the button color
+            likeElement.classList.remove("liked");
+            likeElement.classList.add("notLiked");
+            likeElement.textContent = parseInt(likeElement.textContent) - 1;
+        } else if (this.responseText == "1"){ // this liked it
+            // change the button color
+            likeElement.classList.remove("notLiked");
+            likeElement.classList.add("liked");
+            likeElement.textContent = parseInt(likeElement.textContent) + 1;
+        }
+
+    }
+    xhttp.open("GET", "like_clip.php?action=1&clip_id=" + clip_id);
+    xhttp.send();
 }
 
 // Function to increment DISLIKE count
-function incrementDislike(counterId) {
-    counters[counterId]++;
-    document.getElementById(counterId).textContent = counters[counterId];
+function incrementDislike(clip_id) {
+    // make ajax call to either dislike or undislike
+    let dislikeElement = document.getElementById("dislike-counter-" + clip_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-0"){ // this undisliked it
+            // change the button color
+            dislikeElement.classList.remove("disliked");
+            dislikeElement.classList.add("notDisliked");
+            dislikeElement.textContent = parseInt(dislikeElement.textContent) - 1;
+        } else if (this.responseText == "0"){ // this disliked it
+            // change the button color
+            dislikeElement.classList.remove("notDisliked");
+            dislikeElement.classList.add("disliked");
+            dislikeElement.textContent = parseInt(dislikeElement.textContent) + 1;
+        }
+
+    }
+    xhttp.open("GET", "like_clip.php?action=0&clip_id=" + clip_id);
+    xhttp.send();
 }
 
+let rantIsOpen = false;
 
-// Function to open the submission popup
-function openPopup() {
-    let popup = document.getElementById('popup');
-    if (popup != null){
-        popup.classList.replace("popup", "open-popup");
+function preventEvent(event){
+    if (event.target.getAttribute("id") != "comment-popup"){
+        event.stopPropagation();
     }
 }
 
-// Function to close the submission popup
-function betterClosePopup() {
-    let popup = document.getElementById('popup');
-    if (popup != null){
-        popup.classList.replace("open-popup", "popup");
+let openedCommentClipId = -1;
+
+// Function to open a specific comment popup
+function openCommentPopup(clipId) {
+    openedCommentClipId = clipId;
+    rantIsOpen = true;
+    document.getElementById("comment-popup").classList.add("open-popup");
+
+    // make request to get the comments
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+        document.getElementById("comments-container").innerHTML = this.responseText;
+    }
+    xhttp.open("GET", "get_comments.php?clip_id=" + clipId);
+    xhttp.send();
+
+    document.addEventListener("click", preventEvent);
+    document.addEventListener("hover", preventEvent);
+
+}
+
+// Function to close a specific comment popup
+function closeCommentPopup(clipId) {
+    document.getElementById("comment-popup").classList.remove("open-popup");
+    openedCommentClipId = -1;
+
+    document.removeEventListener("click", preventEvent);
+    document.removeEventListener("hover", preventEvent);
+    rantIsOpen = false;
+}
+
+
+// Function to submit a comment for a specific audio item
+function submitComment(textboxId, containerId) {
+    if (openedCommentClipId == -1 || openedCommentClipId == null){
+        console.log("Comment page must be open!");
+        return;
+    }
+    const commentText = document.getElementById(textboxId).value;
+    if (commentText.trim()) {
+        const comment = document.createElement('div');
+        comment.classList.add('comment');
+        comment.textContent = commentText;
+
+        // Append the comment to the specific comments container
+        document.getElementById(containerId).appendChild(comment);
+
+        // Clear the textbox
+        document.getElementById(textboxId).value = '';
+
+        // send a request to the server to create the comment
+        let xhttp = new XMLHttpRequest();
+        xhttp.onload = function(){
+            console.log("comment sent");
+        }
+        xhttp.open("POST", "submit_comment.php");
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        let sendString = "clip_id=" + openedCommentClipId + "&comment=" + commentText;
+        console.log(sendString);
+        xhttp.send(sendString);
+
     }
 }
 
-
-// Function to open the comment popup
-function openCommentPopup() {
-    // Comment popup
-    let commentPopup = document.getElementById('comment-popup');
-    if (commentPopup != null){
-        commentPopup.classList.replace("popup", "open-popup");
-    } else {
-        console.log("oh, no!");
-    }
-
-}
-
-// Function to close the comment popup
-function closeCommentPopup() {
-    // Comment popup
-    let commentPopup = document.getElementById('comment-popup');
-    if (commentPopup != null){
-        commentPopup.classList.replace("open-popup", "popup");
-    } else {
-        console.log("oh, no!");
-    }
-}
-
-// Function to submit the comment
-function submitComment() {
-    // Reset the comment textbox
-    document.getElementById('comment-textbox').value = '';
-    // You can handle the comment submission here, e.g., saving the comment.
-    closeCommentPopup();
-    openPopup();  // Show the submission success popup
-}

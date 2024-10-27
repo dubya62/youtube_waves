@@ -21,6 +21,7 @@ CREATE TABLE user_tags (
     id int AUTO_INCREMENT,
     user_id int,
     tag_id int,
+    sentiment float,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (tag_id) REFERENCES tags(id)
@@ -86,8 +87,10 @@ CREATE TABLE disliked_clips(
 CREATE TABLE comments(
     id int AUTO_INCREMENT,
     author int,
+    clip_id int,
     parent int,
     FOREIGN KEY (author) REFERENCES users(id),
+    FOREIGN KEY (clip_id) REFERENCES clips(id),
     FOREIGN KEY (parent) REFERENCES comments(id),
     PRIMARY KEY (id)
 );
