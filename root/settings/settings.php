@@ -34,6 +34,7 @@
 
                 <!-- PHP to update username and password -->
                 <?php 
+                    include '../../includes/scripts.php';
                     # open database connection
                     $conn = initDb();
                     # get username

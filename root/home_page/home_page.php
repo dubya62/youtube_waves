@@ -1,10 +1,12 @@
-<!DOCTYPE html> <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <link rel="stylesheet" href="../root.css">
 <!-- Link to external CSS file -->
 <link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="../root.css"/>
 <!-- Link to the JavaScript file -->
-<script src="actions.js" ></script>
+<script src="actions.js"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +28,11 @@
             padding: 10px 20px;
             background-color: var(--color-bg-primary);
         }
+
+        embed {
+            height: 5em;
+        }
+
         .nav-bar {
             align-items: center;
             color: var(--color-green);
@@ -34,6 +41,7 @@
         }
         .search-bar input {
             width: 300px;
+
             padding: 5px;
             font-size: 16px;
             border-radius: 15px;    
@@ -59,6 +67,7 @@
             background-color: var(--color-orange);
             color: var(--color-text-primary);
             cursor: pointer;
+            z-index: 1001;
         }
         .arrow {
             width: 40px;
@@ -81,7 +90,25 @@
             align-items: center;
             margin-bottom: 20px;
             width: 33%;
+            /* Make each clip have a box */
+            background: var(--color-bg-secondary);
+            padding: 2em;
+            border-radius: 10px;
+            border-color: var(--color-bg-primary);
+            border-style: solid;
+            border-width: 2px;
+            box-shadow: 6px 6px black;
+
+            transform: scale(1, 1);
+            transition: transform .2s;
         }
+        .audio-item:hover{
+            background: var(--color-bg-primary);
+            transform: scale(1.1, 1.1);
+            transition: transform .2s;
+            z-index: 2;
+        }
+
         .thumbnail {
             width: 100px;
             height: 100px;
@@ -96,6 +123,7 @@
         .audio-player {
             width: 300px;
         }
+
         .otherPopup {
             display: none;
             position: fixed;
@@ -135,6 +163,32 @@
             color: var(--color-text-secondary);
         }
 
+        /* like/dislike button styles based on status */
+        .liked {
+            color:lightblue;
+        }
+        .notLiked {
+            color:red;
+        }
+        .disliked {
+            color:lightblue;
+        }
+        .notDisliked {
+            color:red;
+        }
+
+        .clip-popup {
+            background-color: black;
+            transform: translate(-50%, -50%) scale(1.5, 1.5);
+            transition: transform: .2s;
+            z-index: 3;
+        }
+        .clip-popup:hover{
+            background-color: black;
+            transform: translate(-50%, -50%) scale(1.6, 1.6);
+            transition: transform: .2s;
+            z-index: 3;
+        }
 
     </style>
 </head>
@@ -175,6 +229,7 @@
 
 
     <input type='button' onclick='window.location="/logout.php";' value='logout'/>
+
     <!--On click of profile icon, redirect to profile page-->
         <div class="clickable" onclick="window.location.href='/profile/profile.php'">
             <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
@@ -182,88 +237,25 @@
         
     </div>
 </header>
+
 <h1 class="nav-bar">
     <center>Discover</center>
 </h1>
-<div class="audio-container">
-    <?php
-        include '../../includes/scripts.php';
 
-        function createClip($conn, $clip_id){
-            echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")'>
-                <img src='images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "' alt='Thumbnail' class='thumbnail'>
-                <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
-                <audio controls class='audio-player'>
-                    <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
-                    Your browser does not support the audio element.
-                </audio>
-
-                <div class='button-container'>
-                    <!-- LIKE Button -->
-                    <button class='btn-23' onclick='incrementLike(\"like-counter-". $clip_id . "\")'>
-                        <span class='text'>LIKE</span>
-                        <span class='marquee'>LIKE</span>
-                    </button>
-                    <p id='like-counter-" . $clip_id . "'>0</p>  <!-- Like counter -->
-                    
-                    <!-- DISLIKE Button -->
-                    <button class='btn-23' onclick='incrementDislike(\"dislike-counter-" . $clip_id . "\")'>
-                        <span class='text'>DISLIKE</span>
-                        <span class='marquee'>DISLIKE</span>    
-                    </button>
-                    <p id='dislike-counter-" . $clip_id . "'>0</p> <!-- Dislike counter -->
-                </div>
-                
-                    <!-- COMMENT Button -->
-                    <div class='comment-container'>
-                        <button class='btn-23' onclick='openCommentPopup()'>
-                            <span class='text'>RANT</span>
-                            <span class='marquee'>RANT</span>
-                        </button>
-                
-                    </div>
-                        
-
-                </div>";
-
-        }
-
-
-        function createClips($conn, $clip_ids){
-
-            # create each clip
-            foreach ($clip_ids as $clip_id){
-                createClip($conn, $clip_id);
-            }
-
-        }
-
-        $currentClipNumber = 0;
-
-        function getNextClipBatch($batchSize, $currentClipNumber){
-            $conn = initDb();
-
-            # get a batch of clip_ids
-            $clip_ids = getClipBatch($conn, $currentClipNumber, $batchSize);
-
-            # display the clips on the home page
-            createClips($conn,  $clip_ids);
-
-            closeDB($conn);
-        }
-
-        # start with displaying a batch of at most 30 clips for now
-        getNextClipBatch(30, $currentClipNumber);
-        $currentClipNumber += 30;
-
-    ?>
+<div id='content-container' class="audio-container">
 
     <!-- COMMENT Textbox Popup-->
-    <div class="popup" id="comment-popup">
+    <div class="popup" id="comment-popup" onclick="event.stopPropagation()">
         <h2>Start your RANT here!</h2>
-        <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-        <button type="button" onclick="submitComment()">Submit</button>
-        <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        <textarea id="comment-textbox" placeholder="Type your rant..."></textarea>
+        <button type="button" onclick="submitComment('comment-textbox', 'comments-container')">Submit</button>
+        <button type="button" onclick="closeCommentPopup('comment-popup')">Cancel</button>
+
+        <!-- Comment section to display the comment thread inside the popup -->
+        <div class="comment-thread">
+            <h2>Rants</h2>
+            <div id="comments-container"></div>
+        </div>
     </div>
 
     <!-- Popup for Rant Submission -->
@@ -276,7 +268,11 @@
 </div>
 <div>
 
+ 
+
     <?php
+        include '../../includes/scripts.php';
+
         // handle uploads
         // Mapping MIME types to file extensions
         $audioMimeToExt = [
@@ -374,14 +370,92 @@
         </div>
     </div>
 
+    <div style="padding-top:20%">
+    </div>
+
+
+
     <script src="upload_button.js"></script>
 
     <script>
-        function openClipMenu(dom_id){
+        // Add special buttons to the clip's menu when it is opened
+        function addClipMenuFunctionality(domId){
             let clip_element = document.getElementById(dom_id);
+
+            
+
         }
 
+        // open a clip popup when clicking on it
+        function openClipMenu(domId){
+            if (rantIsOpen){
+                return;
+            }
+            let clip_element = document.getElementById(domId);
+
+            clip_element.classList.add("popup", "open-popup", "clip-popup")
+
+            let clickHandler = function(event){
+                // only close the popup if you click outside of it
+                if (!clip_element.contains(event.target)){
+                    clip_element.classList.remove("popup", "open-popup", "clip-popup");
+                }
+            };
+
+            setTimeout(function(){window.addEventListener("click", clickHandler, {once: true})}, 10);
+        }
+
+        // reset the clip number
+        clipNumber = 0;
+        window.onload = function(){
+            clipNumber = 0;
+            window.scrollTo(0, 0);
+        }
+
+
+        // make ajax request to load more clips
+        let xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById('content-container').innerHTML += this.responseText;
+        }
+        xhttp.open("GET", "load_clips.php?clip_number=" + clipNumber);
+        xhttp.send();
+
+        // dynamically load more clips when scrolling down
+        window.addEventListener("scroll",
+            function () {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500){
+                    // make ajax request to load more clips
+                    let contentContainer = document.getElementById("content-container");
+
+                    let xhttp = new XMLHttpRequest();
+                    xhttp.onload = function() {
+                        // make sure that we do not repeat any clip ids (or it will reset the clip progress when 
+                        var tempDiv = document.createElement("div");
+                        tempDiv.innerHTML = this.responseText;
+                        clipNumber = document.getElementsByClassName("audio-item").length;
+
+                        for (let currentElement of tempDiv.children){
+                            if (!document.getElementById(currentElement.getAttribute('id'))){
+                                contentContainer.appendChild(currentElement);
+                            }
+                        }
+
+                    }
+                    xhttp.open("GET", "load_clips.php?clip_number=" + clipNumber);
+                    xhttp.send();
+                }
+
+
+            }
+        );
+
     </script>
+
+    <?php
+        include '../navigationBar/navigationBar.php';
+
+    ?>
 
 </div>
 <?php include '../navigationBar/navigationBar.php'; ?>

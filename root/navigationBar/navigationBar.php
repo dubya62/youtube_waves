@@ -16,6 +16,9 @@
         background-color: var(--color-bg-secondary);
         padding: 1em;
         z-index: 1000;
+        border-style: solid;
+        border-color: black;
+        border-width: 3px;
     }
     ul {
         list-style-type: none;

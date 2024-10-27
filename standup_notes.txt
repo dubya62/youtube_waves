@@ -70,6 +70,13 @@ October 23 2024
     Are there any blocking issues?
         - no
 
+October 25 2024
+    What did you do?
+        - Worked on displaying clips on the homepage from the previously uploaded clips
+    What are you going to do?
+        - Work on loading more clips when reaching the bottom of the page
+    Are there any blocking issues?
+        - no
 
 
 
