@@ -460,8 +460,4 @@
 </div>
 <?php include '../navigationBar/navigationBar.php'; ?>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 7ad51b7dfc51dc9541d2cc5ec60341fbca82798b
