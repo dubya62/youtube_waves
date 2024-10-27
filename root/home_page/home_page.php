@@ -248,8 +248,15 @@
     <div class="popup" id="comment-popup" onclick="event.stopPropagation()">
         <h2>Start your RANT here!</h2>
         <textarea id="comment-textbox" placeholder="Type your rant..."></textarea>
-        <button type="button" onclick="submitComment('comment-textbox', 'comments-container')">Submit</button>
+        <button type="button" onclick="submitComment('comment-textbox', 'comments-container', '-1')">Submit</button>
         <button type="button" onclick="closeCommentPopup('comment-popup')">Cancel</button>
+
+        <!-- Search bar inside the comments -->
+        <input 
+            type="text" 
+            id="search-input-1" 
+            placeholder="Search comments..." 
+            oninput="searchComments('search-input-1', 'comments-container')">
 
         <!-- Comment section to display the comment thread inside the popup -->
         <div class="comment-thread">

@@ -95,6 +95,7 @@ CREATE TABLE comments(
     PRIMARY KEY (id)
 );
 
+/*
 -- View to get all search results by filtering through clips
 CREATE VIEW filtered_clips AS
 SELECT c.id, c.name AS clip_title, c.time, u.username, u.description AS user_description, t.tag AS clip_tag
@@ -129,3 +130,4 @@ LEFT JOIN tags t ON c.tags = t.id
 WHERE MATCH(c.name) AGAINST(?) 
    OR MATCH(u.description) AGAINST(?) 
    OR MATCH(t.tag) AGAINST(?);
+*/

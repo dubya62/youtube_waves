@@ -44,7 +44,7 @@
                         closeDb($conn);
 
                         if ($created){
-                            echo "<script>window.location='/root/login/login.php';</script>";
+                            echo "<script>window.location='/login/login.php';</script>";
                         }
 
                     }
