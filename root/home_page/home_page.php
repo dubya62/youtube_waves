@@ -29,6 +29,10 @@
             background-color: var(--color-bg-primary);
         }
 
+        embed {
+            height: 5em;
+        }
+
         .nav-bar {
             align-items: center;
             color: var(--color-green);
@@ -63,6 +67,7 @@
             background-color: var(--color-orange);
             color: var(--color-text-primary);
             cursor: pointer;
+            z-index: 1001;
         }
         .arrow {
             width: 40px;
@@ -426,6 +431,11 @@
         );
 
     </script>
+
+    <?php
+        include '../navigationBar/navigationBar.php';
+
+    ?>
 
 </div>
 </body>
