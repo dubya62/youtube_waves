@@ -46,6 +46,14 @@
             font-size: 16px;
             border-radius: 15px;    
         }
+        .search-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 15px;
+            background-color: var(--color-green);
+            color: var(--color-text-primary);
+            cursor: pointer;
+        }
         .footer {
             margin-top: auto;
             display: flex;
@@ -156,7 +164,6 @@
             color: var(--color-orange); 
             transform: scale(1.2);
         }
-
         .message {
             margin-top: 20px;
             font-size: 18px;
@@ -206,30 +213,34 @@
             <input type="text" name="query" placeholder="Search for something..." required>
             <button type="submit">Search</button>
         </form>
-
-        <?php
+    </div>
+// Need to have the PHP before the header is set
+<?php
         // Check if the 'query' parameter is set in the URL
         if (isset($_GET['query'])) {
             // Get the search query from the form input
             $search_query = htmlspecialchars($_GET['query']);
 
             // Redirect to search page with the query as a URL parameter
-            // Replace 'search_page.php' with your actual search page
             header("Location: ../search/search.php?query=" . urlencode($search_query));
-            exit(); // Make sure to exit after the redirect to prevent further code execution
+            exit();
         }
-        ?>
+?>
+<header>
+
+    <div>
+        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px">
     </div>
 
-        <form action="" method="GET">
-            <input type="text" name="search" placeholder="Search audio files...">
-            <button class="clickable" type="submit">Search</button>
+    <div class="search-bar">
+        <!-- Search Form -->
+        <form method="GET">
+            <input type="text" name="query" placeholder="Search for something..." required>
+            <button type="submit" class="search-button">Search</button>
         </form>
     </div>
 
-
-    <input type='button' onclick='window.location="/logout.php";' value='logout'/>
-
+    <input type='button' class="search-button" onclick='window.location="/logout.php";' value='logout'/>
     <!--On click of profile icon, redirect to profile page-->
         <div class="clickable" onclick="window.location.href='/profile/profile.php'">
             <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
@@ -241,8 +252,7 @@
 <h1 class="nav-bar">
     <center>Discover</center>
 </h1>
-
-<div id='content-container' class="audio-container">
+<div class="audio-container">
 
     <!-- COMMENT Textbox Popup-->
     <div class="popup" id="comment-popup" onclick="event.stopPropagation()">
@@ -264,11 +274,8 @@
         <button type="button" onclick="betterClosePopup()">OK</button>
     </div>
 
-
 </div>
 <div>
-
- 
 
     <?php
         include '../../includes/scripts.php';
@@ -362,6 +369,10 @@
                 <label for="image">Upload Photo/GIF:</label>
                 <input type="file" id="image" name="image" accept="image/*,image/gif" required><br><br>
 
+                <label for="description">Description:</label>
+                <input type="text" id="desc" name="desc"><br><br>
+
+                <button class="clickable" type="submit">Submit</button>
                 <label for="tags">Tags:</label>
                 <input type="text" id="tags" name="tags"><br><br>
 
@@ -381,9 +392,6 @@
         // Add special buttons to the clip's menu when it is opened
         function addClipMenuFunctionality(domId){
             let clip_element = document.getElementById(dom_id);
-
-            
-
         }
 
         // open a clip popup when clicking on it
