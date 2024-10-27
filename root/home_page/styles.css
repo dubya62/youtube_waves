@@ -268,3 +268,12 @@
 }/* CSS for search bar input */
 
 
+.replyText{
+    color: black;
+    background-color: gray;
+    margin-left: 10%;
+}
+.replyText iframe{
+    width: 100%;
+}
+

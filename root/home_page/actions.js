@@ -65,6 +65,7 @@ function openCommentPopup(clipId) {
     let xhttp = new XMLHttpRequest();
     xhttp.onload = function(){
         document.getElementById("comments-container").innerHTML = this.responseText;
+        eval(document.getElementById("comments-container").getElementsByTagName("script")[0].textContent);
     }
     xhttp.open("GET", "get_comments.php?clip_id=" + clipId);
     xhttp.send();
@@ -123,12 +124,12 @@ function searchComments(inputId, containerId) {
     const comments = document.getElementById(containerId).getElementsByClassName('comment');
 
     Array.from(comments).forEach(comment => {
-        let commentText = comment.children[0].contentDocument.body.innerText;
+        let commentText = comment.children[0].children[0].contentDocument.body.innerText;
         if (commentText.toLowerCase().includes(searchTerm)) {
-            comment.style.display = "block"; // Show matching comment
+            comment.children[0].style.display = "block"; // Show matching comment
         }
         else {
-            comment.style.display = "none"; // Hide non-matching comment
+            comment.children[0].style.display = "none"; // Hide non-matching comment
         }
     });
 }

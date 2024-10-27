@@ -19,9 +19,9 @@ class CommentEntry{
 // get a single comment from saved file
 function getComment($comment_id, $author_name, $is_child){
     if ($is_child){
-        return "<div class='comment' id='comment-" . $comment_id . "'>" . $author_name . " SAYS:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\\\"" . $comment_id . "\\\")'>Reply</button></div>";
+        return "<div class='comment' id='comment-" . $comment_id . "'><div class='replyText'>" . $author_name . " REPLIED WITH:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\\\"" . $comment_id . "\\\")'>Reply</button></div></div>";
     } else {
-        return "<div class='comment' id='comment-" . $comment_id . "'>" . $author_name . " SAYS:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\"" . $comment_id . "\")'>Reply</button></div>";
+        return "<div class='comment' id='comment-" . $comment_id . "'><div>" . $author_name . " SAYS:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\"" . $comment_id . "\")'>Reply</button></div></div>";
     }
 }
 
