@@ -84,6 +84,7 @@ function closeCommentPopup(clipId) {
     rantIsOpen = false;
 }
 
+
 // Function to submit a comment for a specific audio item
 function submitComment(textboxId, containerId) {
     if (openedCommentClipId == -1 || openedCommentClipId == null){
@@ -115,3 +116,4 @@ function submitComment(textboxId, containerId) {
 
     }
 }
+

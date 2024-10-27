@@ -1,0 +1,87 @@
+/* Make the Search Redirect Page look consistent with our other pages*/
+body {
+    
+    margin: 10;
+    padding: 10;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-secondary);
+    font-family: Roboto, sans-serif;
+}
+h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: var(--color-text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+}
+input:focus {
+    outline: none;
+    border: 1px solid var(--color-hover-green);
+}
+
+button {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 2.5px;
+}
+
+button:hover {
+    background-color: var(--color-hover-orange);
+    color: var(--color-hover-gray);
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+search-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.audio-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.audio-item {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 33%;
+}
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    margin-bottom:20px;
+    cursor: pointer;
+}
+.audio-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--color-text-secondary);
+}
+.audio-player {
+    width: 300px;
+}
