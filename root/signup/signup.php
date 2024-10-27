@@ -27,14 +27,13 @@
             </form>
             <br>
             <br>
-            <strong>Already a user? <a href="/login/login.php">log in</a></strong>
+            <strong>Already a user? <a href="/root/login/login.php">log in</a></strong>
 
             <?php
                 if (isset($_POST['username'])){
                     if (isset($_POST['password'])){
                         # add database functionality for the login form
                         include '../../includes/scripts.php';
-
 
                         # open database connection
                         $conn = initDb();
@@ -45,7 +44,7 @@
                         closeDb($conn);
 
                         if ($created){
-                            echo "<script>window.location='/login/login.php';</script>";
+                            echo "<script>window.location='/root/login/login.php';</script>";
                         }
 
                     }
