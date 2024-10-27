@@ -29,6 +29,10 @@
             background-color: var(--color-bg-primary);
         }
 
+        embed {
+            height: 5em;
+        }
+
         .nav-bar {
             align-items: center;
             color: var(--color-green);
@@ -63,6 +67,7 @@
             background-color: var(--color-orange);
             color: var(--color-text-primary);
             cursor: pointer;
+            z-index: 1001;
         }
         .arrow {
             width: 40px;
@@ -94,9 +99,14 @@
             border-width: 2px;
             box-shadow: 6px 6px black;
 
+            transform: scale(1, 1);
+            transition: transform .2s;
         }
         .audio-item:hover{
             background: var(--color-bg-primary);
+            transform: scale(1.1, 1.1);
+            transition: transform .2s;
+            z-index: 2;
         }
 
         .thumbnail {
@@ -167,6 +177,18 @@
             color:red;
         }
 
+        .clip-popup {
+            background-color: black;
+            transform: translate(-50%, -50%) scale(1.5, 1.5);
+            transition: transform: .2s;
+            z-index: 3;
+        }
+        .clip-popup:hover{
+            background-color: black;
+            transform: translate(-50%, -50%) scale(1.6, 1.6);
+            transition: transform: .2s;
+            z-index: 3;
+        }
 
     </style>
 </head>
@@ -202,13 +224,18 @@
 
 <div id='content-container' class="audio-container">
 
-
     <!-- COMMENT Textbox Popup-->
-    <div class="popup" id="comment-popup">
+    <div class="popup" id="comment-popup" onclick="event.stopPropagation()">
         <h2>Start your RANT here!</h2>
-        <textarea id="comment-textbox" name="Comments" placeholder="Type your rant..."></textarea>
-        <button type="button" onclick="submitComment()">Submit</button>
-        <button type="button" onclick="closeCommentPopup()">Cancel</button>
+        <textarea id="comment-textbox" placeholder="Type your rant..."></textarea>
+        <button type="button" onclick="submitComment('comment-textbox', 'comments-container')">Submit</button>
+        <button type="button" onclick="closeCommentPopup('comment-popup')">Cancel</button>
+
+        <!-- Comment section to display the comment thread inside the popup -->
+        <div class="comment-thread">
+            <h2>Rants</h2>
+            <div id="comments-container"></div>
+        </div>
     </div>
 
     <!-- Popup for Rant Submission -->
@@ -323,7 +350,7 @@
         </div>
     </div>
 
-    <div style="padding-top:90%">
+    <div style="padding-top:20%">
     </div>
 
 
@@ -331,34 +358,69 @@
     <script src="upload_button.js"></script>
 
     <script>
-        function openClipMenu(dom_id){
+        // Add special buttons to the clip's menu when it is opened
+        function addClipMenuFunctionality(domId){
             let clip_element = document.getElementById(dom_id);
+
+            
+
         }
 
+        // open a clip popup when clicking on it
+        function openClipMenu(domId){
+            if (rantIsOpen){
+                return;
+            }
+            let clip_element = document.getElementById(domId);
+
+            clip_element.classList.add("popup", "open-popup", "clip-popup")
+
+            let clickHandler = function(event){
+                // only close the popup if you click outside of it
+                if (!clip_element.contains(event.target)){
+                    clip_element.classList.remove("popup", "open-popup", "clip-popup");
+                }
+            };
+
+            setTimeout(function(){window.addEventListener("click", clickHandler, {once: true})}, 10);
+        }
+
+        // reset the clip number
         clipNumber = 0;
         window.onload = function(){
             clipNumber = 0;
+            window.scrollTo(0, 0);
         }
+
 
         // make ajax request to load more clips
         let xhttp = new XMLHttpRequest();
         xhttp.onload = function() {
             document.getElementById('content-container').innerHTML += this.responseText;
-            console.log("Loaded 15 more clips");
-            clipNumber += 15;
         }
         xhttp.open("GET", "load_clips.php?clip_number=" + clipNumber);
         xhttp.send();
 
+        // dynamically load more clips when scrolling down
         window.addEventListener("scroll",
             function () {
-                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50){
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500){
                     // make ajax request to load more clips
+                    let contentContainer = document.getElementById("content-container");
+
                     let xhttp = new XMLHttpRequest();
                     xhttp.onload = function() {
-                        document.getElementById('content-container').innerHTML += this.responseText;
-                        console.log("Loaded 15 more clips");
-                        clipNumber += 15;
+                        // make sure that we do not repeat any clip ids (or it will reset the clip progress when 
+                        var tempDiv = document.createElement("div");
+                        tempDiv.innerHTML = this.responseText;
+                        clipNumber = document.getElementsByClassName("audio-item").length;
+
+                        for (let currentElement of tempDiv.children){
+                            if (!document.getElementById(currentElement.getAttribute('id'))){
+                                contentContainer.appendChild(currentElement);
+                            }
+                        }
+
                     }
                     xhttp.open("GET", "load_clips.php?clip_number=" + clipNumber);
                     xhttp.send();
@@ -369,6 +431,11 @@
         );
 
     </script>
+
+    <?php
+        include '../navigationBar/navigationBar.php';
+
+    ?>
 
 </div>
 </body>
