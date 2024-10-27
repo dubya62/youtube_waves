@@ -35,7 +35,7 @@
             </form>
             <br>
             <br>
-            <strong>New around here? <a href="/root/signup/signup.php">sign up</a></strong>
+            <strong>New around here? <a href="/signup/signup.php">sign up</a></strong>
 
             <?php
                 # add database functionality for the login form
@@ -59,7 +59,7 @@
                         closeDb($conn);
 
                         if ($authenticated){
-                            echo "<script>window.location='/root/home_page/home_page.php';</script>";
+                            echo "<script>window.location='/home_page/home_page.php';</script>";
                         }
                     }
                 }

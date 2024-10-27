@@ -45,18 +45,51 @@ function incrementDislike(clip_id) {
     xhttp.send();
 }
 
+let rantIsOpen = false;
+
+function preventEvent(event){
+    if (event.target.getAttribute("id") != "comment-popup"){
+        event.stopPropagation();
+    }
+}
+
+let openedCommentClipId = -1;
+
 // Function to open a specific comment popup
-function openCommentPopup(popupId) {
-    document.getElementById(popupId).classList.add("open-popup");
+function openCommentPopup(clipId) {
+    openedCommentClipId = clipId;
+    rantIsOpen = true;
+    document.getElementById("comment-popup").classList.add("open-popup");
+
+    // make request to get the comments
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+        document.getElementById("comments-container").innerHTML = this.responseText;
+    }
+    xhttp.open("GET", "get_comments.php?clip_id=" + clipId);
+    xhttp.send();
+
+    document.addEventListener("click", preventEvent);
+    document.addEventListener("hover", preventEvent);
+
 }
 
 // Function to close a specific comment popup
-function closeCommentPopup(popupId) {
-    document.getElementById(popupId).classList.remove("open-popup");
+function closeCommentPopup(clipId) {
+    document.getElementById("comment-popup").classList.remove("open-popup");
+    openedCommentClipId = -1;
+
+    document.removeEventListener("click", preventEvent);
+    document.removeEventListener("hover", preventEvent);
+    rantIsOpen = false;
 }
 
 // Function to submit a comment for a specific audio item
 function submitComment(textboxId, containerId) {
+    if (openedCommentClipId == -1 || openedCommentClipId == null){
+        console.log("Comment page must be open!");
+        return;
+    }
     const commentText = document.getElementById(textboxId).value;
     if (commentText.trim()) {
         const comment = document.createElement('div');
@@ -68,5 +101,17 @@ function submitComment(textboxId, containerId) {
 
         // Clear the textbox
         document.getElementById(textboxId).value = '';
+
+        // send a request to the server to create the comment
+        let xhttp = new XMLHttpRequest();
+        xhttp.onload = function(){
+            console.log("comment sent");
+        }
+        xhttp.open("POST", "submit_comment.php");
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        let sendString = "clip_id=" + openedCommentClipId + "&comment=" + commentText;
+        console.log(sendString);
+        xhttp.send(sendString);
+
     }
 }

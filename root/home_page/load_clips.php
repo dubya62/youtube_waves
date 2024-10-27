@@ -43,8 +43,8 @@
             </div>
             
                 <!-- COMMENT Button -->
-                <div class='comment-container'>
-                    <button class='btn-23' onclick='openCommentPopup(); event.stopPropagation()'>
+                <div class='comment-container' id='comment-" . $clip_id . "'>
+                    <button class='btn-23' onclick='openCommentPopup(" . $clip_id . "); event.stopPropagation()'>
                         <span class='text'>RANT</span>
                         <span class='marquee'>RANT</span>
                     </button>
