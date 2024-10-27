@@ -223,4 +223,57 @@
   margin: 0 10px;
 }
 
+/* Reply button styling */
+.reply-container {
+  margin-left: 20px;
+  padding-top: 5px;
+}
+
+.reply-button {
+  background-color: transparent;
+  border: none;
+  color: #006B3D;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 5px;
+  text-decoration: underline;
+}
+
+.reply-textbox {
+  width: 95%;
+  height: 40px;
+  margin-top: 10px;
+}
+
+.reply-textbox + button {
+  margin-top: 5px;
+  color: white;
+  background-color: #006B3D;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+/* Reply button styling */
+
+
+/* CSS for search bar input */
+.popup input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
+}/* CSS for search bar input */
+
+
+.replyText{
+    color: black;
+    background-color: gray;
+    margin-left: 10%;
+}
+.replyText iframe{
+    width: 100%;
+}
 

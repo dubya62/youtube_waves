@@ -65,6 +65,7 @@ function openCommentPopup(clipId) {
     let xhttp = new XMLHttpRequest();
     xhttp.onload = function(){
         document.getElementById("comments-container").innerHTML = this.responseText;
+        eval(document.getElementById("comments-container").getElementsByTagName("script")[0].textContent);
     }
     xhttp.open("GET", "get_comments.php?clip_id=" + clipId);
     xhttp.send();
@@ -86,7 +87,7 @@ function closeCommentPopup(clipId) {
 
 
 // Function to submit a comment for a specific audio item
-function submitComment(textboxId, containerId) {
+function submitComment(textboxId, containerId, parentId) {
     if (openedCommentClipId == -1 || openedCommentClipId == null){
         console.log("Comment page must be open!");
         return;
@@ -110,10 +111,58 @@ function submitComment(textboxId, containerId) {
         }
         xhttp.open("POST", "submit_comment.php");
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        let sendString = "clip_id=" + openedCommentClipId + "&comment=" + commentText;
+        let sendString = "clip_id=" + openedCommentClipId + "&comment=" + commentText + "&parent=" + parentId;
         console.log(sendString);
         xhttp.send(sendString);
 
     }
+}
+
+// Search comments within the comment thread
+function searchComments(inputId, containerId) {
+    const searchTerm = document.getElementById(inputId).value.toLowerCase();
+    const comments = document.getElementById(containerId).getElementsByClassName('comment');
+
+    Array.from(comments).forEach(comment => {
+        let commentText = comment.children[0].children[0].contentDocument.body.innerText;
+        if (commentText.toLowerCase().includes(searchTerm)) {
+            comment.children[0].style.display = "block"; // Show matching comment
+        }
+        else {
+            comment.children[0].style.display = "none"; // Hide non-matching comment
+        }
+    });
+}
+
+// Function to toggle reply textbox for each comment
+function toggleReplyTextbox(commentId) {
+    let replyTextbox = document.querySelector(`#comment-${commentId} .reply-textbox`);
+    let submitReplyButton = document.querySelector(`#comment-${commentId} .submit-reply-button`);
+
+    if (!replyTextbox) {
+        replyTextbox = document.createElement('textarea');
+        replyTextbox.classList.add('reply-textbox');
+        replyTextbox.placeholder = 'Type your reply...';
+        let textBoxId = 'reply-textbox-' + commentId;
+        replyTextbox.setAttribute('id', textBoxId);
+
+        submitReplyButton = document.createElement('button');
+        submitReplyButton.classList.add('submit-reply-button');
+        submitReplyButton.textContent = 'Submit Reply';
+
+        // figure out the textBoxId, containerId, and parentId
+        submitReplyButton.onclick = () => submitComment(textBoxId, "comment-" + commentId, commentId);
+
+        const commentElement = document.getElementById("comment-" + commentId);
+        commentElement.appendChild(replyTextbox);
+        commentElement.appendChild(submitReplyButton);
+        return;
+    }
+
+    // Toggle display
+    replyTextbox.style.display = replyTextbox.style.display === 'none' ? 'block' : 'none';
+    submitReplyButton.style.display = submitReplyButton.style.display === 'none' ? 'block' : 'none';
+
+
 }
 
