@@ -195,14 +195,12 @@ function isDislikedById($conn, $user_id, $clip_id){
 // function to get whether or not current user has liked this clip
 function isLikedByCookie($conn, $clip_id){
     $user_id = getUserIdByCookie($conn);
-    echo "user_id: " . $user_id;
     return isLikedById($conn, $user_id, $clip_id);
 }
 
 // function to get whether or not current user has disliked this clip
 function isDislikedByCookie($conn, $clip_id){
     $user_id = getUserIdByCookie($conn);
-    echo "user_id: " . $user_id;
     return isDislikedById($conn, $user_id, $clip_id);
 }
 
@@ -245,7 +243,6 @@ function getFollowing($conn){
         $res[] = $result;
     }
 
-    print_r($res);
 
     return $res;
 }
@@ -359,6 +356,63 @@ function getUsername($conn, $user_id){
     return $result;
 }
 
+// function to add a number to a user's sentiment towards a tag
+function addUserSentimentToTag($conn, $user_id, $tag_id, $sentiment){
+    # create an entry in the user_tags table if it does not exist
+    $stmt = $conn->prepare("SELECT COUNT(id) FROM user_tags WHERE user_id=? AND tag_id=?");
+    $stmt->bind_param("ss", $user_id, $tag_id);
+    $stmt->execute();
+    $stmt->bind_result($result1);
+    $stmt->fetch();
+
+    $result = $result1;
+
+    $stmt->free_result();
+
+    // if that tag did not exist, create it and set the sentiment to that value
+    if ($result == 0){
+        $stmt2 = $conn->prepare("INSERT INTO user_tags (user_id, tag_id, sentiment) VALUES (?, ?, ?)");
+        $stmt2->bind_param("sss", $user_id, $tag_id, $sentiment);
+        $stmt2->execute();
+
+    } else { // otherwise, update that tag to add the value
+        // get the current sentiment for that tag
+        $stmt3 = $conn->prepare("SELECT sentiment FROM user_tags WHERE user_id=? AND tag_id=?");
+        $stmt3->bind_param("ss", $user_id, $tag_id);
+        $stmt3->execute();
+        $stmt3->bind_result($previous_sentiment1);
+        $stmt3->fetch();
+
+        $previous_sentiment = $previous_sentiment1;
+        $stmt3->free_result();
+
+        $stmt4 = $conn->prepare("UPDATE user_tags SET sentiment=?+? WHERE user_id=? AND tag_id=?");
+        $stmt4->bind_param("ssss", $sentiment, $previous_sentiment, $user_id, $tag_id);
+        $stmt4->execute();
+
+    }
+}
+
+// function to add a number to a user's sentiment towards a clip
+function addUserSentimentToClip($conn, $user_id, $clip_id, $sentiment){
+    // iterate through the tags on this clip and add the sentiment to each tag
+    $stmt = $conn->prepare("SELECT tag_id FROM clip_tags WHERE clip_id=?");
+    $stmt->bind_param("s", $clip_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+
+    $res = [];
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    // $res now holds each tag_id
+    foreach ($res as $tag_id){
+        addUserSentimentToTag($conn, $user_id, $tag_id, $sentiment);
+    }
+    
+}
+
 // like a clip
 function unlikeClip($conn, $clip_id){
     $stmt = $conn->prepare("DELETE FROM liked_clips WHERE clip_id=? AND user_id=?");
@@ -369,10 +423,12 @@ function unlikeClip($conn, $clip_id){
 
     $stmt->execute();
 
+
+    addUserSentimentToClip($conn, $user_id, $clip_id, -1);
+
 }
 
 function likeClip($conn, $clip_id){
-    unlikeClip($conn, $clip_id);
 
     $stmt = $conn->prepare("INSERT INTO liked_clips (user_id, clip_id) VALUES (?, ?)");
 
@@ -381,6 +437,8 @@ function likeClip($conn, $clip_id){
     $stmt->bind_param("ss", $user_id, $clip_id);
 
     $stmt->execute();
+
+    addUserSentimentToClip($conn, $user_id, $clip_id, 1);
 
 }
 
@@ -395,10 +453,10 @@ function undislikeClip($conn, $clip_id){
 
     $stmt->execute();
 
+    addUserSentimentToClip($conn, $user_id, $clip_id, 1);
 }
 
 function dislikeClip($conn, $clip_id){
-    undislikeClip($conn, $clip_id);
 
     $stmt = $conn->prepare("INSERT INTO disliked_clips (user_id, clip_id) VALUES (?, ?)");
 
@@ -408,11 +466,101 @@ function dislikeClip($conn, $clip_id){
 
     $stmt->execute();
 
+    addUserSentimentToClip($conn, $user_id, $clip_id, -1);
+
 }
 
-// Get all info from a clip into a single string for algorithm
-function getAllCLipStrings($conn, $clip_id) {
-    $stmt = $conn->prepare("SELECT FROM clips WHERE id=?");
+// create a tags entry (returns the tag_id)
+function createTagEntry($conn, $tag_string){
+    // only insert if the tag does not exist. otherwise, return the tag's id
+    $tag_id = -1;
+    $stmt1 = $conn->prepare("SELECT id FROM tags WHERE tag=?");
+    $stmt1->bind_param("s", $tag_string);
+    $stmt1->execute();
+    $stmt1->bind_result($tag_id);
+    $stmt1->fetch();
+    if ($tag_id != -1){
+        return $tag_id;
+    }
+
+    $stmt = $conn->prepare("INSERT INTO tags (tag) VALUES (?)");
+
+    $stmt->bind_param("s", $tag_string);
+
+    $stmt->execute();
+
+    return mysqli_insert_id($conn);
+}
+
+// return csv string of tag names for clip
+function getClipTagNames($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT t.tag FROM tags t, clip_tags ct, clips c WHERE c.id=? AND ct.clip_id=c.id AND ct.tag_id=t.id");
+    $stmt->bind_param("s", $clip_id);
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $res = [];
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    return $res;
+}
+
+
+// create the link between clips and their tags
+function createClipTag($conn, $clip_id, $tag){
+    $stmt = $conn->prepare("INSERT INTO clip_tags (clip_id, tag_id) VALUES (?, ?)");
+
+    $stmt->bind_param("ss", $clip_id, $tag);
+
+    $stmt->execute();
+}
+
+
+// create a clip entry (returns the clip_id)
+function createClipEntry($conn, $name, $tags){
+    // split the tags up at each #
+    $tags_array = explode('#', $tags);
+    if (count($tags_array) > 0){
+        // ignore everything before the first tag
+        $tags_array = array_slice($tags_array, 1);
+
+        // create tag etnries for each tag
+        $tag_ids = [];
+        foreach ($tags_array as $tag){
+            $tag_id = createTagEntry($conn, $tag);
+            $tags_ids[] = $tag_id;
+        }
+    } else {
+        $tag_id = -1;
+    }
+
+    // get the current user's id
+    $user_id = getUserIdByCookie($conn);
+
+    // prepare the statement to create the clip entry
+    $stmt = $conn->prepare("INSERT INTO clips (owner, name, time) VALUES (?, ?, NOW())");
+
+    $stmt->bind_param("ss", $user_id, $name);
+
+    $stmt->execute();
+
+    $clip_id = mysqli_insert_id($conn);
+
+    // create a clip_tag for each tag created
+    foreach ($tags_ids as $tag){
+        createClipTag($conn, $clip_id, $tag);
+    }
+
+    return $clip_id;
+}
+
+
+// get a clip's extension
+function getClipExtension($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT extension FROM clips WHERE id=?");
 
     $stmt->bind_param("s", $clip_id);
 
@@ -425,6 +573,74 @@ function getAllCLipStrings($conn, $clip_id) {
     return $result;
 }
 
+// set a clip extension to a value
+function setClipExtension($conn, $clip_id, $extension){
+    $stmt = $conn->prepare("UPDATE clips SET extension=? WHERE id=?");
+
+    $stmt->bind_param("ss", $extension, $clip_id);
+
+    $stmt->execute();
+
+}
+
+// get an image's extension
+function getImageExtension($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT image_extension FROM clips WHERE id=?");
+
+    $stmt->bind_param("s", $clip_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+}
+
+// set an image extension to a value
+function setImageExtension($conn, $clip_id, $extension){
+    $stmt = $conn->prepare("UPDATE clips SET image_extension=? WHERE id=?");
+
+    $stmt->bind_param("ss", $extension, $clip_id);
+
+    $stmt->execute();
+
+}
+
+// get a batch of clips using the algorithm
+function getClipBatch($conn, $currentClipNumber, $batchSize){
+    $user_id = getUserIdByCookie($conn);
+
+    // use the algorithm to pick clips
+    $stmt = $conn->prepare("SELECT id FROM clips real_c ORDER BY (SELECT SUM(ut.sentiment) FROM user_tags ut, tags t, users u, clips c, clip_tags ct WHERE ut.tag_id=t.id AND t.id=ct.tag_id AND ct.clip_id=c.id AND u.id=ut.user_id AND c.id=real_c.id AND u.id=?) DESC LIMIT ? OFFSET ?");
+
+    $stmt->bind_param("sss", $user_id, $batchSize, $currentClipNumber);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $res = [];
+
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    return $res;
+}
+
+function getClipScore($conn, $clip_id, $user_id){
+    $stmt = $conn->prepare("SELECT SUM(ut.sentiment) FROM user_tags ut, tags t, users u, clips c, clip_tags ct WHERE ut.tag_id=t.id AND t.id=ct.tag_id AND ct.clip_id=c.id AND u.id=ut.user_id AND c.id=? AND u.id=?");
+
+    $stmt->bind_param("ss", $clip_id, $user_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    return $result;
+}
 
 
 ?>
