@@ -15,22 +15,22 @@
 
         <div id="settings-form">
 
-            <form>
+            <form method="post">
                 
                 <!-- Username Section -->
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" placeholder="Username" class="input-field"/>
+                    <input type="text" id="username" placeholder="Username" class="input-field" name="username"/>
                 </div>
 
                 <!-- Password Section -->
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" placeholder="********" class="input-field"/>
+                    <input type="password" id="password" placeholder="********" class="input-field" name="password"/>
                 </div>
 
                 <!-- Save Button -->
-                <button id="save-settings" class="green-bg">Save Changes</button>
+                <input type="submit" id="save-settings" class="green-bg" value="Save Changes"/>
 
                 <!-- PHP to update username and password -->
                 <?php 
@@ -38,13 +38,28 @@
                     # open database connection
                     $conn = initDb();
                     # get username
-                    $username = $_COOKIE["session"];
-                    $sql = "SELECT * FROM users WHERE username='$username'";
-                    $result = $conn->query($sql);
-                    $row = $result->fetch_assoc();
+                    $username = getUsername($conn, getUserIdByCookie($conn)); // $_COOKIE["session"];
+                    $stmt = $conn->prepare("SELECT username, password FROM users WHERE username=?");
+                    $stmt->bind_param("s", $username);
+                    $stmt->execute();
+                    $stmt->bind_result($result1, $result2);
 
+
+                    $rows = 0;
+                    while ($stmt->fetch()){
+                        $rows++;
+                    }
+                    if ($rows == 0){
+                        // silent error
+                        //echo "Current User does not exist!";
+                        return;
+                    }
+
+                    $username = $result1;
+                    $password = $result2;
+
+                    $stmt->free_result();
                     # get password
-                    $password = $row["password"];
 
                     # compare username and password to submission of username/password
                     if (isset($_POST['username'])){
@@ -54,21 +69,26 @@
 
                             # if there is an updated username or password, update the database
                             if ($new_username != $username){
-                                $sql = "UPDATE users SET username='$new_username' WHERE username='$username'";
-                                $conn->query($sql);
+                                $sql = $conn->prepare("UPDATE users SET username=? WHERE username=?");
+                                $sql->bind_param("ss", $new_username, $username);
+                                $sql->execute();
                                 $username = $new_username;
                             }
 
                             if ($new_password != $password){
-                                $sql = "UPDATE users SET password='$new_password' WHERE username='$username'";
-                                $conn->query($sql);
-                                $password = $new_password;
+                                $sql = $conn->prepare("UPDATE users SET password=? WHERE username=?");
+                                $hashed_new_password = hash("sha256", $new_password);
+                                $sql->bind_param("ss", $hashed_new_password, $username);
+                                $sql->execute();
+                                setcookie("session", get_cookie_val($conn, $username, $new_password), time() + (86400 * 30), "/");
                             }
                         }
                     }
 
+
+
                     # close database connection
-                    $conn->close();
+                    closeDb($conn);
                 ?>
             </form>
         </div>

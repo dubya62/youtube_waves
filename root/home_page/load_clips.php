@@ -83,4 +83,5 @@
     # start with displaying a batch of at most 30 clips for now
     getNextClipBatch(15, $currentClipNumber);
 
+
 ?>
