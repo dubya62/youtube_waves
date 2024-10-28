@@ -1,3 +1,14 @@
+<?php
+        // Check if the 'query' parameter is set in the URL
+        if (isset($_GET['query'])) {
+            // Get the search query from the form input
+            $search_query = htmlspecialchars($_GET['query']);
+
+            // Redirect to search page with the query as a URL parameter
+            header("Location: ../search/search.php?query=" . urlencode($search_query));
+            exit();
+        }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -214,31 +225,7 @@
             <button type="submit">Search</button>
         </form>
     </div>
-// Need to have the PHP before the header is set
-<?php
-        // Check if the 'query' parameter is set in the URL
-        if (isset($_GET['query'])) {
-            // Get the search query from the form input
-            $search_query = htmlspecialchars($_GET['query']);
 
-            // Redirect to search page with the query as a URL parameter
-            header("Location: ../search/search.php?query=" . urlencode($search_query));
-            exit();
-        }
-?>
-<header>
-
-    <div>
-        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px">
-    </div>
-
-    <div class="search-bar">
-        <!-- Search Form -->
-        <form method="GET">
-            <input type="text" name="query" placeholder="Search for something..." required>
-            <button type="submit" class="search-button">Search</button>
-        </form>
-    </div>
 
     <input type='button' class="search-button" onclick='window.location="/logout.php";' value='logout'/>
     <!--On click of profile icon, redirect to profile page-->
@@ -252,7 +239,7 @@
 <h1 class="nav-bar">
     <center>Discover</center>
 </h1>
-<div class="audio-container">
+<div class="audio-container" id='content-container'>
 
     <!-- COMMENT Textbox Popup-->
     <div class="popup" id="comment-popup" onclick="event.stopPropagation()">
@@ -365,7 +352,7 @@
     <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <form method="post" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();}, 10);">
+            <form method="post" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();alert('Wave Submitted! Good Luck...');}, 10);">
                 <h2 style="color: var(--color-text-primary)">Create New Post</h2>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required><br><br>
@@ -379,7 +366,6 @@
                 <label for="description">Description:</label>
                 <input type="text" id="desc" name="desc"><br><br>
 
-                <button class="clickable" type="submit">Submit</button>
                 <label for="tags">Tags:</label>
                 <input type="text" id="tags" name="tags"><br><br>
 

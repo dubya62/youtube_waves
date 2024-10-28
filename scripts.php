@@ -492,6 +492,22 @@ function createTagEntry($conn, $tag_string){
     return mysqli_insert_id($conn);
 }
 
+// return csv string of tag names for clip
+function getClipTagNames($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT t.tag FROM tags t, clip_tags ct, clips c WHERE c.id=? AND ct.clip_id=c.id AND ct.tag_id=t.id");
+    $stmt->bind_param("s", $clip_id);
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $res = [];
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    return $res;
+}
+
 
 // create the link between clips and their tags
 function createClipTag($conn, $clip_id, $tag){

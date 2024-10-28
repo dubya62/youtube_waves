@@ -28,14 +28,13 @@
             
             // SQL query to search in the `owner`, `name`, and `tags` fields
             $sql_search_query = "
-            SELECT clips.id, clips.name, clips.time, users.username AS owner_name, tags.tag AS tag_name
-            FROM clips
-            LEFT JOIN users ON clips.owner = users.id
-            LEFT JOIN tags ON clips.tags = tags.id
+            SELECT DISTINCT c.id, c.name, c.time, u.username AS owner_name
+            FROM clips c, users u, tags t, clip_tags ct
             WHERE 
-                clips.name LIKE '%$search_term%' OR 
-                users.username LIKE '%$search_term%' OR 
-                tags.tag LIKE '%$search_term%'
+                u.id=c.owner AND ct.tag_id=t.id AND ct.clip_id=c.id AND
+                (c.name LIKE '%$search_term%' OR 
+                u.username LIKE '%$search_term%' OR 
+                t.tag LIKE '%$search_term%')
             ";
 
             // Execute the query
@@ -47,7 +46,7 @@
                 echo "<h2>Search Results:</h2>";
                 echo "<ul>";
                 while ($row = $result->fetch_assoc()) {
-                    echo "<li>Clip: " . $row['name'] . " | Owner: " . $row['owner_name'] . " | Tag: " . $row['tag_name'] . " | Date: " . $row['time'] . "</li>";
+                    echo "<li>Clip: " . $row['name'] . " | Owner: " . $row['owner_name'] . " | Tags: " . implode(", ", getClipTagNames($conn, $row['id'])) . " | Date: " . $row['time'] . "</li><BR>";
                 }
                 echo "</ul>";
             } else {
@@ -55,7 +54,7 @@
             }
  
             // Close the connection
-            $conn->close();
+            closeDb($conn);
         ?>
     </div>
     <?php include '../navigationBar/navigationBar.php'; ?>
