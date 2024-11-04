@@ -78,10 +78,6 @@
         </div>
     </section>
 
-<<<<<<< HEAD
-    <script src="profile.js"></script>
-    <?php include '../navigationBar/navigationBar.php'; ?>
-=======
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -92,6 +88,5 @@
         window.onload = viewClipsActive;
 
     </script>
->>>>>>> 61485ed3bd3fdf1a06c29fc2361a04f87a56c0f8
 </body>
 </html>

@@ -101,24 +101,31 @@
             </p>
 
             <?php
-                if (isset($_POST['username']) && isset($_POST['password'])) {
+               # add database functionality for the login form
+               if (isset($_POST['username'])){
+                if (isset($_POST['password'])){
                     include '../../includes/scripts.php';
 
-                    // Open database connection
+                    # open database connection
                     $conn = initDb();
 
-                    // Attempt to authenticate the user
                     $authenticated = authenticate_user($conn, $_POST['username'], $_POST['password']);
 
-                    // Close database connection
+                    if ($authenticated){
+                        setcookie("session", get_cookie_val($conn, $_POST['username'], $_POST['password']), time() + (86400 * 30), "/");
+                    } else {
+                        echo "<div id='statusBox'>Authentication Failed!<BR></div>";
+                    }
+
+
+                    # close database connection
                     closeDb($conn);
 
-                    if ($authenticated) {
-                        echo "<script>window.location='/dashboard.php';</script>";
-                    } else {
-                        echo "<p class='has-text-danger has-text-centered mt-3'>Invalid username or password.</p>";
+                    if ($authenticated){
+                        echo "<script>window.location='/home_page/home_page.php';</script>";
                     }
                 }
+            }   
             ?>
         </div>
     </section>
