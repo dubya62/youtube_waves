@@ -220,6 +220,26 @@ function getSubscriberCount($conn, $user_id){
     return $result;
 }
 
+// function to get number of people a person is subscribed to
+function getSubscriptionCount($conn, $user_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM subscriptions WHERE user_id=?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result;
+}
+
+// function to get the number of waves a person has submitted
+function getWaveCount($conn, $user_id){
+    $stmt = $conn->prepare("SELECT COUNT(owner) FROM clips WHERE owner=?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result;
+}
+
 // function to return a list of users that the current user is following
 function getFollowing($conn){
     $stmt = $conn->prepare("SELECT user_id FROM subscriptions WHERE user_id=?");
@@ -246,6 +266,31 @@ function getFollowing($conn){
 
     return $res;
 }
+
+// function to follow a certain user id
+function followUser($conn, $user_id, $follow_user){
+    if (!checkIfFollowingUser($conn, $user_id, $follow_user)){
+        $stmt = $conn->prepare("INSERT INTO subscriptions (user_id, subscription) VALUES (?, ?)");
+        $stmt->bind_param("ss", $user_id, $follow_user);
+        $stmt->execute();
+    }
+}
+// function to unfollow a certain user id
+function unfollowUser($conn, $user_id, $follow_user){
+    $stmt = $conn->prepare("DELETE FROM subscriptions WHERE user_id=? AND subscription=?");
+    $stmt->bind_param("ss", $user_id, $follow_user);
+    $stmt->execute();
+}
+// function to check if following a certain user
+function checkIfFollowingUser($conn, $user_id, $follow_user){
+    $stmt = $conn->prepare("SELECT COUNT(id) FROM subscriptions WHERE user_id=? AND subscription=?");
+    $stmt->bind_param("ss", $user_id, $follow_user);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result != 0;
+}
+
 
 // function to get clips posted by a certain user
 function getClipsByUserId($conn, $user_id){
