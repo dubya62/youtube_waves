@@ -3,89 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Acc Name goes here</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bulma CSS Framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="./profile.css">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light mb-4">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">My Profile</a>
             <div class="d-flex">
                 <button id="theme-toggle" class="btn btn-primary">Profile img</button>
             </div>
         </div>
-    </nav>
+    </nav> -->
 
     <!-- Profile Section -->
-    <section class="container text-center mb-5">
-        <h2>Capybara</h2>
+    <section class="section">
+        <!-- Profile Image -->
+        <figure class="image is-128x128 is-inline-block mb-4">
+            <img src="../img/bara.jpg" alt="Profile Image" class="is-rounded">
+        </figure>
 
-        <img id="acc-img" src="../img/bara.jpg" alt="Profile Picture" class="img-fluid">
+        <!-- Profile Name -->
+        <h2 class="title is-primary">Capybara</h2>
 
-        <!-- Account Stats -->
-        <div class="row mt-4 justify-content-center">
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">57</h3>
-                        <p class="card-text">Followers</p>
-                    </div>
-                </div>
+        <!-- Profile Statistics with Hardcoded Values -->
+        <div class="columns is-mobile is-centered has-text-centered mt-4">
+            <div class="column">
+                <p class="has-text-weight-bold">15</p>
+                <p>Subscriptions</p>
             </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">70.0k</h3>
-                        <p class="card-text">Following</p>
-                    </div>
-                </div>
+            <div class="column">
+                <p class="has-text-weight-bold">23</p>
+                <p>Clips</p>
             </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">320</h3>
-                        <p class="card-text">Waves</p>
-                    </div>
-                </div>
+            <div class="column">
+                <p class="has-text-weight-bold">8</p>
+                <p>Playlists</p>
             </div>
         </div>
-
-        <button id="follow-btn" class="btn btn-primary mt-4">Follow</button>
     </section>
 
     <!-- Clips and Playlists -->
-    <section class="container">
-        <!-- Clips and Playlists Navbar -->
-        <ul class="nav nav-tabs justify-content-center mb-4" id="myTab" role="tablist">
-            <li class="nav-item">
-                <p class="nav-link active" id="show-clips" data-bs-toggle="tab" onclick="viewClipsActive()">Clips</p>
+    <div class="tabs is-centered is-boxed mt-5">
+        <ul>
+            <li id="clips-tab" class="is-active">
+                <a onclick="showTab('clips')">Clips</a>
             </li>
-            <li class="nav-item">
-                <p class="nav-link" id="show-playlists" data-bs-toggle="tab" onclick="viewPlaylistsActive()">Playlists</p>
+            <li id="playlists-tab">
+                <a onclick="showTab('playlists')">Playlists</a>
             </li>
         </ul>
+    </div>
 
-        <!-- Clips List -->
-        <div id="clip-list" class="tab-content active-tab">
-            <!-- Dynamically generated content goes here -->
+    <!-- Content for Clips and Playlists -->
+    <div id="clips" class="tab-content is-active">
+        <div id="clip-list" class="content is-centered">
+            <!-- JavaScript dynamically loads clips here -->
+
+            
+
         </div>
+    </div>
 
-        <!-- Playlists List -->
-        <div id="playlists-list" class="tab-content">
-            <!-- Dynamically generated content goes here -->
+    <div id="playlists" class="tab-content">
+        <div id="playlists-list" class="content">
+            <!-- JavaScript dynamically loads playlists here -->
+
         </div>
-    </section>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
 
     <script src="./profile.js"></script>
 
     <script>
         // Make viewClipsActive run as page loads
-        window.onload = viewClipsActive;
+        // window.onload = viewClipsActive;
 
     </script>
 </body>

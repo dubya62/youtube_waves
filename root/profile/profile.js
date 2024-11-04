@@ -31,53 +31,61 @@ window.addEventListener("load", function() {
     listPlaylists();
 });
 
+// Function to handle tab switching and content display
+function showTab(tab) {
+    // Update tab navigation
+    document.getElementById("clips-tab").classList.remove("is-active");
+    document.getElementById("playlists-tab").classList.remove("is-active");
+    document.getElementById(`${tab}-tab`).classList.add("is-active");
+
+    // Update content visibility
+    document.getElementById("clips").classList.remove("is-active");
+    document.getElementById("playlists").classList.remove("is-active");
+    document.getElementById(tab).classList.add("is-active");
+}
 // Add all of user's clips to profile page from JSON
 function listClips() {
-    let listDiv = document.getElementById("clip-list");
-    let clipList = profileInfo.clips;
+    const clipList = document.getElementById("clip-list");
+    clipList.innerHTML = "";  // Clear any existing content
 
-    // Clear the clip list before adding new ones
-    listDiv.innerHTML = '';
+    let clips = profileInfo.clips;
 
     // Add each clip to list on profile.php
-    for (let clip in clipList) {
-        // Create a container for each clip
-        let clipDiv = document.createElement("div");
-        clipDiv.classList.add("d-flex", "justify-content-between", "align-items-center", "mb-3", "p-3");
-        clipDiv.style.width = "80vw";  // Set width to 80% of viewport
-        clipDiv.style.border = "1px solid #ddd";  // Border around the item
-        clipDiv.style.borderRadius = "5px";  // Rounded corners
+    clips.forEach(clip => {
+        const clipItem = document.createElement("article");
+        clipItem.classList.add("clip-item");
 
-        // Create play button and wave title container (left-aligned)
-        let leftContainer = document.createElement("div");
-        leftContainer.classList.add("d-flex", "align-items-center");
+        // Media left (Play Icon)
+        const mediaLeft = document.createElement("div");
+        mediaLeft.classList.add("play-icon-div");
+        const playButton = document.createElement("span");
+        playButton.classList.add("clip-play");
+        playButton.innerHTML = "▶️";  // Play icon
+        mediaLeft.appendChild(playButton);
 
-        // Play button
-        let playButton = document.createElement("button");
-        playButton.classList.add("btn", "btn-primary", "me-3");
-        playButton.innerHTML = `<i class="fas fa-play"></i>`;  // FontAwesome play icon
+        // Media content (Clip Title and Time)
+        const mediaContent = document.createElement("div");
+        mediaContent.classList.add("media-info");
 
-        // Wave name (title)
-        let clipTitle = document.createElement("span");
-        clipTitle.innerHTML = clipList[clip].title;
-        clipTitle.classList.add("wave-name", "me-3");
+        // Title
+        const title = document.createElement("div");
+        title.classList.add("clip-title");
+        title.textContent = clip.title;
+        mediaContent.appendChild(title);
 
-        // Append play button and title to the left container
-        leftContainer.appendChild(playButton);
-        leftContainer.appendChild(clipTitle);
+        // Time
+        const time = document.createElement("div");
+        time.classList.add("clip-time");
+        time.textContent = clip.length;
+        mediaContent.appendChild(time);
 
-        // Create time container (right-aligned)
-        let clipTime = document.createElement("span");
-        clipTime.innerHTML = clipList[clip].length;
-        clipTime.classList.add("wave-time");
+        // Append mediaLeft and mediaContent to clipItem
+        clipItem.appendChild(mediaLeft);
+        clipItem.appendChild(mediaContent);
 
-        // Append left container and time to the clipDiv
-        clipDiv.appendChild(leftContainer);
-        clipDiv.appendChild(clipTime);
-
-        // Append clipDiv to the listDiv
-        listDiv.appendChild(clipDiv);
-    }
+        // Append clipItem to clipList
+        clipList.appendChild(clipItem);
+    });
 }
 
 function listPlaylists() {
@@ -132,10 +140,10 @@ function listPlaylists() {
 
 // Function to change active tab on profile page
 let viewClipsActive = () => {
-    let viewClips = document.getElementById("show-clips");
-    let viewPlaylists = document.getElementById("show-playlists");
-    let clipDiv = document.getElementById("clip-list");
-    let playlistDiv = document.getElementById("playlists-list");
+    let viewClips = document.getElementById("clips-tab");
+    let viewPlaylists = document.getElementById("playlists-tab");
+    let clipDiv = document.getElementById("clips");
+    let playlistDiv = document.getElementById("playlists");
 
     viewClips.classList.add("active");
     viewPlaylists.classList.remove("active");
@@ -145,10 +153,10 @@ let viewClipsActive = () => {
 
 // Function to change active tab on profile page
 let viewPlaylistsActive = () => {
-    let viewClips = document.getElementById("show-clips");
-    let viewPlaylists = document.getElementById("show-playlists");
-    let clipDiv = document.getElementById("clip-list");
-    let playlistDiv = document.getElementById("playlists-list");
+    let viewClips = document.getElementById("clips-tab");
+    let viewPlaylists = document.getElementById("playlists-tab");
+    let clipDiv = document.getElementById("clips");
+    let playlistDiv = document.getElementById("playlists");
 
     viewPlaylists.classList.add("active");
     viewClips.classList.remove("active");

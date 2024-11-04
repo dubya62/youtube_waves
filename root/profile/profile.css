@@ -1,67 +1,77 @@
-/* Light Mode */
 :root {
-    --primary-bg: #2c2c2c;
-    --primary-text: #ffffff;
-    --primary-color: #006b3d;
-    --secondary-color: #006650;
+    --primary-color: #006b3d;       /* Green */
+    --secondary-color: #d35400;     /* Orange */
+    --background-color: #2c2c2c;    /* Dark background */
+    --text-color: #ffffff;          /* Light text */
+    --secondary-text-color: #888;
 }
 
-/* Dark Mode */
-body.light-mode {
-    --primary-bg: #f5f5f5;
-    --primary-text: #363636;
-    --primary-color: #d35400;
-    --secondary-color: #006b3d;
+/* Full-screen background */
+html, body {
+    height: 100%;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-/* Applying the theme */
-body {
-    background-color: var(--primary-bg);
-    color: var(--primary-text);
-    transition: background-color 0.3s ease, color 0.3s ease;
+/* Center content and ensure full viewport height */
+.section {
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--background-color);
 }
 
-.navbar{
-    box-shadow: 0px 8px 8px -6px rgba(0,0,0,.5);
+.is-primary {
+    color: var(--primary-color);
 }
 
-.card {
-    border: 2px solid white
-}
-
-.navbar, .card, .btn, .tab-content, .navbar-brand {
-    background-color: var(--primary-bg);
-    color: var(--primary-text);
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn-primary:hover {
+.is-primary:hover {
     background-color: var(--secondary-color);
 }
 
-#acc-img {
-    border-radius: 50%;
-    max-width: 150px;
+.tabs li a {
+    color: var(--text-color);
 }
 
-.nav-tabs .nav-link.active {
-    background-color: var(--primary-color);
-    color: white;
+.tabs li.is-active a {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
-.nav-item {
-    width: 50%;
-    color: white;
-}
-
-#clip-list, #playlists-list {
+.tab-content {
     display: none;
 }
 
-.active-tab {
+.tab-content.is-active {
     display: block;
+}
+
+.clip-item {
+    width: 80vw;
+    padding: 15px 30px;
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    border-bottom: 1px solid white;
+}
+
+.play-icon-div {
+    width: 80px;
+    color: var(--primary-color);
+}
+
+.media-info {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#clips {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
