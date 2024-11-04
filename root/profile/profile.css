@@ -1,100 +1,67 @@
-html {
-    overflow-x: hidden; /* Stops any scrolling left or right at all */
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary)
+/* Light Mode */
+:root {
+    --primary-bg: #2c2c2c;
+    --primary-text: #ffffff;
+    --primary-color: #006b3d;
+    --secondary-color: #006650;
 }
 
-.orange-bg {
-    background-color: var(--color-orange);
-    color: var(--color-text-primary);
+/* Dark Mode */
+body.light-mode {
+    --primary-bg: #f5f5f5;
+    --primary-text: #363636;
+    --primary-color: #d35400;
+    --secondary-color: #006b3d;
 }
 
-.green-bg {
-    background-color: var(--color-green);
-    color: var(--color-text-primary);
-}
-
-.grey-bg {
-    background-color: var(--color-bg-secondary);
-    color: var(--color-text-primary);
-}
-
-.active {
-    background-color: var(--color-green);
-    color: var(--color-text-primary);
-}
-
+/* Applying the theme */
 body {
-    margin: 0;
-    padding: 0;
-    width: 100vw; /* 100% of the viewport width */
-    height: 100vh; /* 100% of the viewport height */
-    display: flex;
-    flex-direction: column;
-    font-family: Arial, sans-serif; /* or use Google Fonts for custom fonts */
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Entire top portion of profile page */
-/* Contains name, image, stats */
-#acc-info {
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.navbar{
+    box-shadow: 0px 8px 8px -6px rgba(0,0,0,.5);
+}
+
+.card {
+    border: 2px solid white
+}
+
+.navbar, .card, .btn, .tab-content, .navbar-brand {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
 }
 
 #acc-img {
-    width: 150px;
-    /* border-radius: 200px; */
+    border-radius: 50%;
+    max-width: 150px;
 }
 
-/* Small portion inside of #acc-info */
-/* Contains followers, following, wavecount */
-#acc-stats {
-    /* width: 60vw; */
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 30px 0 0 0;
-    padding: 8px;
-    box-shadow: 3px 3px 3px var(--color-shadow);
+.nav-tabs .nav-link.active {
+    background-color: var(--primary-color);
+    color: white;
 }
 
-
-/* Makes middle statistic have borders on left and right */
-#following {
-    padding: 0 40px;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+.nav-item {
+    width: 50%;
+    color: white;
 }
 
-/* Each stat block's CSS */
-/* Makes text stack neatly */
-.stat {
-    width: 70px;
-    margin: 0 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.stat > * {
-    margin: 3px 0;
+#clip-list, #playlists-list {
+    display: none;
 }
 
-#follow-btn {
-    width: 200px;
-    height: 40px;
-    margin: 30px 0;
-    box-shadow: 3px 3px 3px var(--color-shadow);
+.active-tab {
+    display: block;
 }
-
-#follow-btn:hover {
-    background-color: var(--color-hover-orange);
-}
-
-.red { background-color: red;}
-.green { background-color: green;}
-.blue { background-color: blue;}
