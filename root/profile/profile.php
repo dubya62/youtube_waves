@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acc Name goes here</title>
+    <?php 
+        include '../../includes/scripts.php';
+        // get the username
+        $conn = initDb();
+        $user_id = getUserIdByCookie($conn);
+        $username = getUsername($conn, $user_id);
+    ?>
+
+    <title><?php echo $username; ?></title>
     <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="profile.css"/>
     <link rel="stylesheet" href="clips.css"/>
     <link rel="stylesheet" href="playlists.css"/>
 </head>
 <body>
-    <?php
-        include '../../includes/scripts.php';
-    ?>
     <div id="acc-info">
         <h2>
             <?php
-                // put the username on the screen
-                $conn = initDb();
-                echo htmlspecialchars(getUsername($conn, getUserIdByCookie($conn)));
-                closeDb($conn);
+                echo htmlspecialchars($username);
+
             ?>
         </h2>
 
@@ -29,15 +32,15 @@
         <!-- The filler divs are solely for making flex work. No functionality -->
         <div id="acc-stats" class="grey-bg">
             <div class="stat" id="followers">
-                <h3>57</h3>
+            <h3><?php echo getSubscriberCount($conn, $user_id); ?></h3>
                 <p>Followers</p>
             </div>
             <div class="stat" id="following">
-                <h3>70.0k</h3>
+            <h3><?php echo getSubscriptionCount($conn, $user_id); ?></h3>
                 <p>Following</p>
             </div>
             <div class="stat" id="wavecount">
-                <h3>320</h3>
+            <h3><?php echo getWaveCount($conn, $user_id); ?></h3>
                 <p>Waves</p>
             </div>
         </div>
@@ -81,6 +84,9 @@
     </div>
 
     <script src="profile.js"></script>
-    <?php include '../navigationBar/navigationBar.php'; ?>
+    <?php 
+        include '../navigationBar/navigationBar.php'; 
+        closeDb($conn);
+    ?>
 </body>
 </html>
