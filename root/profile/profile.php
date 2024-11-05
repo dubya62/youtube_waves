@@ -17,6 +17,47 @@
             <a class="navbar-brand" href="#">My Profile</a>
             <div class="d-flex">
                 <button id="theme-toggle" class="btn btn-primary">Profile img</button>
+    -->
+
+    <?php 
+        include '../../includes/scripts.php';
+        // get the username
+        $conn = initDb();
+        $user_id = getUserIdByCookie($conn);
+        $username = getUsername($conn, $user_id);
+    ?>
+
+    <title><?php echo $username; ?></title>
+    <!-- <link rel="stylesheet" href="../root.css"/>
+    <link rel="stylesheet" href="profile.css"/>
+    <link rel="stylesheet" href="clips.css"/>
+    <link rel="stylesheet" href="playlists.css"/> -->
+</head>
+<body>
+    <div id="acc-info">
+        <h2>
+            <?php
+                echo htmlspecialchars($username);
+
+            ?>
+        </h2>
+
+        <img id="acc-img" src="../img/bara.jpg"/>
+
+        <!-- NOTE: -->
+        <!-- The filler divs are solely for making flex work. No functionality -->
+        <div id="acc-stats" class="grey-bg">
+            <div class="stat" id="followers">
+            <h3><?php echo getSubscriberCount($conn, $user_id); ?></h3>
+                <p>Followers</p>
+            </div>
+            <div class="stat" id="following">
+            <h3><?php echo getSubscriptionCount($conn, $user_id); ?></h3>
+                <p>Following</p>
+            </div>
+            <div class="stat" id="wavecount">
+            <h3><?php echo getWaveCount($conn, $user_id); ?></h3>
+                <p>Waves</p>
             </div>
         </div>
     </nav> -->
@@ -84,5 +125,10 @@
         // window.onload = viewClipsActive;
 
     </script>
+    <script src="profile.js"></script>
+    <?php 
+        include '../navigationBar/navigationBar.php'; 
+        closeDb($conn);
+    ?>
 </body>
 </html>
