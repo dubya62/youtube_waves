@@ -20,7 +20,7 @@
     -->
 
     <?php 
-        include '../../includes/scripts.php';
+        include '../../scripts.php';
         // get the username
         $conn = initDb();
         $user_id = getUserIdByCookie($conn);
@@ -34,34 +34,6 @@
     <link rel="stylesheet" href="playlists.css"/> -->
 </head>
 <body>
-    <div id="acc-info">
-        <h2>
-            <?php
-                echo htmlspecialchars($username);
-
-            ?>
-        </h2>
-
-        <img id="acc-img" src="../img/bara.jpg"/>
-
-        <!-- NOTE: -->
-        <!-- The filler divs are solely for making flex work. No functionality -->
-        <div id="acc-stats" class="grey-bg">
-            <div class="stat" id="followers">
-            <h3><?php echo getSubscriberCount($conn, $user_id); ?></h3>
-                <p>Followers</p>
-            </div>
-            <div class="stat" id="following">
-            <h3><?php echo getSubscriptionCount($conn, $user_id); ?></h3>
-                <p>Following</p>
-            </div>
-            <div class="stat" id="wavecount">
-            <h3><?php echo getWaveCount($conn, $user_id); ?></h3>
-                <p>Waves</p>
-            </div>
-        </div>
-    </nav> -->
-
     <!-- Profile Section -->
     <section class="section">
         <!-- Profile Image -->
@@ -70,21 +42,20 @@
         </figure>
 
         <!-- Profile Name -->
-        <h2 class="title is-primary">Capybara</h2>
+        <h2 class="title is-primary"><?php echo htmlspecialchars($username); ?></h2>
 
-        <!-- Profile Statistics with Hardcoded Values -->
         <div class="columns is-mobile is-centered has-text-centered mt-4">
-            <div class="column">
-                <p class="has-text-weight-bold">15</p>
-                <p>Subscriptions</p>
+            <div class="column stat" id="followers">
+                <h3><?php echo getSubscriberCount($conn, $user_id); ?>
+                <p>Followers</p>
             </div>
-            <div class="column">
-                <p class="has-text-weight-bold">23</p>
-                <p>Clips</p>
+            <div class="column stat" id="following">
+                <h3><?php echo getSubscriptionCount($conn, $user_id); ?></h3>
+                <p>Following</p>
             </div>
-            <div class="column">
-                <p class="has-text-weight-bold">8</p>
-                <p>Playlists</p>
+            <div class="column stat" id="wavecount">
+                <h3><?php echo getWaveCount($conn, $user_id); ?></h3>
+                <p>Waves</p>
             </div>
         </div>
     </section>
