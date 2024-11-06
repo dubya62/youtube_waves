@@ -1,4 +1,27 @@
 
+// function to increment Follower count
+function incrementFollow(clip_id) {
+    // make ajax call to either like or unlike
+    let followElement = document.getElementById("follow-counter-" + clip_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-1"){ // this unliked it
+            // change the button color
+            followElement.classList.remove("liked");
+            followElement.classList.add("notLiked");
+            followElement.textContent = parseInt(followElement.textContent) - 1;
+        } else if (this.responseText == "1"){ // this liked it
+            // change the button color
+            followElement.classList.remove("notLiked");
+            followElement.classList.add("liked");
+            followElement.textContent = parseInt(followElement.textContent) + 1;
+        }
+
+    }
+    xhttp.open("GET", "follow_clip.php?clip_id=" + clip_id);
+    xhttp.send();
+}
+
 // Function to increment LIKE count
 function incrementLike(clip_id) {
     // make ajax call to either like or unlike
