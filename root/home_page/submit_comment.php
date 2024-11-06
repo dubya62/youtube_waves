@@ -27,9 +27,15 @@ function createCommentDatabaseEntry($conn, $clip_id, $parent){
     return mysqli_insert_id($conn);
 }
 
+function replaceTimestamps($comment){
+    return $comment;
+}
+
 // create a file with the comment's data in it
 function createCommentFile($comment_id, $comment){
     $the_file = fopen("comments/" . $comment_id, "w") or die ("Could not save comment!");
+
+    $comment = replaceTimestamps($comment);
     fwrite($the_file, $comment);
     fclose($the_file);
 }

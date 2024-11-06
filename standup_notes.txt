@@ -78,6 +78,21 @@ October 25 2024
     Are there any blocking issues?
         - no
 
+Nov 4 2024
+    What did you do?
+        - Dynamically load profile information onto the profile page
+    What are you going to do?
+        - Make profile pictures upload and display
+    Are there any blocking issues?
+        - no
+
+Nov 6 2024
+    What did you do?
+        - Make profile pictures upload and display
+    What are you going to do?
+        - Allow you to follow clip owners from the detailed view
+    Are there any blocking issues?
+        - no
 
 
 

@@ -267,6 +267,15 @@ function getFollowing($conn){
     return $res;
 }
 
+function getFollowerCount($conn, $user_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM subscriptions WHERE subscription=?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result;
+}
+
 // function to follow a certain user id
 function followUser($conn, $user_id, $follow_user){
     if (!checkIfFollowingUser($conn, $user_id, $follow_user)){
@@ -383,6 +392,16 @@ function getCommentOwner($conn, $comment_id){
 
     $stmt->fetch();
 
+    return $result;
+}
+
+// function to get owner of a clip
+function getClipOwner($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT owner FROM clips WHERE id=?");
+    $stmt->bind_param("s", $clip_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
     return $result;
 }
 
