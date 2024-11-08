@@ -6,6 +6,7 @@
     <title>Settings</title>
     <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="settings.css"/>
+
 </head>
 <body>
     <div id="settings-info">
@@ -19,13 +20,13 @@
                 
                 <!-- Username Section -->
                 <div class="form-group">
-                    <label for="username">Username:</label>
+                    <label for="username">New Username:</label>
                     <input type="text" id="username" placeholder="Username" class="input-field" name="username"/>
                 </div>
 
                 <!-- Password Section -->
                 <div class="form-group">
-                    <label for="password">Password:</label>
+                    <label for="password">New Password:</label>
                     <input type="password" id="password" placeholder="********" class="input-field" name="password"/>
                 </div>
 
@@ -85,15 +86,34 @@
                         }
                     }
 
-
-
                     # close database connection
                     closeDb($conn);
                 ?>
             </form>
         </div>
+    
+    <!-- Delete Account Button -->
+    <div>
+
+        <h3>Ready to Wave Goodbye?</h3>
+        <form method="post">
+            <input type=button id="delete-account" value="Delete Account"/>
+        </form>
+        <?php
+            $conn = initDb();
+            $user = getUsername($conn, getUserIdByCookie($conn));
+            deleteUser($conn, $user);
+            closeDb($conn);
+        ?>
+
     </div>
 
+    </div>
+
+    <!-- Navigation Bar -->
     <?php include '../navigationBar/navigationBar.php'; ?>
+
 </body>
+<script src="../../node_modules/bulma-toast/dist/bulma-toast.min.js" defer></script>
+<script src="settings.js" defer></script>
 </html>

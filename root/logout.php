@@ -3,5 +3,5 @@ include '../includes/scripts.php';
 logout();
 ?>
 <script>
-window.location="/login/login.php";
+window.location="landing_page/about.php";
 </script>

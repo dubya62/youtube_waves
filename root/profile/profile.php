@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acc Name goes here</title>
+    <title>Profile:
+        <?php
+            include '../../includes/scripts.php';
+        ?>
+        <?php
+            $conn = initDb();
+            echo htmlspecialchars(getUsername($conn, getUserIdByCookie($conn)));
+            closeDb($conn);
+        ?>
+    </title>
     <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="profile.css"/>
     <link rel="stylesheet" href="clips.css"/>
     <link rel="stylesheet" href="playlists.css"/>
 </head>
 <body>
-    <?php
-        include '../../includes/scripts.php';
-    ?>
+
     <div id="acc-info">
         <h2>
             <?php
@@ -27,17 +34,61 @@
 
         <!-- NOTE: -->
         <!-- The filler divs are solely for making flex work. No functionality -->
+        <!-- Technically, Followers and Following are the same thing as of now. -->
         <div id="acc-stats" class="grey-bg">
             <div class="stat" id="followers">
-                <h3>57</h3>
+                <h3>
+                   <?php
+                        $conn = initDb();
+
+                        $user = getUsername($conn, getUserIdByCookie($conn));
+                        try {
+                            // get number of accounts following this user
+                            echo htmlspecialchars(getSubscriberCount($conn, $user));
+
+                        } catch (Exception $e){
+                            echo "0";
+                        }
+                    ?>
+                </h3>
                 <p>Followers</p>
             </div>
             <div class="stat" id="following">
-                <h3>70.0k</h3>
+                <h3>
+                    <?php
+                        $conn = initDb();
+                        try {
+                            $following = getFollowing($conn);
+                            // count the number of following
+                            echo count($following);
+
+                        } catch (Exception $e){
+                            echo "0";
+                        }
+                        closeDb($conn);
+                    ?>
+                </h3>
                 <p>Following</p>
             </div>
+
+            <!-- NOTE: -->
+            <!-- This does not seem to be retreiving a number fo waves -->
             <div class="stat" id="wavecount">
-                <h3>320</h3>
+                <h3>
+                    <?php
+                        $conn = initDb();
+                        try {
+                            $wavecount = getClipsByCookie($conn);
+
+                            // count the number of waves
+                            echo count($wavecount);
+
+                        } catch (Exception $e){
+                            echo "0";
+                        }
+                        closeDb($conn);
+                    ?>
+                </h3>
                 <p>Waves</p>
             </div>
         </div>

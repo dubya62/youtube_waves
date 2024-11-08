@@ -227,7 +227,7 @@
     </div>
 
 
-    <input type='button' class="search-button" onclick='window.location="/logout.php";' value='logout'/>
+    <input type='button' class="search-button" onclick='window.location="../logout.php";' value='logout'/>
     <!--On click of profile icon, redirect to profile page-->
         <div class="clickable" onclick="window.location.href='/profile/profile.php'">
             <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">

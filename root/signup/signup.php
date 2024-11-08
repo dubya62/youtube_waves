@@ -27,7 +27,7 @@
             </form>
             <br>
             <br>
-            <strong>Already a user? <a href="/login/login.php">log in</a></strong>
+            <strong>Already a user? <a href="../login/login.php">log in</a></strong>
 
             <?php
                 if (isset($_POST['username'])){
@@ -44,7 +44,7 @@
                         closeDb($conn);
 
                         if ($created){
-                            echo "<script>window.location='/login/login.php';</script>";
+                            echo "<script>window.location='../login/login.php';</script>";
                         }
 
                     }

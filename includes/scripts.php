@@ -642,5 +642,36 @@ function getClipScore($conn, $clip_id, $user_id){
     return $result;
 }
 
+function deleteUser($conn, $user_id){
+    try{
+        $conn->begin_transaction();
+
+        $conn->prepare("DELETE FROM tags WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM user_tags WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM subscriptions WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM watched_clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM clip_tags WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM liked_clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM disliked_clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM comments WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->prepare("DELETE FROM users WHERE id=:user_id")->execute(['user_id' => $user_id]);
+
+        $conn->commit();
+
+    } catch(Exception $e){
+        echo "This didnt work: $e";
+        $conn->rollback();
+    }
+}
 
 ?>
