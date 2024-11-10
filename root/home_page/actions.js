@@ -86,37 +86,58 @@ function closeCommentPopup(clipId) {
 }
 
 
-// Function to submit a comment for a specific audio item
+// Function to submit a comment with optional image for a specific audio item
 function submitComment(textboxId, containerId, parentId) {
-    if (openedCommentClipId == -1 || openedCommentClipId == null){
+    if (openedCommentClipId == -1 || openedCommentClipId == null) {
         console.log("Comment page must be open!");
         return;
     }
+
     const commentText = document.getElementById(textboxId).value;
-    if (commentText.trim()) {
-        const comment = document.createElement('div');
-        comment.classList.add('comment');
-        comment.textContent = commentText;
+    const commentImage = document.getElementById('file-upload').files[0];
 
-        // Append the comment to the specific comments container
-        document.getElementById(containerId).appendChild(comment);
+    // Prepare FormData for comment text and optional image
+    const formData = new FormData();
+    formData.append("clip_id", openedCommentClipId);
+    formData.append("comment", commentText);
+    formData.append("parent", parentId);
 
-        // Clear the textbox
-        document.getElementById(textboxId).value = '';
-
-        // send a request to the server to create the comment
-        let xhttp = new XMLHttpRequest();
-        xhttp.onload = function(){
-            console.log("comment sent");
-        }
-        xhttp.open("POST", "submit_comment.php");
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        let sendString = "clip_id=" + openedCommentClipId + "&comment=" + commentText + "&parent=" + parentId;
-        console.log(sendString);
-        xhttp.send(sendString);
-
+    if (commentImage) {
+        formData.append("comment-image", commentImage); // Include image in the form data
     }
+
+    // Send comment and image data to the server
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        if (xhttp.status === 200) {
+            console.log("Comment and image sent to server");
+
+            // Display the comment with the image in the comment thread
+            let commentDisplay = commentText;
+            if (commentImage) {
+                const imageURL = URL.createObjectURL(commentImage);
+                commentDisplay += `<br><img src="${imageURL}" alt="Image" style="max-width: 100%; border-radius: 10px;">`;
+            }
+
+            const comment = document.createElement('div');
+            comment.classList.add('comment');
+            comment.innerHTML = commentDisplay;
+
+            document.getElementById(containerId).appendChild(comment);
+
+            // Clear the input fields
+            document.getElementById(textboxId).value = '';
+            document.getElementById("file-upload").value = '';
+            document.getElementById("preview-container").innerHTML = '';
+        } else {
+            console.error("Failed to send comment");
+        }
+    };
+
+    xhttp.open("POST", "submit_comment.php", true);
+    xhttp.send(formData);
 }
+
 
 // Search comments within the comment thread
 function searchComments(inputId, containerId) {
@@ -165,4 +186,104 @@ function toggleReplyTextbox(commentId) {
 
 
 }
+
+/* Share audio clip */
+function shareAudio(clipId) {
+    const audioElement = document.querySelector(`#clip-${clipId} audio`);
+    const audioURL = audioElement.querySelector("source").src;
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'Check out this audio clip!',
+            text: 'Listen to this amazing audio clip!',
+            url: audioURL
+        })
+        .then(() => console.log('Audio shared successfully'))
+        .catch(error => console.error('Error sharing audio:', error));
+    } 
+    else {
+        navigator.clipboard.writeText(audioURL)
+            .then(() => alert('Audio link copied to clipboard!'))
+            .catch(error => console.error('Error copying link:', error));
+    }
+}
+
+
+
+
+/* i love breaking things and not fixing them 2 */
+// Function to open the upload popup
+function openUploadPopup() {
+    document.getElementById("upload-popup").classList.add("open-popup");
+}
+
+// Function to close the upload popup
+function closeUploadPopup() {
+    document.getElementById("upload-popup").classList.remove("open-popup");
+    // Clear the file input and preview in the popup
+    document.getElementById("upload-file-input").value = '';
+    document.getElementById("upload-preview-container").innerHTML = '';
+}
+
+// Function to preview the selected file within the upload popup
+function previewFileUpload() {
+    const fileInput = document.getElementById("upload-file-input");
+    const previewContainer = document.getElementById("upload-preview-container");
+
+    // Clear any previous preview
+    previewContainer.innerHTML = '';
+
+    if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Image preview';
+            img.style.maxWidth = '100%';
+            img.style.borderRadius = '10px';
+
+            previewContainer.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+// Function to copy the selected image to the main file input for submission
+function submitImgGif() { 
+    const fileInput = document.getElementById("upload-file-input");
+
+    if (fileInput.files && fileInput.files[0]) {
+        const commentFileInput = document.getElementById("file-upload");   
+        commentFileInput.files = fileInput.files;
+
+        // Display preview in the main RANT section's preview container
+        const mainPreviewContainer = document.getElementById("preview-container");
+        const reader = new FileReader();
+
+        mainPreviewContainer.innerHTML = ''; // Clear previous preview
+
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Selected image preview';
+            img.style.maxWidth = '100%';
+            img.style.borderRadius = '10px';
+
+            mainPreviewContainer.appendChild(img);
+        };
+
+        reader.readAsDataURL(fileInput.files[0]);
+
+        // Close the upload popup
+        closeUploadPopup();
+    } else {
+        alert('Please select an image or GIF to upload.');
+    }
+}
+
+
+
 
