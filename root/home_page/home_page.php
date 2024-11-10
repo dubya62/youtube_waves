@@ -228,17 +228,14 @@
             <input type="text" name="query" placeholder="Search for something..." required>
             <button type="submit">Search</button>
         </form> -->
-        <div class="field">
+        <form class="field" method="GET">
             <div class="control">
-                <input class="input" type="text" placeholder="Search for Waves">
+                <input class="input" name="query" placeholder="Search for something..." required>
                 <button class="button green" type="submit">Search</button>
             </div>
-        </div>
+        </form>
     </div>
 
-
-    <!-- <input type='button' class="search-button" onclick='window.location="/logout.php";' value='logout'/> -->
-    <!--On click of profile icon, redirect to profile page-->
 
     <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
@@ -259,11 +256,6 @@
                 Log Out
             </a>
         </div>
-        
-        <!-- <div class="clickable" onclick="window.location.href='/profile/profile.php'">
-            <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
-        </div> -->
-        
     </div>
 </header>
 

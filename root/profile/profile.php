@@ -7,8 +7,36 @@
     <title>Acc Name goes here</title>
     
     <!-- Bulma CSS Framework -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="stylesheet" href="./profile.css">
+    <style>
+        .green {
+            background-color: var(--color-green);
+        }
+
+        .navbar-dropdown {
+            background-color: #3c3c3c; /* Change this color to match your design */
+            border-radius: 8px; /* Optional: Add rounded corners */
+            border: 1px solid #2c2c2c; /* Optional: Add a border for a defined edge */
+            z-index: 1000;
+        }
+
+        .search-bar input {
+            width: 300px;
+
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 15px;    
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: var(--color-bg-primary);
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
@@ -18,6 +46,31 @@
             <div class="d-flex">
                 <button id="theme-toggle" class="btn btn-primary">Profile img</button>
     -->
+
+    <header>
+
+    <div onclick="window.href='/root/home_page/home_page.php'"s>
+        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px">
+    </div>
+
+    <div class="search-bar">
+        <!-- Search Form -->
+        <!-- <form method="GET">
+            <input type="text" name="query" placeholder="Search for something..." required>
+            <button type="submit">Search</button>
+        </form> -->
+        <form class="field" method="GET">
+            <div class="control">
+                <input class="input" name="query" placeholder="Search for something..." required>
+                <button class="button green" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="navbar-item has-dropdown is-hoverable">
+    </div>
+</header>
 
     <?php 
         include '../../scripts.php';
