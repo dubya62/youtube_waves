@@ -646,32 +646,67 @@ function deleteUser($conn, $user_id){
     try{
         $conn->begin_transaction();
 
-        $conn->prepare("DELETE FROM tags WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete user comments
+        $stmt = $conn->prepare("DELETE FROM comments WHERE author=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM user_tags WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete subscriptions the user has
+        $stmt = $conn->prepare("DELETE FROM subscriptions WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM subscriptions WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete records of clips the user has watched
+        $stmt = $conn->prepare("DELETE FROM watched_clips WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete records of clips the user has liked
+        $stmt = $conn->prepare("DELETE FROM liked_clips WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM watched_clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete records of clips the user has disliked
+        $stmt = $conn->prepare("DELETE FROM disliked_clips WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM clip_tags WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete tags created by the user
+        $stmt = $conn->prepare("DELETE FROM user_tags WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM liked_clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete tags associated with clips owned by the user
+        $stmt = $conn->prepare("DELETE FROM clip_tags WHERE clip_id IN (SELECT id FROM clips WHERE owner=?)");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM disliked_clips WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Delete all clips owned by the user
+        $stmt = $conn->prepare("DELETE FROM clips WHERE owner=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
-        $conn->prepare("DELETE FROM comments WHERE id=:user_id")->execute(['user_id' => $user_id]);
-
-        $conn->prepare("DELETE FROM users WHERE id=:user_id")->execute(['user_id' => $user_id]);
+        // Finally, delete the user
+        $stmt = $conn->prepare("DELETE FROM users WHERE id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
 
         $conn->commit();
 
     } catch(Exception $e){
-        echo "This didnt work: $e";
+        echo "This didn't work: " . $e->getMessage();
         $conn->rollback();
     }
 }
+
 
 ?>

@@ -71,8 +71,6 @@
                 <p>Following</p>
             </div>
 
-            <!-- NOTE: -->
-            <!-- This does not seem to be retreiving a number fo waves -->
             <div class="stat" id="wavecount">
                 <h3>
                     <?php

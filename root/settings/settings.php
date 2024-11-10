@@ -94,26 +94,47 @@
     
     <!-- Delete Account Button -->
     <div>
+            <h3>Ready to Wave Goodbye?</h3>
+            <form id="delete-account-form" method="post">
+                <input type="button" id="delete-account" value="Delete Account"/>
+            </form>
 
-        <h3>Ready to Wave Goodbye?</h3>
-        <form method="post">
-            <input type=button id="delete-account" value="Delete Account"/>
-        </form>
-        <?php
-            $conn = initDb();
-            $user = getUsername($conn, getUserIdByCookie($conn));
-            deleteUser($conn, $user);
-            closeDb($conn);
-        ?>
+            <!-- JavaScript to handle confirmation and submit -->
+            <script>
+                // Add event listener to delete account button
+                document.getElementById("delete-account").addEventListener("click", function() {
+                // Display confirmation dialog
+                if (confirm("Are you sure you want to go? 🥺 \nDeleting your account cannot be undone.")) {
+                // If confirmed, submit the form
+                    document.getElementById("delete-account-form").submit();
+                    console.log("Account Deleted");
+            }
+            });
+            </script>
 
-    </div>
+            <?php
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $conn = initDb();
+                    $user_id = getUserIdByCookie($conn);
+                    $username = getUsername($conn, $user_id); 
+                    deleteUser($conn, $user_id);  
 
+                    //check if user in database, if not, redirect to landing page -> if user deleted, cookie should be deleted
+                    if (check_user($conn, $username) == 0) {
+                        logout();
+                        header("Location: ../landing_page/about.php");
+                    }
+
+                    closeDb($conn);
+
+                }
+            ?>
+        </div>
     </div>
 
     <!-- Navigation Bar -->
     <?php include '../navigationBar/navigationBar.php'; ?>
 
 </body>
-<script src="../../node_modules/bulma-toast/dist/bulma-toast.min.js" defer></script>
-<script src="settings.js" defer></script>
+<script src="../../node_modules/bulma-toast/dist/bulma-toast.min.js"></script>
 </html>
