@@ -10,55 +10,45 @@
 </head>
 <body>
 
-<header>
+    <header>
 
-    <div>
-        <img src="../home_page/logo.png" alt="Logo" style="width: 100px; height: 60px">
-    </div>
-
-    <div class="search-bar">
-        <!-- Search Form -->
-        <!-- <form method="GET">
-            <input type="text" name="query" placeholder="Search for something..." required>
-            <button type="submit">Search</button>
-        </form> -->
-        <form class="field" method="GET">
-            <div class="control">
-                <input class="input" name="query" placeholder="Search for something..." required>
-                <button class="button green" type="submit">Search</button>
-            </div>
-        </form>
-    </div>
-
-
-    <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-            <figure class="image">
-                <img class="is-rounded" src="../home_page/profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
-            </figure>
-        </a>
-
-        <div class="navbar-dropdown is-right">
-            <a class="navbar-item" href="/root/profile/profile.php">
-                Profile
-            </a>
-            <a class="navbar-item" href="/root/settings/settings.php">
-                Settings
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item" href="/root/logout.php">
-                Log Out
-            </a>
+        <div>
+            <img src="../home_page/logo.png" alt="Logo" style="width: 100px; height: 60px">
         </div>
-    </div>
-</header>
 
-    <h1>Search Results</h1>
-    <form action="search.php" method="get">
-        <input type="text" name="query" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
+        <div class="search-bar">
+            <form class="field" method="GET">
+                <div class="control">
+                    <input class="input" name="query" placeholder="Search for something..." required>
+                    <button class="button green" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+                <figure class="image">
+                    <img class="is-rounded" src="../home_page/profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+                </figure>
+            </a>
+
+            <div class="navbar-dropdown is-right">
+                <a class="navbar-item" href="/root/profile/profile.php">
+                    Profile
+                </a>
+                <a class="navbar-item" href="/root/settings/settings.php">
+                    Settings
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="/root/logout.php">
+                    Log Out
+                </a>
+            </div>
+        </div>
+    </header>
     <div class="search-results">
+        <h1>Search Results</h1>
         <?php
             include '../../includes/scripts.php';
 
@@ -88,7 +78,6 @@
             // Check if any rows are returned
             if ($result->num_rows > 0) {
                 // Display the search results
-                echo "<h2>Search Results:</h2>";
                 echo "<ul>";
                 while ($row = $result->fetch_assoc()) {
                     echo "<li>Clip: " . $row['name'] . " | Owner: " . $row['owner_name'] . " | Tags: " . implode(", ", getClipTagNames($conn, $row['id'])) . " | Date: " . $row['time'] . "</li><BR>";

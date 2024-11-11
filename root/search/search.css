@@ -1,11 +1,17 @@
 /* Make the Search Redirect Page look consistent with our other pages*/
+html {
+    height: 100%;
+}
+
 body {
-    
+    height: 100%;
     margin: 10;
     padding: 10;
     background-color: var(--color-bg-primary);
     color: var(--color-text-secondary);
     font-family: Roboto, sans-serif;
+    display: flex;
+    flex-direction: column; /* Enable vertical stacking */
 }
 h1 {
     font-weight: 700;
@@ -85,3 +91,40 @@ search-results {
 .audio-player {
     width: 300px;
 }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--color-bg-primary);
+}
+
+.green {
+    background-color: var(--color-green);
+}
+
+.navbar-dropdown {
+    background-color: #3c3c3c; 
+    border-radius: 2px; /* Optional: Add rounded corners */
+    border: 1px solid #2c2c2c;
+    height: 50px; 
+    z-index: 1000;
+}
+.search-bar input {
+    width: 300px;
+
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 15px;    
+}
+.search-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 15px;
+    background-color: var(--color-green);
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.search-results { flex: 1; }
