@@ -39,7 +39,7 @@
             <p class='" . getUserFollowClass($conn, getUserIdByCookie($conn), $owner) . "' id='follow-counter-" . $clip_id . "'>" . getFollowerCount($conn, $owner) . "</p>
             <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
             <br>
-            <audio controls class='audio-player' onclick='event.stopPropagation()'>
+            <audio id='audio-" . $clip_id . "' controls class='audio-player' onclick='event.stopPropagation()'>
                 <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
                 Your browser does not support the audio element.
             </audio>

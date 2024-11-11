@@ -263,14 +263,14 @@
         </a>
 
         <div class="navbar-dropdown is-right">
-            <a class="navbar-item" href="/root/profile/profile.php">
+            <a class="navbar-item" href="../profile/profile.php">
                 Profile
             </a>
-            <a class="navbar-item" href="/root/settings/settings.php">
+            <a class="navbar-item" href="../settings/settings.php">
                 Settings
             </a>
             <hr class="navbar-divider">
-            <a class="navbar-item" href="/root/logout.php">
+            <a class="navbar-item" href="../logout.php">
                 Log Out
             </a>
         </div>

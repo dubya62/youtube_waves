@@ -97,7 +97,7 @@
             </form>
 
             <p class="has-text-centered mt-4" style="color: var(--secondary-text-color);">
-                New user? <a href="/root/signup/signup.php" style="color: var(--primary-color);">Sign up</a>
+                New user? <a href="../signup/signup.php" style="color: var(--primary-color);">Sign up</a>
             </p>
 
             <?php
@@ -122,7 +122,7 @@
                     closeDb($conn);
 
                     if ($authenticated){
-                        echo "<script>window.location='/root/home_page/home_page.php';</script>";
+                        echo "<script>window.location='../home_page/home_page.php';</script>";
                     }
                 }
             }   
