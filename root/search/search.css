@@ -106,11 +106,26 @@ header {
 
 .navbar-dropdown {
     background-color: #3c3c3c; 
+    color: white;
     border-radius: 2px; /* Optional: Add rounded corners */
     border: 1px solid #2c2c2c;
     height: 50px; 
     z-index: 1000;
 }
+
+.navbar-link {
+    height: 75px;
+}
+img {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.navbar-dropdown > * {
+    color: white
+}
+
 .search-bar input {
     width: 300px;
 

@@ -29,7 +29,7 @@
         <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
                 <figure class="image">
-                    <img class="is-rounded" src="../home_page/profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+                    <img src="../home_page/profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
                 </figure>
             </a>
 
@@ -49,6 +49,31 @@
     </header>
     <div class="search-results">
         <h1>Search Results</h1>
+
+        <div class="box has-background-grey-dark mb-4">
+            <div class="field is-grouped is-grouped-multiline">
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag is-dark">Filter 1</span>
+                        <button class="tag is-delete"></button>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag is-dark">Filter 2</span>
+                        <button class="tag is-delete"></button>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag is-dark">Filter 3</span>
+                        <button class="tag is-delete"></button>
+                    </div>
+                </div>
+                <!-- Add more filter controls as needed -->
+            </div>
+        </div>
+
         <?php
             include '../../includes/scripts.php';
 
