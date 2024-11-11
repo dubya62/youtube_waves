@@ -31,8 +31,8 @@ function replaceTimestamps($comment, $clip_id){
     // look through the comment for something in the form \d+:\d\d
     // underline and change color and make onclick skip to that point in the audio clip
     $pattern = "/\d+:\d{0, 2}/i";
-    //$comment = preg_replace($pattern, "<strong onclick='jumpToTime(\"\0\", " . $clip_id . ")'>\0</strong>", $comment);
-    $comment = preg_replace($pattern, "\0 stuff", $comment);
+    //$comment = preg_replace($pattern, "<strong onclick='jumpToTime(${0}, $clip_id)'>${0}</strong>", $comment);
+    $comment = preg_replace($pattern, "${0} stuff", $comment);
 
 
     return $comment;
