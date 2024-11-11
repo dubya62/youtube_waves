@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="../root.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
 <!-- Link to external CSS file -->
 <link rel="stylesheet" type="text/css" href="styles.css">
 <link rel="stylesheet" type="text/css" href="../root.css"/>
@@ -44,11 +44,15 @@
             height: 5em;
         }
 
-        .nav-bar {
-            align-items: center;
-            color: var(--color-green);
-            background-color: var(--color-shadow);
-            padding: 10px;
+        .green {
+            background-color: var(--color-green);
+        }
+
+        .navbar-dropdown {
+            background-color: #3c3c3c; /* Change this color to match your design */
+            border-radius: 8px; /* Optional: Add rounded corners */
+            border: 1px solid #2c2c2c; /* Optional: Add a border for a defined edge */
+            z-index: 1000;
         }
         .search-bar input {
             width: 300px;
@@ -238,19 +242,38 @@
 
     <div class="search-bar">
         <!-- Search Form -->
-        <form method="GET">
+        <!-- <form method="GET">
             <input type="text" name="query" placeholder="Search for something..." required>
             <button type="submit">Search</button>
+        </form> -->
+        <form class="field" method="GET">
+            <div class="control">
+                <input class="input" name="query" placeholder="Search for something..." required>
+                <button class="button green" type="submit">Search</button>
+            </div>
         </form>
     </div>
 
 
-    <input type='button' class="search-button" onclick='window.location="/logout.php";' value='logout'/>
-    <!--On click of profile icon, redirect to profile page-->
-        <div class="clickable" onclick="window.location.href='/profile/profile.php'">
-            <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+    <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+            <figure class="image">
+                <img class="is-rounded" src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+            </figure>
+        </a>
+
+        <div class="navbar-dropdown is-right">
+            <a class="navbar-item" href="/root/profile/profile.php">
+                Profile
+            </a>
+            <a class="navbar-item" href="/root/settings/settings.php">
+                Settings
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item" href="/root/logout.php">
+                Log Out
+            </a>
         </div>
-        
     </div>
 </header>
 
