@@ -18,7 +18,7 @@
             include '../../includes/scripts.php';
 
             $conn = initDb();
-
+            $search_term = "";
             if (isset($_GET['query'])) {
                 $search_term = $_GET['query'];
             }
