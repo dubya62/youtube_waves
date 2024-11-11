@@ -17,13 +17,51 @@ class CommentEntry{
 // get all comments for this clip_id and echo them (in html format)
 
 // get a single comment from saved file
-function getComment($comment_id, $author_name, $is_child){
-    if ($is_child){
-        return "<div class='comment' id='comment-" . $comment_id . "'><div class='replyText'>" . $author_name . " REPLIED WITH:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\\\"" . $comment_id . "\\\")'>Reply</button></div></div>";
+// function getComment($comment_id, $author_name, $is_child){
+//     if ($is_child){
+//         return "<div class='comment' id='comment-" . $comment_id . "'><div class='replyText'>" . $author_name . " REPLIED WITH:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\\\"" . $comment_id . "\\\")'>Reply</button></div></div>";
+//     } else {
+//         return "<div class='comment' id='comment-" . $comment_id . "'><div>" . $author_name . " SAYS:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\"" . $comment_id . "\")'>Reply</button></div></div>";
+//     }
+// }
+
+// get a single comment from saved file with like, dislike, and reply button for the comments 
+function getComment($comment_id, $author_name, $is_child) {
+    
+    $likeButton = "<button class='like-button' onclick='incrementLikeComment($comment_id)'>Like</button>";
+    $likeCounter = "<span id='comment-like-counter-$comment_id' class='comment-like-counter'>0</span>";
+    
+    $dislikeButton = "<button class='dislike-button' onclick='incrementDislikeComment($comment_id)'>Dislike</button>";
+    $dislikeCounter = "<span id='comment-dislike-counter-$comment_id' class='comment-dislike-counter'>0</span>";
+
+    
+    $replyButton = "<button class='reply-button' onclick='toggleReplyTextbox(\"$comment_id\")'>Reply</button>";
+
+    
+    if ($is_child) {
+        return "<div class='comment' id='comment-$comment_id'>
+                    <div class='replyText
+                        $author_name REPLIED WITH:
+                        <iframe class='comment-text' src='comments/$comment_id'></iframe>
+                        $likeButton $likeCounter
+                        $dislikeButton $dislikeCounter
+                        $replyButton
+                    </div>
+                </div>";
     } else {
-        return "<div class='comment' id='comment-" . $comment_id . "'><div>" . $author_name . " SAYS:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\"" . $comment_id . "\")'>Reply</button></div></div>";
+        return "<div class='comment' id='comment-$comment_id'>
+                    <div>
+                        $author_name SAYS:
+                        <iframe class='comment-text' src='comments/$comment_id'></iframe>
+                        $likeButton $likeCounter
+                        $dislikeButton $dislikeCounter
+                        $replyButton
+                    </div>
+                </div>";
     }
 }
+
+
 
 // get all comments from an array
 function getAllComments($id_array){
