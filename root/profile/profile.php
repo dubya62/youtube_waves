@@ -76,7 +76,16 @@
         include '../../scripts.php';
         // get the username
         $conn = initDb();
-        $user_id = getUserIdByCookie($conn);
+        $mine = 0;
+        if (isset($_GET["user_id"])){
+            $user_id = $_GET["user_id"];
+            if ($user_id == getUserIdByCookie($conn)){
+                $mine = 1;
+            }
+        } else {
+            $user_id = getUserIdByCookie($conn);
+            $mine = 1;
+        }
         $username = getUsername($conn, $user_id);
     ?>
 
@@ -84,18 +93,39 @@
     <!-- <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="profile.css"/>
     <link rel="stylesheet" href="clips.css"/>
-    <link rel="stylesheet" href="playlists.css"/> -->
+
+    <link rel="stylesheet" href="playlists.css"/>
+    <style>
+        .upload-form{
+            align: center;
+            text-align: center;
+            align-content: center;
+        }
+    </style>
 </head>
 <body>
-    <!-- Profile Section -->
-    <section class="section">
-        <!-- Profile Image -->
-        <figure class="image is-128x128 is-inline-block mb-4">
-            <img src="../img/bara.jpg" alt="Profile Image" class="is-rounded">
-        </figure>
+    <div id="acc-info">
+        <h2>
+            <?php
+                echo htmlspecialchars($username);
+            ?>
+        </h2>
 
-        <!-- Profile Name -->
-        <h2 class="title is-primary"><?php echo htmlspecialchars($username); ?></h2>
+        <?php
+            if (isset($_FILES['image']['tmp_name'])){
+                $uploadPath = "images/" . $user_id;
+                move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath);
+            }
+
+        ?>
+        <?php
+            echo '<form class=\'upload-form\' method=\'post\' enctype="multipart/form-data"> <img id="acc-img" alt=\'No Profile Picture Uploaded\' src=\'images/' . $user_id . '\' style=\'border-radius:50%\'/> <br> ';
+            if ($mine){
+                echo '<input type="file" name=\'image\'/> <br> <input type=\'submit\' class="clickable" value=\'update\' accept="image/*,image/gif"/>';
+            }
+            echo '</form>';
+        
+        ?>
 
         <div class="columns is-mobile is-centered has-text-centered mt-4">
             <div class="column stat" id="followers">

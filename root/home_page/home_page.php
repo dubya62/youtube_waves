@@ -115,7 +115,7 @@
             width: 33%;
             /* Make each clip have a box */
             background: var(--color-bg-secondary);
-            padding: 2em;
+            /*padding: 2em;*/
             border-radius: 10px;
             border-color: var(--color-bg-primary);
             border-style: solid;
@@ -204,13 +204,31 @@
             transform: translate(-50%, -50%) scale(1.5, 1.5);
             transition: transform: .2s;
             z-index: 3;
+            padding: 0px;
         }
         .clip-popup:hover{
             background-color: black;
             transform: translate(-50%, -50%) scale(1.6, 1.6);
             transition: transform: .2s;
             z-index: 3;
+            padding: 0px;
         }
+        .clip-layer{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            opacity: .8;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            border-color: var(--color-bg-primary);
+            border-style: solid;
+            border-width: 2px;
+            vertical-align: center;
+        }
+        
 
     </style>
 </head>
@@ -375,7 +393,7 @@
     <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <form method="post" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();alert('Wave Submitted! Good Luck...');}, 10);">
+            <form method="post" action="home_page.php" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();alert('Wave Submitted! Good Luck...');window.location='home_page.php';history.replaceState(null, '', 'home_page.php');}, 10);">
                 <h2 style="color: var(--color-text-primary)">Create New Post</h2>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required><br><br>
@@ -482,6 +500,5 @@
     ?>
 
 </div>
-<?php include '../navigationBar/navigationBar.php'; ?>
 </body>
 </html>
