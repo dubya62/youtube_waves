@@ -96,6 +96,7 @@
                 </div>
             </form>
 
+
             <p class="has-text-centered mt-4" style="color: var(--secondary-text-color);">
                 Already a user? <a href="/root/login/login.php" style="color: var(--primary-color);">Log in</a>
             </p>
@@ -110,8 +111,10 @@
                     // Attempt to create the user
                     $created = create_user($conn, $_POST['username'], $_POST['password'], "N/A");
 
+
                     // Close database connection
                     closeDb($conn);
+
 
                     if ($created) {
                         echo "<script>window.location='/login/login.php';</script>";

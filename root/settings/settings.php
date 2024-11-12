@@ -6,6 +6,7 @@
     <title>Settings</title>
     <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="settings.css"/>
+
 </head>
 <body>
     <div id="settings-info">
@@ -19,13 +20,13 @@
                 
                 <!-- Username Section -->
                 <div class="form-group">
-                    <label for="username">Username:</label>
+                    <label for="username">New Username:</label>
                     <input type="text" id="username" placeholder="Username" class="input-field" name="username"/>
                 </div>
 
                 <!-- Password Section -->
                 <div class="form-group">
-                    <label for="password">Password:</label>
+                    <label for="password">New Password:</label>
                     <input type="password" id="password" placeholder="********" class="input-field" name="password"/>
                 </div>
 
@@ -85,15 +86,55 @@
                         }
                     }
 
-
-
                     # close database connection
                     closeDb($conn);
                 ?>
             </form>
         </div>
+    
+    <!-- Delete Account Button -->
+    <div>
+            <h3>Ready to Wave Goodbye?</h3>
+            <form id="delete-account-form" method="post">
+                <input type="button" id="delete-account" value="Delete Account"/>
+            </form>
+
+            <!-- JavaScript to handle confirmation and submit -->
+            <script>
+                // Add event listener to delete account button
+                document.getElementById("delete-account").addEventListener("click", function() {
+                // Display confirmation dialog
+                if (confirm("Are you sure you want to go? 🥺 \nDeleting your account cannot be undone.")) {
+                // If confirmed, submit the form
+                    document.getElementById("delete-account-form").submit();
+                    console.log("Account Deleted");
+            }
+            });
+            </script>
+
+            <?php
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $conn = initDb();
+                    $user_id = getUserIdByCookie($conn);
+                    $username = getUsername($conn, $user_id); 
+                    deleteUser($conn, $user_id);  
+
+                    //check if user in database, if not, redirect to landing page -> if user deleted, cookie should be deleted
+                    if (check_user($conn, $username) == 0) {
+                        logout();
+                        header("Location: ../landing_page/about.php");
+                    }
+
+                    closeDb($conn);
+
+                }
+            ?>
+        </div>
     </div>
 
+    <!-- Navigation Bar -->
     <?php include '../navigationBar/navigationBar.php'; ?>
+
 </body>
+<script src="../../node_modules/bulma-toast/dist/bulma-toast.min.js"></script>
 </html>

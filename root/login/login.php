@@ -72,6 +72,7 @@
         <div id="loginBox" class="box">
             <h1 class="title has-text-centered" style="color: var(--primary-color);">
                 Log In
+
             </h1>
 
             <form method="post">

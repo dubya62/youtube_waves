@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
+    <title>Profile:
         <?php
             include '../../includes/scripts.php';
-            // get the username
+       
             $conn = initDb();
             $user_id = getUserIdByCookie($conn);
-            echo getUsername($conn, $user_id);
+            echo htmlspecialchars(getUsername($conn, $user_id));
+            closeDb($conn);
         ?>
     </title>
+
     
     <!-- Bulma CSS Framework -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
@@ -93,9 +95,6 @@
         }
         $username = getUsername($conn, $user_id);
     ?>
-
-    <title><?php echo $username; ?></title>
-
     
     <!--
     <link rel="stylesheet" href="../root.css"/>
@@ -137,15 +136,49 @@
 
         <div class="columns is-mobile is-centered has-text-centered mt-4">
             <div class="column stat" id="followers">
-                <h3><?php echo getSubscriberCount($conn, $user_id); ?>
+                <h3>
+                  <?php
+
+                        $user = getUsername($conn, getUserIdByCookie($conn));
+                        try {
+                            // get number of accounts following this user
+                            echo htmlspecialchars(getSubscriberCount($conn, $user));
+
+                        } catch (Exception $e){
+                            echo "0";
+                        }
+                    ?>
+                </h3>
                 <p>Followers</p>
             </div>
             <div class="column stat" id="following">
-                <h3><?php echo getSubscriptionCount($conn, $user_id); ?></h3>
+                <h3>
+                  <?php
+                        try {
+                            $following = getFollowing($conn);
+                            // count the number of following
+                            echo count($following);
+
+                        } catch (Exception $e){
+                            echo "0";
+                        }
+                    ?>
+              </h3>
                 <p>Following</p>
             </div>
             <div class="column stat" id="wavecount">
-                <h3><?php echo getWaveCount($conn, $user_id); ?></h3>
+                <h3>
+                    <?php
+                        try {
+                            $wavecount = getClipsByCookie($conn);
+                            // count the number of waves
+                            echo count($wavecount);
+                        } catch (Exception $e){
+                            echo "0";
+                        }
+                    ?>
+                </h3>
+
                 <p>Waves</p>
             </div>
         </div>
