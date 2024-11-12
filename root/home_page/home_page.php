@@ -1,4 +1,5 @@
 <?php
+        include "../../includes/scripts.php";
         // Check if the 'query' parameter is set in the URL
         if (isset($_GET['query'])) {
             // Get the search query from the form input
@@ -256,22 +257,25 @@
 
     <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
-            <figure class="image"> src=
+            <figure class="image" style="width: 50px; height: 50px;">
             <?php
-                
+                include_once "../../includes/scripts.php";
                 $conn = initDb();
                 $user_id = getUserIdByCookie($conn);
+
+                $default_profile_picture = "profile_icon.png";
                 $profile_image_directory = "../profile/images/";
 
                 // Create the full path by appending the user ID and image file extension
-                $profile_picture = $profile_image_directory . $user_id . ".png";
+                $profile_picture = $profile_image_directory . $user_id;
 
                 // Check if the user's profile picture exists, else use default icon
                 if (file_exists($profile_picture)) {
-                    echo $profile_picture;
+                    echo "<img src=" . $profile_picture . "/>";
                 } else {
-                    echo "profile_icon.png";
+                    echo "<img src=" . $default_profile_picture . "/>";
                 }
+
                 $conn->close();
             ?>
 
@@ -329,7 +333,7 @@
 <div>
 
     <?php
-        include '../../includes/scripts.php';
+        include_once '../../includes/scripts.php';
 
         // handle uploads
         // Mapping MIME types to file extensions
