@@ -199,7 +199,7 @@
                 
                 // for each clip, display it
                 foreach ($clips as $clip){
-                    createClip($conn, $clip)
+                    createClip($conn, $clip);
                 }
             ?>
 
