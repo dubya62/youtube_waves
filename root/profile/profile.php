@@ -194,8 +194,13 @@
     <div id="clips" class="tab-content is-active">
         <div id="clip-list" class="content is-centered">
             <?php
+                include "..home_page/load_clips.php";
                 $clips = getClipsByCookie($conn, $user_id);
                 
+                // for each clip, display it
+                foreach ($clips as $clip){
+                    createClip($conn, $clip)
+                }
             ?>
 
         </div>
@@ -206,6 +211,9 @@
             
             <?php
                 $playlists = getLikedClips($conn, $user_id);
+                foreach ($playlists as $playlist){
+                    createClip($conn, $playlist);
+                }
             ?>
 
         </div>
