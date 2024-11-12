@@ -26,9 +26,11 @@ function getComment($comment_id, $author_name, $is_child) {
     
     $replyButton = "<button class='reply-button' onclick='toggleReplyTextbox(" . $comment_id . ")'>Reply</button>";
 
+    $deleteButton = "<button class='delete-button' onclick='deleteComment(" . $comment_id . ")'>Delete</button>";
+
     
     if ($is_child) {
-        return "<div class='comment' id='comment-$comment_id'><div class='replyText'>$author_name REPLIED WITH:<iframe class='comment-text' src='comments/$comment_id'></iframe>$likeButton $likeCounter $dislikeButton $dislikeCounter $replyButton</div></div>";
+        return "<div class='comment' id='comment-$comment_id'><div class='replyText'>$author_name REPLIED WITH:<iframe class='comment-text' src='comments/$comment_id'></iframe>$likeButton $likeCounter $dislikeButton $dislikeCounter $replyButton $deleteButton</div></div>";
     } else {
         return "<div class='comment' id='comment-$comment_id'>
                     <div>
@@ -36,7 +38,7 @@ function getComment($comment_id, $author_name, $is_child) {
                         <iframe class='comment-text' src='comments/$comment_id'></iframe>
                         $likeButton $likeCounter
                         $dislikeButton $dislikeCounter
-                        $replyButton
+                        $replyButton $deleteButton
                     </div>
                 </div>";
     }

@@ -57,6 +57,14 @@
                         <span class='marquee'>SHARE</span>
                     </button>
                 </div>
+
+                <!-- DELETE Button --> 
+                <div class='delete-container' id='delete-" . $clip_id . "'>
+                    <button class='btn-23' onclick='deleteClip(" . $clip_id . "); event.stopPropagation()'>
+                        <span class='text'>DELETE</span>
+                        <span class='marquee'>DELETE</span>
+                    </button>
+                </div>
                     
 
             </div>";

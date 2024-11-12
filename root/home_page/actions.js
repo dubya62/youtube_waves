@@ -91,6 +91,51 @@ function incrementDislikeComment(comment_id) {
     xhttp.send();
 }
 
+// Function to delete a comment
+function deleteComment(comment_id) {
+    if (!confirm("Are you sure you want to delete this comment?")) return; 
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.status === 200) {
+            
+            document.getElementById("comment-" + comment_id).remove();
+            console.log("Comment deleted successfully.");
+        } 
+        else {
+            console.error("Failed to delete comment.");
+        }
+    };
+    xhttp.onerror = function () {
+        console.error("AJAX request failed for deleteComment.");
+    };
+    xhttp.open("POST", "delete_comment.php");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("comment_id=" + comment_id);
+}
+
+
+// Function to delete a clip 
+function deleteClip(clip_id) {
+    if (!confirm("Are you sure you want to delete this clip?")) return;
+
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.status === 200) {
+            document.getElementById("clip-" + clip_id).remove();
+            console.log("Clip deleted successfully.");
+        } 
+        else {
+            console.error("Failed to delete clip.");
+        }
+    };
+    xhttp.onerror = function () {
+        console.error("AJAX request failed for deleteClip.");
+    };
+    xhttp.open("POST", "delete_clip.php");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("clip_id=" + clip_id);
+}
 
 
 

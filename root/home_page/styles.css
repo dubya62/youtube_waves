@@ -349,5 +349,15 @@
   border-radius: 8px;
 }
 
+
+.delete-container .btn-23 {
+  background-color: red; 
+  color: #fff;
+}
+
+.delete-container .btn-23:hover {
+  background-color: darkred; 
+}
+
 /* in progress of breaking stuff */
 
