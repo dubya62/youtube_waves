@@ -177,7 +177,10 @@ function submitComment(textboxId, containerId, parentId) {
             // Clear the input fields
             document.getElementById(textboxId).value = '';
             document.getElementById("file-upload").value = '';
-            document.getElementById("preview-container").innerHTML = '';
+            let previewContainer = document.getElementById("preview-container")
+            if (previewContainer != null){
+                previewContainer.innerHTML = '';
+            }
         } else {
             console.error("Failed to send comment");
         }
