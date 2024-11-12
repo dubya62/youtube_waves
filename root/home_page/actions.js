@@ -45,6 +45,55 @@ function incrementDislike(clip_id) {
     xhttp.send();
 }
 
+// Function to increment LIKE count for a comment
+function incrementLikeComment(comment_id) {
+    
+    let likeElement = document.getElementById("comment-like-counter-" + comment_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-1") { 
+            
+            likeElement.classList.remove("liked");
+            likeElement.classList.add("notLiked");
+            likeElement.textContent = parseInt(likeElement.textContent) - 1;
+        } 
+        else if (this.responseText == "1") { 
+
+            likeElement.classList.remove("notLiked");
+            likeElement.classList.add("liked");
+            likeElement.textContent = parseInt(likeElement.textContent) + 1;
+        }
+    };
+    xhttp.open("GET", "like_comment.php?action=1&comment_id=" + comment_id);
+    xhttp.send();
+}
+
+// Function to increment DISLIKE count for a comment
+function incrementDislikeComment(comment_id) {
+    
+    let dislikeElement = document.getElementById("comment-dislike-counter-" + comment_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-1") { 
+
+            dislikeElement.classList.remove("disliked");
+            dislikeElement.classList.add("notDisliked");
+            dislikeElement.textContent = parseInt(dislikeElement.textContent) - 1;
+        } 
+        else if (this.responseText == "1") { 
+            
+            dislikeElement.classList.remove("notDisliked");
+            dislikeElement.classList.add("disliked");
+            dislikeElement.textContent = parseInt(dislikeElement.textContent) + 1;
+        }
+    };
+    xhttp.open("GET", "like_comment.php?action=0&comment_id=" + comment_id);
+    xhttp.send();
+}
+
+
+
+
 let rantIsOpen = false;
 
 function preventEvent(event){
