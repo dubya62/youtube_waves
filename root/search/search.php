@@ -87,8 +87,11 @@
             </div>
         </form>
 
+        <div id="search-result-cards">
+
         <?php
-            include '../../includes/scripts.php';
+            // include '../../includes/scripts.php';
+            include 'load_clips.php';
             $conn = initDb();
 
             function searchDB($search_term, $search_type, $conn, $username_search = '', $wave_title = '', $wave_tag = '') {
@@ -150,36 +153,47 @@
             // Execute the query function
             if ($search_type == "users") {
                 $result = searchDB($search_term, $search_type, $conn, $username_search);
-            } else {
-                $result = searchDB($search_term, $search_type, $conn, '', $wave_title, $wave_tag);
-            }
 
-            // Check if any rows are returned
-            if ($result->num_rows > 0) {
-                echo "<ul>";
-                while ($row = $result->fetch_assoc()) {
-                    if ($search_type === 'clips') {
-                        // Display clip search results
-                        echo "<li>Clip: " . htmlspecialchars($row['name']) . 
-                             " | Owner: " . htmlspecialchars($row['owner_name']) . 
-                             " | Tags: " . implode(", ", getClipTagNames($conn, $row['id'])) . 
-                             " | Date: " . htmlspecialchars($row['time']) . "</li><br>";
-                    } elseif ($search_type === 'users') {
-                        // Display user search results
-                        echo "<li>User: " . htmlspecialchars($row['username']) . "</li><br>";
+                if ($result->num_rows > 0) {
+                    // Give a stylized list of users 
+                    while ($row = $result->fetch_assoc()) {
+                        $username = $row['username'];
+                        echo "
+                            <div class='user-card'>
+                                $username
+                            </div>
+                        ";
                     }
                 }
-                echo "</ul>";
+                
             } else {
-                echo "No results found.";
+                $result = searchDB($search_term, $search_type, $conn, '', $wave_title, $wave_tag);
+
+                $clip_ids = [];
+
+                // Check if any rows are returned
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        if (isset($row['id'])) {
+                            $clip_ids[] = $row['id']; // Add the clip ID to the array
+                        }
+                    }
+                    createClips($conn, $clip_ids);
+                } else {
+                    echo "No results found.";
+                }
             }
+
  
             // Close the connection
             closeDb($conn);
         ?>
+
+        </div>
     </div>
     <?php include '../navigationBar/navigationBar.php'; ?>
     
+    <script src="actions.js"></script>
     <script>
         function toggleFormFields() {
             const searchType = document.getElementById('searchType').value;
