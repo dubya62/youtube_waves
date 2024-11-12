@@ -315,7 +315,9 @@ function submitImgGif() {
         const mainPreviewContainer = document.getElementById("preview-container");
         const reader = new FileReader();
 
-        mainPreviewContainer.innerHTML = ''; // Clear previous preview
+        if (mainPreviewContainer != null){
+            mainPreviewContainer.innerHTML = ''; // Clear previous preview
+        }
 
         reader.onload = function(e) {
             const img = document.createElement('img');

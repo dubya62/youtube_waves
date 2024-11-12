@@ -24,7 +24,7 @@ function getComment($comment_id, $author_name, $is_child) {
     $dislikeCounter = "<span id='comment-dislike-counter-$comment_id' class='comment-dislike-counter'>0</span>";
 
     
-    $replyButton = "<button class='reply-button' onclick='toggleReplyTextbox(\\\"$comment_id\\\")'>Reply</button>";
+    $replyButton = "<button class='reply-button' onclick='toggleReplyTextbox(" . $comment_id . ")'>Reply</button>";
 
     
     if ($is_child) {
