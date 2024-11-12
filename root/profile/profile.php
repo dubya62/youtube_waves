@@ -120,7 +120,6 @@
 
         ?>
 
-
         <?php
             echo '<form class=\'upload-form\' method=\'post\' enctype="multipart/form-data"> <figure class=\'image is-128x128 is-inline-block mb-4\'><img id="acc-img" alt=\'No Profile Picture Uploaded\' class=\'is-rounded\' src=\'images/' . $user_id . '\'/></figure>';
             echo '<!-- Profile Name --><h2 class="title is-primary is-centered has-text-centered">' . htmlspecialchars($username) . '</h2>';
@@ -130,8 +129,6 @@
             echo '</form>';
         
         ?>
-
-
 
         <div class="columns is-mobile is-centered has-text-centered mt-4">
             <div class="column stat" id="followers">
@@ -152,7 +149,7 @@
                 <h3>
                   <?php
                         try {
-                            $following = getSubscriptionCount($conn, $user_id);
+                            $following = getSubscriberCount($conn, $user_id);
                             echo htmlspecialchars($following);
                         } catch (Exception $e){
                             echo "0";
@@ -165,9 +162,9 @@
                 <h3>
                     <?php
                         try {
-                            $wavecount = getWaveCount($conn, $user_id);
+                            $wavecount = getClipsByCookie($conn, $user_id);
                             // count the number of waves
-                            echo htmlspecialchars($wavecount);
+                            echo htmlspecialchars(count($wavecount));
                         } catch (Exception $e){
                             echo "0";
                         }
@@ -185,10 +182,10 @@
     <div class="tabs is-centered is-boxed mt-5">
         <ul>
             <li id="clips-tab" class="is-active">
-                <a onclick="showTab('clips')">Clips</a>
+                <a onclick="showTab('clips')">My Waves</a>
             </li>
             <li id="playlists-tab">
-                <a onclick="showTab('playlists')">Playlists</a>
+                <a onclick="showTab('playlists')">Liked Waves</a>
             </li>
         </ul>
     </div>
@@ -196,16 +193,20 @@
     <!-- Content for Clips and Playlists -->
     <div id="clips" class="tab-content is-active">
         <div id="clip-list" class="content is-centered">
-            <!-- JavaScript dynamically loads clips here -->
-
-            
+            <?php
+                $clips = getClipsByCookie($conn, $user_id);
+                
+            ?>
 
         </div>
     </div>
 
     <div id="playlists" class="tab-content">
         <div id="playlists-list" class="content">
-            <!-- JavaScript dynamically loads playlists here -->
+            
+            <?php
+                $playlists = getLikedClips($conn, $user_id);
+            ?>
 
         </div>
     </div>

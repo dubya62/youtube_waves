@@ -254,12 +254,27 @@
         </form>
     </div>
 
-
-
     <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
-            <figure class="image">
-                <img class="is-rounded" src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+            <figure class="image"> src=
+            <?php
+                
+                $conn = initDb();
+                $user_id = getUserIdByCookie($conn);
+                $profile_image_directory = "../profile/images/";
+
+                // Create the full path by appending the user ID and image file extension
+                $profile_picture = $profile_image_directory . $user_id . ".png";
+
+                // Check if the user's profile picture exists, else use default icon
+                if (file_exists($profile_picture)) {
+                    echo $profile_picture;
+                } else {
+                    echo "profile_icon.png";
+                }
+                $conn->close();
+            ?>
+
             </figure>
         </a>
 

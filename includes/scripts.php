@@ -442,6 +442,24 @@ function likeClip($conn, $clip_id){
 
 }
 
+function getLikedClips($conn){
+    $stmt = $conn->prepare("SELECT clip_id FROM liked_clips WHERE user_id=?");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("s", $user_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $res = [];
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    return $res;
+}
 
 // dislike a clip
 function undislikeClip($conn, $clip_id){

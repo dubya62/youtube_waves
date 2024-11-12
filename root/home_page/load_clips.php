@@ -25,6 +25,7 @@
     }
 
     function createClip($conn, $clip_id){
+        
         $owner = getClipOwner($conn, $clip_id);
         echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")' style='background-image:url(\"images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "\"); background-repeat:no-repeat; background-size: cover'>
             <div class='clip-layer'>
