@@ -29,7 +29,7 @@
         echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")' style='background-image:url(\"images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "\"); background-repeat:no-repeat; background-size: cover'>
             <div class='clip-layer'>
             <br>
-            <img src='../profile/images/" . $owner . "' alt='profile-picture' class='thumbnail' style='border-radius:50%'>
+            <img src='../profile/images/" . $owner . "' alt='profile-picture' class='thumbnail' style='border-radius:50%' onclick='window.location=\"../profile/profile.php?user_id=" . $owner . "\"'>
             <br>
             <!-- Follow Button -->
             <button class='btn-23' onclick='incrementFollow(" . $clip_id . "); event.stopPropagation()'>

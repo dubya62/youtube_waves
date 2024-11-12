@@ -11,7 +11,6 @@
             $conn = initDb();
             $user_id = getUserIdByCookie($conn);
             echo htmlspecialchars(getUsername($conn, $user_id));
-            closeDb($conn);
         ?>
     </title>
 
@@ -138,11 +137,9 @@
             <div class="column stat" id="followers">
                 <h3>
                   <?php
-
-                        $user = getUsername($conn, getUserIdByCookie($conn));
                         try {
                             // get number of accounts following this user
-                            echo htmlspecialchars(getSubscriberCount($conn, $user));
+                            echo htmlspecialchars(getSubscriberCount($conn, $user_id));
 
                         } catch (Exception $e){
                             echo "0";
@@ -155,10 +152,8 @@
                 <h3>
                   <?php
                         try {
-                            $following = getFollowing($conn);
-                            // count the number of following
-                            echo count($following);
-
+                            $following = getSubscriptionCount($conn, $user_id);
+                            echo htmlspecialchars($following);
                         } catch (Exception $e){
                             echo "0";
                         }
@@ -170,9 +165,9 @@
                 <h3>
                     <?php
                         try {
-                            $wavecount = getClipsByCookie($conn);
+                            $wavecount = getWaveCount($conn, $user_id);
                             // count the number of waves
-                            echo count($wavecount);
+                            echo htmlspecialchars($wavecount);
                         } catch (Exception $e){
                             echo "0";
                         }
