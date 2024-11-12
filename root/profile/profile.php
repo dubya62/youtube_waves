@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Acc Name goes here</title>
+    <title>
+        <?php
+            include '../../includes/scripts.php';
+            // get the username
+            $conn = initDb();
+            $user_id = getUserIdByCookie($conn);
+            echo getUsername($conn, $user_id);
+        ?>
+    </title>
     
     <!-- Bulma CSS Framework -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
@@ -37,6 +45,7 @@
             background-color: var(--color-bg-primary);
         }
     </style>
+
 </head>
 <body>
     <!-- Navbar -->
@@ -49,7 +58,7 @@
 
     <header>
 
-    <div onclick="window.href='/root/home_page/home_page.php'"s>
+    <div onclick="window.href='../home_page/home_page.php'"s>
         <img src="logo.png" alt="Logo" style="width: 100px; height: 60px">
     </div>
 
@@ -73,9 +82,6 @@
 </header>
 
     <?php 
-        include '../../scripts.php';
-        // get the username
-        $conn = initDb();
         $mine = 0;
         if (isset($_GET["user_id"])){
             $user_id = $_GET["user_id"];
@@ -83,16 +89,19 @@
                 $mine = 1;
             }
         } else {
-            $user_id = getUserIdByCookie($conn);
             $mine = 1;
         }
         $username = getUsername($conn, $user_id);
     ?>
 
     <title><?php echo $username; ?></title>
-    <!-- <link rel="stylesheet" href="../root.css"/>
+
+    
+    <!--
+    <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="profile.css"/>
     <link rel="stylesheet" href="clips.css"/>
+    -->
 
     <link rel="stylesheet" href="playlists.css"/>
     <style>
@@ -104,13 +113,7 @@
     </style>
 </head>
 <body>
-    <div id="acc-info">
-        <h2>
-            <?php
-                echo htmlspecialchars($username);
-            ?>
-        </h2>
-
+    <section class="section">
         <?php
             if (isset($_FILES['image']['tmp_name'])){
                 $uploadPath = "images/" . $user_id;
@@ -118,14 +121,19 @@
             }
 
         ?>
+
+
         <?php
-            echo '<form class=\'upload-form\' method=\'post\' enctype="multipart/form-data"> <img id="acc-img" alt=\'No Profile Picture Uploaded\' src=\'images/' . $user_id . '\' style=\'border-radius:50%\'/> <br> ';
+            echo '<form class=\'upload-form\' method=\'post\' enctype="multipart/form-data"> <figure class=\'image is-128x128 is-inline-block mb-4\'><img id="acc-img" alt=\'No Profile Picture Uploaded\' class=\'is-rounded\' src=\'images/' . $user_id . '\'/></figure>';
+            echo '<!-- Profile Name --><h2 class="title is-primary is-centered has-text-centered">' . htmlspecialchars($username) . '</h2>';
             if ($mine){
-                echo '<input type="file" name=\'image\'/> <br> <input type=\'submit\' class="clickable" value=\'update\' accept="image/*,image/gif"/>';
+                echo '<input type="file" accept=\'image/*\' name=\'image\'/> <br> <input type=\'submit\' class="clickable" value=\'update\' accept="image/*,image/gif"/>';
             }
             echo '</form>';
         
         ?>
+
+
 
         <div class="columns is-mobile is-centered has-text-centered mt-4">
             <div class="column stat" id="followers">
@@ -142,6 +150,8 @@
             </div>
         </div>
     </section>
+
+
 
     <!-- Clips and Playlists -->
     <div class="tabs is-centered is-boxed mt-5">

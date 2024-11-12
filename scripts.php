@@ -380,6 +380,22 @@ function getClipDislikes($conn, $clip_id){
 
 }
 
+// function to get clip that a comment id was left on
+function getCommentClip($conn, $comment_id){
+    $stmt = $conn->prepare("SELECT clip_id FROM comments WHERE id=?");
+
+    $stmt->bind_param("s", $comment_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+
+}
+
 // function to get owner (user_id) of a comment
 function getCommentOwner($conn, $comment_id){
     $stmt = $conn->prepare("SELECT author FROM comments WHERE id=?");
