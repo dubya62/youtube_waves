@@ -1,4 +1,27 @@
 
+// function to increment Follower count
+function incrementFollow(clip_id) {
+    // make ajax call to either like or unlike
+    let followElement = document.getElementById("follow-counter-" + clip_id);
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        if (this.responseText == "-1"){ // this unliked it
+            // change the button color
+            followElement.classList.remove("liked");
+            followElement.classList.add("notLiked");
+            followElement.textContent = parseInt(followElement.textContent) - 1;
+        } else if (this.responseText == "1"){ // this liked it
+            // change the button color
+            followElement.classList.remove("notLiked");
+            followElement.classList.add("liked");
+            followElement.textContent = parseInt(followElement.textContent) + 1;
+        }
+
+    }
+    xhttp.open("GET", "follow_clip.php?clip_id=" + clip_id);
+    xhttp.send();
+}
+
 // Function to increment LIKE count
 function incrementLike(clip_id) {
     // make ajax call to either like or unlike
@@ -55,8 +78,60 @@ function preventEvent(event){
 
 let openedCommentClipId = -1;
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function convertTimestamps(){
+    for (let i=0; i<window.frames.length; i++){
+        let commentElement = window.frames[i].document.body.children[0];
+
+        if (commentElement != undefined){
+            if (commentElement.tagName == "PRE"){
+                let commentText = commentElement.innerHTML;
+
+                let newText = commentText.replace(/\d+:\d{1,2}/gi, `<strong style='color:blue'><u>$&</u></strong>`);
+                window.frames[i].document.body.innerHTML = newText;
+
+                let strongs = window.frames[i].document.body.getElementsByTagName("strong");
+                for (let j=0; j<strongs.length; j++){
+                    strongs[j].addEventListener("click", function (){
+                        console.log("Hello");
+                        changeTime(window.frames[i].window.location.pathname, strongs[j].children[0].innerHTML);
+                    });
+                }
+            }
+        } else {
+            await sleep(25);
+            i -= 1;
+        }
+
+    }
+}
+
+function changeTime(commentId, timeValue){
+    let comment_id = commentId.split("/")
+    comment_id = comment_id[comment_id.length-1]
+
+    // make request to get the corresponding clipId
+    let clipNumber;
+    let xhttp = new XMLHttpRequest();
+    xhttp.onload = function(){
+        clipNumber = this.responseText.trim();
+        console.log(clipNumber);
+    }
+    xhttp.open("GET", "get_comment_clip.php?comment_id=" + comment_id, false);
+    xhttp.send();
+
+    let splitted = timeValue.split(":");
+    let convertedTimeValue = parseInt(splitted[0]) * 60 + parseInt(splitted[1]);
+
+    document.getElementById("audio-" + clipNumber).currentTime = convertedTimeValue;
+    document.getElementById("audio-" + clipNumber).play();
+}
+
 // Function to open a specific comment popup
-function openCommentPopup(clipId) {
+async function openCommentPopup(clipId) {
     openedCommentClipId = clipId;
     rantIsOpen = true;
     document.getElementById("comment-popup").classList.add("open-popup");
@@ -64,15 +139,18 @@ function openCommentPopup(clipId) {
     // make request to get the comments
     let xhttp = new XMLHttpRequest();
     xhttp.onload = function(){
-        document.getElementById("comments-container").innerHTML = this.responseText;
+        let commentsContainer = document.getElementById("comments-container");
+        commentsContainer.innerHTML = this.responseText;
         eval(document.getElementById("comments-container").getElementsByTagName("script")[0].textContent);
+
     }
-    xhttp.open("GET", "get_comments.php?clip_id=" + clipId);
+    xhttp.open("GET", "get_comments.php?clip_id=" + clipId, false);
     xhttp.send();
 
     document.addEventListener("click", preventEvent);
     document.addEventListener("hover", preventEvent);
 
+    await convertTimestamps();
 }
 
 // Function to close a specific comment popup
@@ -83,6 +161,7 @@ function closeCommentPopup(clipId) {
     document.removeEventListener("click", preventEvent);
     document.removeEventListener("hover", preventEvent);
     rantIsOpen = false;
+
 }
 
 

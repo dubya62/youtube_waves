@@ -17,14 +17,33 @@
         return "notDisliked";
     }
 
+    function getUserFollowClass($conn, $user_id, $owner){
+        if (checkIfFollowingUser($conn, $user_id, $owner)){
+            return "liked";
+        }
+        return "notLiked";
+    }
+
     function createClip($conn, $clip_id){
-        echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")'>
-            <img src='images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "' alt='Thumbnail' class='thumbnail'>
+        $owner = getClipOwner($conn, $clip_id);
+        echo "<div class='audio-item' id='clip-" . $clip_id . "' onclick='openClipMenu(\"clip-" . $clip_id . "\")' style='background-image:url(\"images/" . $clip_id . "." . getImageExtension($conn, $clip_id) . "\"); background-repeat:no-repeat; background-size: cover'>
+            <div class='clip-layer'>
+            <br>
+            <img src='../profile/images/" . $owner . "' alt='profile-picture' class='thumbnail' style='border-radius:50%'>
+            <br>
+            <!-- Follow Button -->
+            <button class='btn-23' onclick='incrementFollow(" . $clip_id . "); event.stopPropagation()'>
+                <span class='text'>Follow</span>
+                <span class='marquee'>Follow</span>
+            </button>
+            <p class='" . getUserFollowClass($conn, getUserIdByCookie($conn), $owner) . "' id='follow-counter-" . $clip_id . "'>" . getFollowerCount($conn, $owner) . "</p>
             <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
-            <audio controls class='audio-player' onclick='event.stopPropagation()'>
+            <br>
+            <audio id='audio-" . $clip_id . "' controls class='audio-player' onclick='event.stopPropagation()'>
                 <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
                 Your browser does not support the audio element.
             </audio>
+            <br>
 
             <div class='button-container'>
                 <!-- LIKE Button -->
@@ -41,17 +60,19 @@
                 </button>
                 <p class='" . getClipDislikeClass($conn, $clip_id) . "' id='dislike-counter-" . $clip_id . "'>" . getClipDislikes($conn, $clip_id) . "</p> <!-- Dislike counter -->
             </div>
+            <br>
             
                 <!-- COMMENT Button -->
                 <div class='comment-container' id='comment-" . $clip_id . "'>
-                    <button class='btn-23' onclick='openCommentPopup(" . $clip_id . "); event.stopPropagation()'>
+                    <button class='btn-23' onclick='openCommentPopup(" . $clip_id . "); convertTimestamps(); event.stopPropagation()'>
                         <span class='text'>RANT</span>
                         <span class='marquee'>RANT</span>
                     </button>
             
                 </div>
                     
-
+            <br>
+            </div>
             </div>";
 
     }

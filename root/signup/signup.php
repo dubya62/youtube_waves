@@ -1,57 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Waves - Sign Up</title>
 
-    <head>
-        <title>
-            Youtube Waves
-        </title>
+    <!-- Bulma CSS Framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
-        <link rel='stylesheet' type='text/css' href='../root.css'/>
-        <link rel='stylesheet' type='text/css' href='signup.css'/>
-    </head>
+    <!-- Dark Mode Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #006b3d;       /* Green */
+            --secondary-color: #d35400;     /* Orange */
+            --background-color: #2c2c2c;    /* Dark background */
+            --card-background: #3c3c3c;     /* Card background */
+            --text-color: #ffffff;          /* Light text */
+            --secondary-text-color: #888;
+        }
 
-    <body>
-        <div id='loginBox'>
-            <h1>
-                Sign-Up:
+        /* Extend background across full viewport height */
+        html, body {
+            height: 100%;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* Center content vertically and ensure full viewport coverage */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loginBox {
+            min-width: 600px;
+            padding: 2rem;
+            border-radius: 8px;
+            background-color: var(--card-background);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .button.is-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .button.is-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .input, .textarea, .select select {
+            background-color: #4c4c4c;
+            border-color: #555;
+            color: var(--text-color);
+        }
+
+        .input::placeholder, .textarea::placeholder {
+            color: var(--secondary-text-color);
+        }
+
+        .label {
+            color: var(--secondary-text-color);
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div id="loginBox" class="box">
+            <h1 class="title has-text-centered" style="color: var(--primary-color);">
+                Sign-Up
             </h1>
 
-            <form method='post'>
-                <label for='username'>Username:</label>
-                <input type='text' name='username'/>
-                <br>
-                <label for='password'>Password:</label>
-                <input type='text' name='password'/>
-                <br>
-                <input type='submit' value='login'/>
+            <form method="post">
+                <div class="field">
+                    <label for="username" class="label">Username:</label>
+                    <div class="control">
+                        <input type="text" name="username" class="input" placeholder="Enter username" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="password" class="label">Password:</label>
+                    <div class="control">
+                        <input type="password" name="password" class="input" placeholder="Enter password" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <input type="submit" value="Sign Up" class="button is-primary is-fullwidth">
+                    </div>
+                </div>
             </form>
-            <br>
-            <br>
-            <strong>Already a user? <a href="../login/login.php">log in</a></strong>
+
+
+            <p class="has-text-centered mt-4" style="color: var(--secondary-text-color);">
+                Already a user? <a href="/root/login/login.php" style="color: var(--primary-color);">Log in</a>
+            </p>
 
             <?php
-                if (isset($_POST['username'])){
-                    if (isset($_POST['password'])){
-                        # add database functionality for the login form
-                        include '../../includes/scripts.php';
+                if (isset($_POST['username']) && isset($_POST['password'])) {
+                    include '../../includes/scripts.php';
 
-                        # open database connection
-                        $conn = initDb();
+                    // Open database connection
+                    $conn = initDb();
 
-                        $created = create_user($conn, $_POST['username'], $_POST['password'], "N/A");
+                    // Attempt to create the user
+                    $created = create_user($conn, $_POST['username'], $_POST['password'], "N/A");
 
-                        # close database connection
-                        closeDb($conn);
 
-                        if ($created){
-                            echo "<script>window.location='../login/login.php';</script>";
-                        }
+                    // Close database connection
+                    closeDb($conn);
 
+
+                    if ($created) {
+                        echo "<script>window.location='/login/login.php';</script>";
                     }
                 }
             ?>
         </div>
-
-    </body>
-
+    </section>
+</body>
 </html>

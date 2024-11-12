@@ -27,6 +27,7 @@ function createCommentDatabaseEntry($conn, $clip_id, $parent){
     return mysqli_insert_id($conn);
 }
 
+
 // create a file with the comment's data in it
 function createCommentFile($comment_id, $comment){
     $the_file = fopen("comments/" . $comment_id, "w") or die ("Could not save comment!");
@@ -41,6 +42,7 @@ $comment_id = createCommentDatabaseEntry($conn, $clip_id, $parent);
 createCommentFile($comment_id, $comment);
 
 closeDb($conn);
+
 
 
 ?>
