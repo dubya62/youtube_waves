@@ -33,11 +33,12 @@
             <img src='../profile/images/" . $owner . "' alt='profile-picture' class='thumbnail' style='border-radius:50%' onclick='window.location=\"../profile/profile.php?user_id=" . $owner . "\"'>
             <br>
             <!-- Follow Button -->
-            <button class='btn-23' onclick='incrementFollow(" . $clip_id . "); event.stopPropagation()'>
-                <span class='text'>Follow</span>
-                <span class='marquee'>Follow</span>
-            </button>
-            <p class='" . getUserFollowClass($conn, getUserIdByCookie($conn), $owner) . "' id='follow-counter-" . $clip_id . "'>" . getFollowerCount($conn, $owner) . "</p>
+            <div style='display:flex'> 
+                <button class='btn-23' onclick='incrementFollow(" . $clip_id . "); event.stopPropagation()'> <span class='text'>Follow</span>
+                    <span class='marquee'>Follow</span>
+                </button>
+                <p style='margin-left: 1em' class='" . getUserFollowClass($conn, getUserIdByCookie($conn), $owner) . "' id='follow-counter-" . $clip_id . "'>" . getFollowerCount($conn, $owner) . "</p>
+            </div>
             <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
             <br>
             <audio id='audio-" . $clip_id . "' controls class='audio-player' onclick='event.stopPropagation()'>
@@ -77,19 +78,17 @@
                         <span class='text'>SHARE</span>
                         <span class='marquee'>SHARE</span>
                     </button>
-                </div>
-
-                <!-- DELETE Button --> 
+                </div>";
+        if ($owner == getUserIdByCookie($conn)){
+            echo "<!-- DELETE Button --> 
                 <div class='delete-container' id='delete-" . $clip_id . "'>
                     <button class='btn-23' onclick='deleteClip(" . $clip_id . "); event.stopPropagation()'>
                         <span class='text'>DELETE</span>
                         <span class='marquee'>DELETE</span>
                     </button>
-                </div>
-                    
-            <br>
-            </div>
-            </div>";
+                </div>";
+        }
+        echo "<br></div></div>";
 
     }
 
@@ -103,7 +102,7 @@
 
     }
 
-    $currentClipNumber = $_GET["clip_number"];
+
 
     function getNextClipBatch($batchSize, $currentClipNumber){
         $conn = initDb();
@@ -118,7 +117,10 @@
     }
 
     # start with displaying a batch of at most 30 clips for now
-    getNextClipBatch(15, $currentClipNumber);
+    if (isset($_GET["clip_number"])){
+        $currentClipNumber = $_GET["clip_number"];
+        getNextClipBatch(15, $currentClipNumber);
+    }
 
 
 ?>

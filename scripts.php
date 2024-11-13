@@ -722,6 +722,18 @@ function getClipScore($conn, $clip_id, $user_id){
     return $result;
 }
 
+function getLikedClips($conn, $user_id){
+    $stmt = $conn->prepare("SELECT lc.clip_id FROM liked_clips lc, users u WHERE lc.user_id=u.id AND u.id=?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $res = [];
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+    return $res;
+}
+
 
 // function to get whether or not a user has liked a clip
 function isCommentLikedById($conn, $user_id, $comment_id){
@@ -850,6 +862,7 @@ function dislikeComment($conn, $comment_id){
     $stmt->bind_param("ss", $user_id, $comment_id);
 
     $stmt->execute();
+}
 
 
 

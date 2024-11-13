@@ -98,7 +98,7 @@
 
 
             <p class="has-text-centered mt-4" style="color: var(--secondary-text-color);">
-                Already a user? <a href="/root/login/login.php" style="color: var(--primary-color);">Log in</a>
+                Already a user? <a href="../login/login.php" style="color: var(--primary-color);">Log in</a>
             </p>
 
             <?php
