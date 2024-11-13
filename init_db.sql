@@ -95,6 +95,24 @@ CREATE TABLE comments(
     PRIMARY KEY (id)
 );
 
+CREATE TABLE liked_comments(
+    id int AUTO_INCREMENT,
+    user_id int,
+    comment_id int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (comment_id) REFERENCES comments(id)
+);
+
+CREATE TABLE disliked_comments(
+    id int AUTO_INCREMENT,
+    user_id int,
+    comment_id int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (comment_id) REFERENCES comments(id)
+);
+
 /*
 -- View to get all search results by filtering through clips
 CREATE VIEW filtered_clips AS

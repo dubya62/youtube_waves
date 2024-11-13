@@ -180,7 +180,6 @@ function closeCommentPopup(clipId) {
 }
 
 
-// Function to submit a comment with optional image for a specific audio item
 function submitComment(textboxId, containerId, parentId) {
     if (openedCommentClipId == -1 || openedCommentClipId == null) {
         console.log("Comment page must be open!");
@@ -188,7 +187,7 @@ function submitComment(textboxId, containerId, parentId) {
     }
 
     const commentText = document.getElementById(textboxId).value;
-    const commentImage = document.getElementById('file-upload').files[0];
+    const commentImage = document.getElementById('file-upload').files[0]; // Retrieve the selected image file
 
     // Prepare FormData for comment text and optional image
     const formData = new FormData();
@@ -197,35 +196,31 @@ function submitComment(textboxId, containerId, parentId) {
     formData.append("parent", parentId);
 
     if (commentImage) {
-        formData.append("comment-image", commentImage); // Include image in the form data
+        formData.append("comment_image", commentImage); // Include image in form data
     }
 
     // Send comment and image data to the server
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         if (xhttp.status === 200) {
-            console.log("Comment and image sent to server");
-
-            // Display the comment with the image in the comment thread
-            let commentDisplay = commentText;
-            if (commentImage) {
-                const imageURL = URL.createObjectURL(commentImage);
-                commentDisplay += `<br><img src="${imageURL}" alt="Image" style="max-width: 100%; border-radius: 10px;">`;
-            }
-
+            const response = JSON.parse(xhttp.responseText);
             const comment = document.createElement('div');
             comment.classList.add('comment');
-            comment.innerHTML = commentDisplay;
 
+            // Build comment HTML with text and optional image
+            let commentHTML = `<p>${commentText}</p>`;
+            if (response.imageURL) {
+                commentHTML += `<img src="${response.imageURL}" alt="Image" style="max-width: 100%; border-radius: 10px;">`;
+            }
+            comment.innerHTML = commentHTML;
+
+            // Append the new comment to the comment thread
             document.getElementById(containerId).appendChild(comment);
 
-            // Clear the input fields
+            // Clear input fields and preview
             document.getElementById(textboxId).value = '';
             document.getElementById("file-upload").value = '';
-            let previewContainer = document.getElementById("preview-container")
-            if (previewContainer != null){
-                previewContainer.innerHTML = '';
-            }
+            document.getElementById("upload-preview-container").innerHTML = '';
         } else {
             console.error("Failed to send comment");
         }
@@ -234,6 +229,9 @@ function submitComment(textboxId, containerId, parentId) {
     xhttp.open("POST", "submit_comment.php", true);
     xhttp.send(formData);
 }
+
+
+
 
 
 // Search comments within the comment thread
@@ -345,41 +343,6 @@ function previewFileUpload() {
         };
 
         reader.readAsDataURL(file);
-    }
-}
-
-// Function to copy the selected image to the main file input for submission
-function submitImgGif() { 
-    const fileInput = document.getElementById("upload-file-input");
-
-    if (fileInput.files && fileInput.files[0]) {
-        const commentFileInput = document.getElementById("file-upload");   
-        commentFileInput.files = fileInput.files;
-
-        // Display preview in the main RANT section's preview container
-        const mainPreviewContainer = document.getElementById("preview-container");
-        const reader = new FileReader();
-
-        if (mainPreviewContainer != null){
-            mainPreviewContainer.innerHTML = ''; // Clear previous preview
-        }
-
-        reader.onload = function(e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.alt = 'Selected image preview';
-            img.style.maxWidth = '100%';
-            img.style.borderRadius = '10px';
-
-            mainPreviewContainer.appendChild(img);
-        };
-
-        reader.readAsDataURL(fileInput.files[0]);
-
-        // Close the upload popup
-        closeUploadPopup();
-    } else {
-        alert('Please select an image or GIF to upload.');
     }
 }
 

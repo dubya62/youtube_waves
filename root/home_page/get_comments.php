@@ -52,7 +52,8 @@ function getAllComments($id_array){
     foreach($id_array as $id){
         if (!$id->parent){
             $result .= getComment($id->id, $id->author, 0);
-        } else {
+        } 
+        else {
             // this is a reply. add it to the script
             $fix_children .= "document.getElementById('comment-" . $id->parent . "').innerHTML += \"" . getComment($id->id, $id->author, 1) . "\"; ";
         }

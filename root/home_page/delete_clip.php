@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '../../includes/scripts.php';
 
 if (!isset($_POST["clip_id"])) {
@@ -8,20 +11,17 @@ if (!isset($_POST["clip_id"])) {
 $clip_id = $_POST["clip_id"];
 $conn = initDb();
 
-// Function to delete the clip file and image from server
+// Function to delete the clip files from the server
 function deleteClipFiles($clip_id) {
-    // File paths based on clip ID
     $audioPath = "../home_page/audios/" . $clip_id;
     $imagePath = "../home_page/images/" . $clip_id;
 
-    // Delete audio file with any possible extension
     foreach (["mp3", "wav", "m4a", "ogg"] as $ext) {
         if (file_exists("$audioPath.$ext")) {
             unlink("$audioPath.$ext");
         }
     }
 
-    // Delete image file with any possible extension
     foreach (["jpg", "png", "gif", "webp"] as $ext) {
         if (file_exists("$imagePath.$ext")) {
             unlink("$imagePath.$ext");
@@ -29,21 +29,39 @@ function deleteClipFiles($clip_id) {
     }
 }
 
-// Step 1: Delete associated comments for the clip (if you want cascading deletion)
-$stmt = $conn->prepare("DELETE FROM comments WHERE clip_id = ?");
-$stmt->bind_param("i", $clip_id);
-$stmt->execute();
-$stmt->close();
+try {
+    $conn->begin_transaction();
 
-// Step 2: Delete the clip itself from the database
-$stmt = $conn->prepare("DELETE FROM clips WHERE id = ?");
-$stmt->bind_param("i", $clip_id);
-$stmt->execute();
-$stmt->close();
+    // deleted related tags in clip_tag table 
+    $stmt = $conn->prepare("DELETE FROM clip_tags WHERE clip_id = ?");
+    $stmt->bind_param("i", $clip_id);
+    $stmt->execute();
+    $stmt->close();
 
-// Step 3: Delete associated files
-deleteClipFiles($clip_id);
+    // delete comments for the clip
+    $stmt = $conn->prepare("DELETE FROM comments WHERE clip_id = ?");
+    $stmt->bind_param("i", $clip_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // delete the clip from the clips table
+    $stmt = $conn->prepare("DELETE FROM clips WHERE id = ?");
+    $stmt->bind_param("i", $clip_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // delete the clip files 
+    deleteClipFiles($clip_id);
+
+    $conn->commit();
+
+    echo "Clip and associated data deleted successfully";
+} catch (Exception $e) {
+    // Rollback transaction on error
+    $conn->rollback();
+    echo "Error deleting clip: " . $e->getMessage();
+}
 
 closeDb($conn);
-echo "Clip deleted successfully";
 ?>
+
