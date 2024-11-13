@@ -380,6 +380,22 @@ function getClipDislikes($conn, $clip_id){
 
 }
 
+// function to get clip that a comment id was left on
+function getCommentClip($conn, $comment_id){
+    $stmt = $conn->prepare("SELECT clip_id FROM comments WHERE id=?");
+
+    $stmt->bind_param("s", $comment_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+
+}
+
 // function to get owner (user_id) of a comment
 function getCommentOwner($conn, $comment_id){
     $stmt = $conn->prepare("SELECT author FROM comments WHERE id=?");
@@ -506,24 +522,6 @@ function likeClip($conn, $clip_id){
 
 }
 
-function getLikedClips($conn){
-    $stmt = $conn->prepare("SELECT clip_id FROM liked_clips WHERE user_id=?");
-
-    $user_id = getUserIdByCookie($conn);
-
-    $stmt->bind_param("s", $user_id);
-
-    $stmt->execute();
-
-    $stmt->bind_result($result);
-
-    $res = [];
-    while ($stmt->fetch()){
-        $res[] = $result;
-    }
-
-    return $res;
-}
 
 // dislike a clip
 function undislikeClip($conn, $clip_id){
@@ -852,9 +850,9 @@ function dislikeComment($conn, $comment_id){
     $stmt->bind_param("ss", $user_id, $comment_id);
 
     $stmt->execute();
-
-
 }
+
+
 
 function deleteUser($conn, $user_id){
     try{
@@ -920,8 +918,7 @@ function deleteUser($conn, $user_id){
         echo "This didn't work: " . $e->getMessage();
         $conn->rollback();
     }
+
 }
-
-
 
 ?>

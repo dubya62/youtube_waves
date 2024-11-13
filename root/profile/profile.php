@@ -6,7 +6,7 @@
 
     <title>Profile:
         <?php
-            include '../../includes/scripts.php';
+            include "../home_page/load_clips.php";
        
             $conn = initDb();
             $user_id = getUserIdByCookie($conn);
@@ -194,7 +194,6 @@
     <div id="clips" class="tab-content is-active">
         <div id="clip-list" class="content is-centered">
             <?php
-                include "..home_page/load_clips.php";
                 $clips = getClipsByCookie($conn, $user_id);
                 
                 // for each clip, display it

@@ -106,6 +106,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+            
         }
         .audio-item {
             margin-top: 20px;
@@ -204,15 +205,15 @@
             background-color: black;
             transform: translate(-50%, -50%) scale(1.5, 1.5);
             transition: transform: .2s;
-            z-index: 3;
             padding: 0px;
+            z-index: 1010;
         }
         .clip-popup:hover{
             background-color: black;
             transform: translate(-50%, -50%) scale(1.6, 1.6);
             transition: transform: .2s;
-            z-index: 3;
             padding: 0px;
+            z-index: 1010;
         }
         .clip-layer{
             display: flex;
