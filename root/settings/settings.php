@@ -12,7 +12,30 @@
     <div id="settings-info">
         <h2>Account Settings</h2>
 
-        <img id="acc-img" src="../img/bara.jpg" alt="Profile Image"/>
+        <img id="acc-img"
+            <?php
+                include "../../includes/scripts.php";
+                $conn = initDb();
+                $user_id = getUserIdByCookie($conn);
+
+                $default_profile_picture = "profile_icon.png";
+                $profile_image_directory = "../profile/images/";
+
+                // Create the full path by appending the user ID and image file extension
+                $profile_picture = $profile_image_directory . $user_id;
+
+                // Check if the user's profile picture exists, else use default icon
+                if (file_exists($profile_picture)) {
+                    echo "<img src=" . $profile_picture . "/>";
+                } else {
+                    echo "<img src=" . $default_profile_picture . "/>";
+                }
+
+                $conn->close();
+            ?>
+        >
+
+        </img>
 
         <div id="settings-form">
 
@@ -35,7 +58,7 @@
 
                 <!-- PHP to update username and password -->
                 <?php 
-                    include '../../includes/scripts.php';
+                    
                     # open database connection
                     $conn = initDb();
                     # get username
