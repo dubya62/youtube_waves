@@ -97,13 +97,13 @@ function incrementDislikeComment(comment_id) {
     let dislikeElement = document.getElementById("comment-dislike-counter-" + comment_id);
     let xhttp = new XMLHttpRequest();
     xhttp.onload = function () {
-        if (this.responseText == "-1") { 
+        if (this.responseText == "-0") { 
 
             dislikeElement.classList.remove("disliked");
             dislikeElement.classList.add("notDisliked");
             dislikeElement.textContent = parseInt(dislikeElement.textContent) - 1;
         } 
-        else if (this.responseText == "1") { 
+        else if (this.responseText == "0") { 
             
             dislikeElement.classList.remove("notDisliked");
             dislikeElement.classList.add("disliked");
@@ -260,15 +260,14 @@ function closeCommentPopup(clipId) {
 
 
 function submitComment(textboxId, containerId, parentId) {
-    if (openedCommentClipId == -1 || openedCommentClipId == null) {
+    if (openedCommentClipId === -1 || openedCommentClipId === null) {
         console.log("Comment page must be open!");
         return;
     }
 
     const commentText = document.getElementById(textboxId).value;
-    const commentImage = document.getElementById('file-upload').files[0]; // Retrieve the selected image file
+    const commentImage = document.getElementById('upload-file-input').files[0]; // Retrieve the selected image file
 
-    // Prepare FormData for comment text and optional image
     const formData = new FormData();
     formData.append("clip_id", openedCommentClipId);
     formData.append("comment", commentText);
@@ -278,7 +277,6 @@ function submitComment(textboxId, containerId, parentId) {
         formData.append("comment_image", commentImage); // Include image in form data
     }
 
-    // Send comment and image data to the server
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
         if (xhttp.status === 200) {
@@ -286,19 +284,17 @@ function submitComment(textboxId, containerId, parentId) {
             const comment = document.createElement('div');
             comment.classList.add('comment');
 
-            // Build comment HTML with text and optional image
             let commentHTML = `<p>${commentText}</p>`;
             if (response.imageURL) {
                 commentHTML += `<img src="${response.imageURL}" alt="Image" style="max-width: 100%; border-radius: 10px;">`;
             }
             comment.innerHTML = commentHTML;
 
-            // Append the new comment to the comment thread
             document.getElementById(containerId).appendChild(comment);
 
-            // Clear input fields and preview
             document.getElementById(textboxId).value = '';
             document.getElementById("file-upload").value = '';
+            document.getElementById("upload-file-input").value = ''; // Clear file input
             document.getElementById("upload-preview-container").innerHTML = '';
         } else {
             console.error("Failed to send comment");
@@ -387,42 +383,29 @@ function shareAudio(clipId) {
 
 /* i love breaking things and not fixing them 2 */
 // Function to open the upload popup
+function previewFileUpload() {
+    const file = document.getElementById('upload-file-input').files[0];
+    const previewContainer = document.getElementById("upload-preview-container");
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; border-radius: 10px;">`;
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewContainer.innerHTML = '';
+    }
+}
+
 function openUploadPopup() {
     document.getElementById("upload-popup").classList.add("open-popup");
 }
 
-// Function to close the upload popup
 function closeUploadPopup() {
     document.getElementById("upload-popup").classList.remove("open-popup");
-    // Clear the file input and preview in the popup
-    document.getElementById("upload-file-input").value = '';
-    document.getElementById("upload-preview-container").innerHTML = '';
-}
-
-// Function to preview the selected file within the upload popup
-function previewFileUpload() {
-    const fileInput = document.getElementById("upload-file-input");
-    const previewContainer = document.getElementById("upload-preview-container");
-
-    // Clear any previous preview
-    previewContainer.innerHTML = '';
-
-    if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.alt = 'Image preview';
-            img.style.maxWidth = '100%';
-            img.style.borderRadius = '10px';
-
-            previewContainer.appendChild(img);
-        };
-
-        reader.readAsDataURL(file);
-    }
+    document.getElementById("upload-preview-container").innerHTML = ''; 
+    document.getElementById("upload-file-input").value = ''; 
 }
 
 
