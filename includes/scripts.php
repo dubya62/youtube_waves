@@ -723,134 +723,90 @@ function getClipScore($conn, $clip_id, $user_id){
 }
 
 
-// function to get whether or not a user has liked a clip
+// function to check if a user has liked a specific comment
 function isCommentLikedById($conn, $user_id, $comment_id){
-    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE user_id=? AND clip_id=?");
-
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE user_id=? AND comment_id=?");
     $stmt->bind_param("ss", $user_id, $comment_id);
-
     $stmt->execute();
-
     $stmt->bind_result($result);
-
     $stmt->fetch();
-
-    if ($result > 0){
-        return 1;
-    }
-    return 0;
+    return $result > 0;
 }
 
-// function to get whether or not a user has disliked a clip
+// function to check if a user has disliked a specific comment
 function isCommentDislikedById($conn, $user_id, $comment_id){
     $stmt = $conn->prepare("SELECT COUNT(user_id) FROM disliked_comments WHERE user_id=? AND comment_id=?");
-
     $stmt->bind_param("ss", $user_id, $comment_id);
-
     $stmt->execute();
-
     $stmt->bind_result($result);
-
     $stmt->fetch();
-
-    if ($result > 0){
-        return 1;
-    }
-    return 0;
+    return $result > 0;
 }
 
-// function to get whether or not current user has liked this clip
+// function to check if the current user has liked a comment
 function isCommentLikedByCookie($conn, $comment_id){
     $user_id = getUserIdByCookie($conn);
     return isCommentLikedById($conn, $user_id, $comment_id);
 }
 
-// function to get whether or not current user has disliked this clip
+// function to check if the current user has disliked a comment
 function isCommentDislikedByCookie($conn, $comment_id){
     $user_id = getUserIdByCookie($conn);
     return isCommentDislikedById($conn, $user_id, $comment_id);
 }
 
-// function to get the number of likes on a clip
+// function to get the number of likes on a comment
 function getCommentLikes($conn, $comment_id){
-    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comment WHERE comment_id=?");
-
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE comment_id=?");
     $stmt->bind_param("s", $comment_id);
-
     $stmt->execute();
-
     $stmt->bind_result($result);
-
     $stmt->fetch();
-
     return $result;
-
 }
 
-// function to get the number of dislikes on a clip
+// function to get the number of dislikes on a comment
 function getCommentDislikes($conn, $comment_id){
     $stmt = $conn->prepare("SELECT COUNT(user_id) FROM disliked_comments WHERE comment_id=?");
-
     $stmt->bind_param("s", $comment_id);
-
     $stmt->execute();
-
     $stmt->bind_result($result);
-
     $stmt->fetch();
-
     return $result;
-    
-
 }
 
-// like a clip
-function unlikeComment($conn, $comment_id){
-    $stmt = $conn->prepare("DELETE FROM liked_comments WHERE comment_id =? AND user_id=?");
-
-    $user_id = getUserIdByCookie($conn);
-
-    $stmt->bind_param("ss", $comment_id, $user_id);
-
-    $stmt->execute();
-
-}
-
+// function to like a comment
 function likeComment($conn, $comment_id){
-
     $stmt = $conn->prepare("INSERT INTO liked_comments (user_id, comment_id) VALUES (?, ?)");
-
     $user_id = getUserIdByCookie($conn);
-
     $stmt->bind_param("ss", $user_id, $comment_id);
-
     $stmt->execute();
-
 }
 
-
-// dislike a clip
-function undislikeComment($conn, $comment_id){
-    $stmt = $conn->prepare("DELETE FROM disliked_comments WHERE comment_id=? AND user_id=?");
-
+// function to unlike a comment
+function unLikeComment($conn, $comment_id){
+    $stmt = $conn->prepare("DELETE FROM liked_comments WHERE comment_id=? AND user_id=?");
     $user_id = getUserIdByCookie($conn);
-
-    $stmt->bind_param("ss", $comment_id , $user_id);
-
+    $stmt->bind_param("ss", $comment_id, $user_id);
     $stmt->execute();
-
 }
 
+// function to dislike a comment
 function dislikeComment($conn, $comment_id){
-
     $stmt = $conn->prepare("INSERT INTO disliked_comments (user_id, comment_id) VALUES (?, ?)");
-
     $user_id = getUserIdByCookie($conn);
-
     $stmt->bind_param("ss", $user_id, $comment_id);
-
     $stmt->execute();
 }
+
+// function to undislike a comment
+function unDislikeComment($conn, $comment_id){
+    $stmt = $conn->prepare("DELETE FROM disliked_comments WHERE comment_id=? AND user_id=?");
+    $user_id = getUserIdByCookie($conn);
+    $stmt->bind_param("ss", $comment_id, $user_id);
+    $stmt->execute();
+}
+
 
 
 
