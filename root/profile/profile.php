@@ -149,7 +149,7 @@
                 <h3>
                   <?php
                         try {
-                            $following = getSubscribtionCount($conn, $user_id);
+                            $following = getSubscriptionCount($conn, $user_id);
                             echo htmlspecialchars($following);
                         } catch (Exception $e){
                             echo "0";
