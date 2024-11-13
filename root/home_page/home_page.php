@@ -307,6 +307,28 @@
         <h2>Start your RANT here!</h2>
         <textarea id="comment-textbox" placeholder="Type your rant..."></textarea>
         <button type="button" onclick="submitComment('comment-textbox', 'comments-container', '-1')">Submit</button>
+
+        <!-- Breaking more stuff. My tape measure literally fell off my desk --> 
+
+        <!-- Upload Image/GIF Button -->
+        <button type="button" onclick="openUploadPopup()">Upload Img/Gif</button>
+
+        <!-- Hidden file input in the main section for submitting the image -->
+        <input type="file" id="file-upload" name="comment-image" accept="image/*" style="display: none;">
+
+        <!-- Popup for Uploading and Previewing Image/GIF -->
+        <div class="popup" id="upload-popup" onclick="event.stopPropagation()">
+            <h2>Upload Image or GIF</h2>
+            <!-- File input in the popup for selecting an image or GIF -->
+            <input type="file" id="upload-file-input" accept="image/*" onchange="previewFileUpload()">
+            <div id="upload-preview-container"></div> <!-- Preview selected image/GIF -->
+            <button type="button" onclick="closeUploadPopup()">Cancel</button>
+            <button type="button" onclick="submitComment('comment-textbox', 'comments-container', '-1')">Submit</button>
+        </div>
+
+
+
+        <!-- Cancel comment popup button -->
         <button type="button" onclick="closeCommentPopup('comment-popup')">Cancel</button>
 
         <!-- Search bar inside the comments -->

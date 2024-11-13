@@ -722,6 +722,137 @@ function getClipScore($conn, $clip_id, $user_id){
     return $result;
 }
 
+
+// function to get whether or not a user has liked a clip
+function isCommentLikedById($conn, $user_id, $comment_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE user_id=? AND clip_id=?");
+
+    $stmt->bind_param("ss", $user_id, $comment_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    if ($result > 0){
+        return 1;
+    }
+    return 0;
+}
+
+// function to get whether or not a user has disliked a clip
+function isCommentDislikedById($conn, $user_id, $comment_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM disliked_comments WHERE user_id=? AND comment_id=?");
+
+    $stmt->bind_param("ss", $user_id, $comment_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    if ($result > 0){
+        return 1;
+    }
+    return 0;
+}
+
+// function to get whether or not current user has liked this clip
+function isCommentLikedByCookie($conn, $comment_id){
+    $user_id = getUserIdByCookie($conn);
+    return isCommentLikedById($conn, $user_id, $comment_id);
+}
+
+// function to get whether or not current user has disliked this clip
+function isCommentDislikedByCookie($conn, $comment_id){
+    $user_id = getUserIdByCookie($conn);
+    return isCommentDislikedById($conn, $user_id, $comment_id);
+}
+
+// function to get the number of likes on a clip
+function getCommentLikes($conn, $comment_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comment WHERE comment_id=?");
+
+    $stmt->bind_param("s", $comment_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+
+}
+
+// function to get the number of dislikes on a clip
+function getCommentDislikes($conn, $comment_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM disliked_comments WHERE comment_id=?");
+
+    $stmt->bind_param("s", $comment_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $stmt->fetch();
+
+    return $result;
+    
+
+}
+
+// like a clip
+function unlikeComment($conn, $comment_id){
+    $stmt = $conn->prepare("DELETE FROM liked_comments WHERE comment_id =? AND user_id=?");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $comment_id, $user_id);
+
+    $stmt->execute();
+
+}
+
+function likeComment($conn, $comment_id){
+
+    $stmt = $conn->prepare("INSERT INTO liked_comments (user_id, comment_id) VALUES (?, ?)");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $user_id, $comment_id);
+
+    $stmt->execute();
+
+}
+
+
+// dislike a clip
+function undislikeComment($conn, $comment_id){
+    $stmt = $conn->prepare("DELETE FROM disliked_comments WHERE comment_id=? AND user_id=?");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $comment_id , $user_id);
+
+    $stmt->execute();
+
+}
+
+function dislikeComment($conn, $comment_id){
+
+    $stmt = $conn->prepare("INSERT INTO disliked_comments (user_id, comment_id) VALUES (?, ?)");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("ss", $user_id, $comment_id);
+
+    $stmt->execute();
+
+
+
 function deleteUser($conn, $user_id){
     try{
         $conn->begin_transaction();
@@ -786,6 +917,7 @@ function deleteUser($conn, $user_id){
         echo "This didn't work: " . $e->getMessage();
         $conn->rollback();
     }
+
 }
 
 ?>

@@ -47,3 +47,8 @@ function submitComment() {
     closeCommentPopup();
     openPopup();  // Show the submission success popup
 }
+
+// Share popup for sharing the clips
+function shareClip() {
+    openPopup();  
+}

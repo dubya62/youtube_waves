@@ -14,16 +14,36 @@ class CommentEntry{
 }
 
 
-// get all comments for this clip_id and echo them (in html format)
+// get a single comment from saved file with like, dislike, and reply button for the comments 
+function getComment($comment_id, $author_name, $is_child) {
+    
+    $likeButton = "<button class='like-button' onclick='incrementLikeComment($comment_id)'>Like</button>";
+    $likeCounter = "<span id='comment-like-counter-$comment_id' class='comment-like-counter'>0</span>";
+    
+    $dislikeButton = "<button class='dislike-button' onclick='incrementDislikeComment($comment_id)'>Dislike</button>";
+    $dislikeCounter = "<span id='comment-dislike-counter-$comment_id' class='comment-dislike-counter'>0</span>";
 
-// get a single comment from saved file
-function getComment($comment_id, $author_name, $is_child){
-    if ($is_child){
-        return "<div class='comment' id='comment-" . $comment_id . "'><div class='replyText'>" . $author_name . " REPLIED WITH:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\\\"" . $comment_id . "\\\")'>Reply</button></div></div>";
+    
+    $replyButton = "<button class='reply-button' onclick='toggleReplyTextbox(" . $comment_id . ")'>Reply</button>";
+
+    $deleteButton = "<button class='delete-button' onclick='deleteComment(" . $comment_id . ")'>Delete</button>";
+
+    
+    if ($is_child) {
+        return "<div class='comment' id='comment-$comment_id'><div class='replyText'>$author_name REPLIED WITH:<iframe class='comment-text' src='comments/$comment_id'></iframe>$likeButton $likeCounter $dislikeButton $dislikeCounter $replyButton $deleteButton</div></div>";
     } else {
-        return "<div class='comment' id='comment-" . $comment_id . "'><div>" . $author_name . " SAYS:<iframe class='comment-text' src='comments/" . $comment_id . "'></iframe><button class='reply-button' onclick='toggleReplyTextbox(\"" . $comment_id . "\")'>Reply</button></div></div>";
+        return "<div class='comment' id='comment-$comment_id'>
+                    <div>
+                        $author_name SAYS:
+                        <iframe class='comment-text' src='comments/$comment_id'></iframe>
+                        $likeButton $likeCounter
+                        $dislikeButton $dislikeCounter
+                        $replyButton $deleteButton
+                    </div>
+                </div>";
     }
 }
+
 
 // get all comments from an array
 function getAllComments($id_array){
@@ -32,7 +52,8 @@ function getAllComments($id_array){
     foreach($id_array as $id){
         if (!$id->parent){
             $result .= getComment($id->id, $id->author, 0);
-        } else {
+        } 
+        else {
             // this is a reply. add it to the script
             $fix_children .= "document.getElementById('comment-" . $id->parent . "').innerHTML += \"" . getComment($id->id, $id->author, 1) . "\"; ";
         }

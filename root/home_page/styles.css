@@ -203,13 +203,13 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Additional layout styles */
+
 .comment-container {
   width: 15%; 
   height: 35px;
-  margin-top: 10px; /* Adjust the margin-top to move the comment button */
+  margin-top: 10px; 
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .button-container {
@@ -254,6 +254,15 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+.replyText{
+  color: black;
+  background-color: gray;
+  margin-left: 10%;
+}
+.replyText iframe{
+  width: 100%;
+}
 /* Reply button styling */
 
 
@@ -267,13 +276,88 @@
   box-sizing: border-box;
 }/* CSS for search bar input */
 
+/* in progress of breaking stuff */
+.share-container { 
+  width: 32%;
+  height: 35px;
+  display: inline-block;
+  margin-top: 10px;
+  text-align: center;
+}
 
-.replyText{
-    color: black;
-    background-color: gray;
-    margin-left: 10%;
+.share-button {
+  background-color:#006B3D;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px; 
+  cursor: pointer;
 }
-.replyText iframe{
-    width: 100%;
+
+.share-button:hover {
+  background-color: #1C86EE;
 }
+
+
+
+/* Styles for Upload Image/GIF Popup */
+#upload-popup {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#upload-popup.open-popup {
+  display: block;
+}
+
+#upload-popup h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+#upload-popup button {
+  margin-top: 15px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #1E90FF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#upload-popup button:hover {
+  background-color: #1C86EE;
+}
+
+#upload-preview-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#upload-preview-container img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+}
+
+
+.delete-container .btn-23 {
+  background-color: red; 
+  color: #fff;
+}
+
+.delete-container .btn-23:hover {
+  background-color: darkred; 
+}
+
+/* in progress of breaking stuff */
 
