@@ -320,11 +320,10 @@
         <!-- Popup for Uploading and Previewing Image/GIF -->
         <div class="popup" id="upload-popup" onclick="event.stopPropagation()">
             <h2>Upload Image or GIF</h2>
-            <!-- File input in the popup for selecting an image or GIF -->
             <input type="file" id="upload-file-input" accept="image/*" onchange="previewFileUpload()">
             <div id="upload-preview-container"></div> <!-- Preview selected image/GIF -->
             <button type="button" onclick="closeUploadPopup()">Cancel</button>
-            <button type="button" onclick="submitComment('comment-textbox', 'comments-container', '-1')">Submit</button>
+            <button type="button" onclick="submitComment('comment-textbox', 'comments-container', '-1'); closeUploadPopup();">Submit</button>
         </div>
 
 
