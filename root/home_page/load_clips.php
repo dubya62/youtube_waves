@@ -42,7 +42,7 @@
             <div class='audio-title'>" . getClipName($conn, $clip_id) . "</div>
             <br>
             <audio id='audio-" . $clip_id . "' controls class='audio-player' onclick='event.stopPropagation()'>
-                <source src='audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
+                <source src='../home_page/audios/" . $clip_id . "." . getClipExtension($conn, $clip_id) . "' type='audio/mp3'>
                 Your browser does not support the audio element.
             </audio>
             <br>

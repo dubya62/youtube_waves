@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../home_page/styles.css">
+    <link rel="stylesheet" type="text/css" href="../root.css"/>
 
     <title>Profile:
         <?php
@@ -59,9 +61,9 @@
 
     <header>
 
-    <div onclick="window.href='../home_page/home_page.php'"s>
-        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px">
-    </div>
+    <a href="../home_page/home_page.php">
+        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px;">
+    </a>
 
     <div class="search-bar">
         <!-- Search Form -->
@@ -191,24 +193,29 @@
     </div>
 
     <!-- Content for Clips and Playlists -->
+
     <div id="clips" class="tab-content is-active">
         <div id="clip-list" class="content is-centered">
             <?php
                 $clips = getClipsByCookie($conn, $user_id);
                 
-                // for each clip, display it
-                foreach ($clips as $clip){
+                // for each clip, display it inside a styled container
+                foreach ($clips as $clip) {
+                    echo '<div class="clip-container">';
                     createClip($conn, $clip);
+                    echo '</div>';
                 }
             ?>
-
         </div>
     </div>
 
-    <div id="playlists" class="tab-content">
+
+
+    <!-- <div id="playlists" class="tab-content">
         <div id="playlists-list" class="content">
             
-            <?php
+             <?php
+                
                 $playlists = getLikedClips($conn, $user_id);
                 foreach ($playlists as $playlist){
                     createClip($conn, $playlist);
@@ -217,6 +224,7 @@
 
         </div>
     </div>
+    -->
 
     <script src="./profile.js"></script>
 
@@ -227,8 +235,8 @@
     </script>
     <script src="profile.js"></script>
     <?php 
-        include '../navigationBar/navigationBar.php'; 
         closeDb($conn);
+        include '../navigationBar/navigationBar.php'; 
     ?>
 </body>
 </html>

@@ -238,9 +238,9 @@
 
 <header>
 
-    <div>
-        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px">
-    </div>
+    <a href="../home_page/home_page.php">
+        <img src="logo.png" alt="Logo" style="width: 100px; height: 60px;">
+    </a>
 
     <div class="search-bar">
         <!-- Search Form -->
