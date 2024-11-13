@@ -1,4 +1,5 @@
 <?php
+        include "../../includes/scripts.php";
         // Check if the 'query' parameter is set in the URL
         if (isset($_GET['query'])) {
             // Get the search query from the form input
@@ -12,7 +13,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="../root.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
 <!-- Link to external CSS file -->
 <link rel="stylesheet" type="text/css" href="styles.css">
 <link rel="stylesheet" type="text/css" href="../root.css"/>
@@ -44,11 +45,15 @@
             height: 5em;
         }
 
-        .nav-bar {
-            align-items: center;
-            color: var(--color-green);
-            background-color: var(--color-shadow);
-            padding: 10px;
+        .green {
+            background-color: var(--color-green);
+        }
+
+        .navbar-dropdown {
+            background-color: #3c3c3c; /* Change this color to match your design */
+            border-radius: 8px; /* Optional: Add rounded corners */
+            border: 1px solid #2c2c2c; /* Optional: Add a border for a defined edge */
+            z-index: 1000;
         }
         .search-bar input {
             width: 300px;
@@ -111,7 +116,7 @@
             width: 33%;
             /* Make each clip have a box */
             background: var(--color-bg-secondary);
-            padding: 2em;
+            /*padding: 2em;*/
             border-radius: 10px;
             border-color: var(--color-bg-primary);
             border-style: solid;
@@ -200,13 +205,31 @@
             transform: translate(-50%, -50%) scale(1.5, 1.5);
             transition: transform: .2s;
             z-index: 3;
+            padding: 0px;
         }
         .clip-popup:hover{
             background-color: black;
             transform: translate(-50%, -50%) scale(1.6, 1.6);
             transition: transform: .2s;
             z-index: 3;
+            padding: 0px;
         }
+        .clip-layer{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            opacity: .8;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            border-color: var(--color-bg-primary);
+            border-style: solid;
+            border-width: 2px;
+            vertical-align: center;
+        }
+        
 
     </style>
 </head>
@@ -220,19 +243,57 @@
 
     <div class="search-bar">
         <!-- Search Form -->
-        <form method="GET">
+        <!-- <form method="GET">
             <input type="text" name="query" placeholder="Search for something..." required>
             <button type="submit">Search</button>
+        </form> -->
+        <form class="field" method="GET">
+            <div class="control">
+                <input class="input" name="query" placeholder="Search for something..." required>
+                <button class="button green" type="submit">Search</button>
+            </div>
         </form>
     </div>
 
+    <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+            <figure class="image" style="width: 50px; height: 50px;">
+            <?php
+                include_once "../../includes/scripts.php";
+                $conn = initDb();
+                $user_id = getUserIdByCookie($conn);
 
-    <input type='button' class="search-button" onclick='window.location="/logout.php";' value='logout'/>
-    <!--On click of profile icon, redirect to profile page-->
-        <div class="clickable" onclick="window.location.href='/profile/profile.php'">
-            <img src="profile_icon.png" alt="Profile" style="width: 40px; height: 40px;">
+                $default_profile_picture = "profile_icon.png";
+                $profile_image_directory = "../profile/images/";
+
+                // Create the full path by appending the user ID and image file extension
+                $profile_picture = $profile_image_directory . $user_id;
+
+                // Check if the user's profile picture exists, else use default icon
+                if (file_exists($profile_picture)) {
+                    echo "<img src=" . $profile_picture . "/>";
+                } else {
+                    echo "<img src=" . $default_profile_picture . "/>";
+                }
+
+                $conn->close();
+            ?>
+
+            </figure>
+        </a>
+
+        <div class="navbar-dropdown is-right">
+            <a class="navbar-item" href="../profile/profile.php">
+                Profile
+            </a>
+            <a class="navbar-item" href="../settings/settings.php">
+                Settings
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item" href="../logout.php">
+                Log Out
+            </a>
         </div>
-        
     </div>
 </header>
 
@@ -294,7 +355,7 @@
 <div>
 
     <?php
-        include '../../includes/scripts.php';
+        include_once '../../includes/scripts.php';
 
         // handle uploads
         // Mapping MIME types to file extensions
@@ -374,7 +435,7 @@
     <div id="popupForm" class="otherPopup">
         <div class="popup-content">
             <span class="close">&times;</span>
-            <form method="post" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();alert('Wave Submitted! Good Luck...');}, 10);">
+            <form method="post" action="home_page.php" id="uploadForm" enctype="multipart/form-data" onsubmit="setTimeout(function {window.location.reload();alert('Wave Submitted! Good Luck...');window.location='home_page.php';history.replaceState(null, '', 'home_page.php');}, 10);">
                 <h2 style="color: var(--color-text-primary)">Create New Post</h2>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required><br><br>
@@ -481,6 +542,5 @@
     ?>
 
 </div>
-<?php include '../navigationBar/navigationBar.php'; ?>
 </body>
 </html>

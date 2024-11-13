@@ -220,6 +220,26 @@ function getSubscriberCount($conn, $user_id){
     return $result;
 }
 
+// function to get number of people a person is subscribed to
+function getSubscriptionCount($conn, $user_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM subscriptions WHERE user_id=?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result;
+}
+
+// function to get the number of waves a person has submitted
+function getWaveCount($conn, $user_id){
+    $stmt = $conn->prepare("SELECT COUNT(owner) FROM clips WHERE owner=?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result;
+}
+
 // function to return a list of users that the current user is following
 function getFollowing($conn){
     $stmt = $conn->prepare("SELECT user_id FROM subscriptions WHERE user_id=?");
@@ -246,6 +266,40 @@ function getFollowing($conn){
 
     return $res;
 }
+
+function getFollowerCount($conn, $user_id){
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM subscriptions WHERE subscription=?");
+    $stmt->bind_param("s", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result;
+}
+
+// function to follow a certain user id
+function followUser($conn, $user_id, $follow_user){
+    if (!checkIfFollowingUser($conn, $user_id, $follow_user)){
+        $stmt = $conn->prepare("INSERT INTO subscriptions (user_id, subscription) VALUES (?, ?)");
+        $stmt->bind_param("ss", $user_id, $follow_user);
+        $stmt->execute();
+    }
+}
+// function to unfollow a certain user id
+function unfollowUser($conn, $user_id, $follow_user){
+    $stmt = $conn->prepare("DELETE FROM subscriptions WHERE user_id=? AND subscription=?");
+    $stmt->bind_param("ss", $user_id, $follow_user);
+    $stmt->execute();
+}
+// function to check if following a certain user
+function checkIfFollowingUser($conn, $user_id, $follow_user){
+    $stmt = $conn->prepare("SELECT COUNT(id) FROM subscriptions WHERE user_id=? AND subscription=?");
+    $stmt->bind_param("ss", $user_id, $follow_user);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    return $result != 0;
+}
+
 
 // function to get clips posted by a certain user
 function getClipsByUserId($conn, $user_id){
@@ -338,6 +392,16 @@ function getCommentOwner($conn, $comment_id){
 
     $stmt->fetch();
 
+    return $result;
+}
+
+// function to get owner of a clip
+function getClipOwner($conn, $clip_id){
+    $stmt = $conn->prepare("SELECT owner FROM clips WHERE id=?");
+    $stmt->bind_param("s", $clip_id);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
     return $result;
 }
 
@@ -442,6 +506,24 @@ function likeClip($conn, $clip_id){
 
 }
 
+function getLikedClips($conn){
+    $stmt = $conn->prepare("SELECT clip_id FROM liked_clips WHERE user_id=?");
+
+    $user_id = getUserIdByCookie($conn);
+
+    $stmt->bind_param("s", $user_id);
+
+    $stmt->execute();
+
+    $stmt->bind_result($result);
+
+    $res = [];
+    while ($stmt->fetch()){
+        $res[] = $result;
+    }
+
+    return $res;
+}
 
 // dislike a clip
 function undislikeClip($conn, $clip_id){
@@ -642,6 +724,7 @@ function getClipScore($conn, $clip_id, $user_id){
     return $result;
 }
 
+
 // function to get whether or not a user has liked a clip
 function isCommentLikedById($conn, $user_id, $comment_id){
     $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE user_id=? AND clip_id=?");
@@ -772,5 +855,73 @@ function dislikeComment($conn, $comment_id){
 
 
 }
+
+function deleteUser($conn, $user_id){
+    try{
+        $conn->begin_transaction();
+
+        // Delete user comments
+        $stmt = $conn->prepare("DELETE FROM comments WHERE author=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete subscriptions the user has
+        $stmt = $conn->prepare("DELETE FROM subscriptions WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete records of clips the user has watched
+        $stmt = $conn->prepare("DELETE FROM watched_clips WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete records of clips the user has liked
+        $stmt = $conn->prepare("DELETE FROM liked_clips WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete records of clips the user has disliked
+        $stmt = $conn->prepare("DELETE FROM disliked_clips WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete tags created by the user
+        $stmt = $conn->prepare("DELETE FROM user_tags WHERE user_id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete tags associated with clips owned by the user
+        $stmt = $conn->prepare("DELETE FROM clip_tags WHERE clip_id IN (SELECT id FROM clips WHERE owner=?)");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete all clips owned by the user
+        $stmt = $conn->prepare("DELETE FROM clips WHERE owner=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Finally, delete the user
+        $stmt = $conn->prepare("DELETE FROM users WHERE id=?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        $conn->commit();
+
+    } catch(Exception $e){
+        echo "This didn't work: " . $e->getMessage();
+        $conn->rollback();
+    }
+}
+
+
 
 ?>

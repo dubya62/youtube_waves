@@ -23,7 +23,7 @@ CREATE TABLE user_tags (
     tag_id int,
     sentiment float,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id)
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE subscriptions(
     user_id int, -- user_id subscribes to subscription
     subscription int, -- references a user's id
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (subscription) REFERENCES users(id)
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE clips (
     extension varchar(16),
     image_extension varchar(16),
     PRIMARY KEY (id),
-    FOREIGN KEY (owner) REFERENCES users(id)
+    FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE watched_clips (
@@ -53,8 +53,8 @@ CREATE TABLE watched_clips (
     user_id int,
     clip_id int,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (clip_id) REFERENCES clips(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (clip_id) REFERENCES clips(id) ON DELETE CASCADE
 );
 
 CREATE TABLE clip_tags (
@@ -62,8 +62,8 @@ CREATE TABLE clip_tags (
     clip_id int,
     tag_id int,
     PRIMARY KEY (id),
-    FOREIGN KEY (clip_id) REFERENCES clips(id),
-    FOREIGN KEY (tag_id) REFERENCES tags(id)
+    FOREIGN KEY (clip_id) REFERENCES clips(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 
 CREATE TABLE liked_clips(
@@ -71,8 +71,8 @@ CREATE TABLE liked_clips(
     user_id int,
     clip_id int,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (clip_id) REFERENCES clips(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (clip_id) REFERENCES clips(id) ON DELETE CASCADE
 );
 
 CREATE TABLE disliked_clips(
@@ -80,8 +80,8 @@ CREATE TABLE disliked_clips(
     user_id int,
     clip_id int,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (clip_id) REFERENCES clips(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (clip_id) REFERENCES clips(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comments(
@@ -89,9 +89,9 @@ CREATE TABLE comments(
     author int,
     clip_id int,
     parent int,
-    FOREIGN KEY (author) REFERENCES users(id),
-    FOREIGN KEY (clip_id) REFERENCES clips(id),
-    FOREIGN KEY (parent) REFERENCES comments(id),
+    FOREIGN KEY (author) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (clip_id) REFERENCES clips(id) ON DELETE CASCADE,
+    FOREIGN KEY (parent) REFERENCES comments(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 );
 

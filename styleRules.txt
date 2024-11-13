@@ -1,0 +1,102 @@
+Make sure to include this stylesheet at the top of every HTML/PHP page:
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+---------------------------------------------------------------------------------------------
+This is the global primary color that needs to be included:
+
+:root {
+  --primary: #006b3d;  /* Green */
+}
+
+---------------------------------------------------------------------------------------------
+Use .container for page sections that need centered and padded content
+
+<div class="container">
+  <h1 class="title">Heading 1</h1>
+  <p>This is a paragraph</p>
+</div>
+
+---------------------------------------------------------------------------------------------
+You can split the page into equal columns
+
+<div class="columns">
+  <div class="column is-half">
+    <!-- Content here -->
+  </div>
+  <div class="column">
+    <!-- Another half-column -->
+  </div>
+</div>
+
+---------------------------------------------------------------------------------------------
+Bulma has color codes that come with buttons (is-primary, is-link, etc)
+
+<button class="button is-primary">Primary Button</button>
+<button class="button is-link">Link Button</button>
+
+.is-primary: Primary buttons, highlights, etc.
+.is-link: Links and actions.
+.is-danger: Warnings or errors.
+
+---------------------------------------------------------------------------------------------
+Bulma has uniform form fields so they are consistent across our project
+
+<div class="field">
+  <label class="label">Username</label>
+  <div class="control">
+    <input class="input" type="text" placeholder="Enter your username">
+  </div>
+</div>
+
+---------------------------------------------------------------------------------------------
+They make it pretty easy to customize a navigation bar that's easy to plug-and-play
+
+<nav class="navbar is-primary" role="navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">Brand</a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="#">Home</a>
+      <a class="navbar-item" href="#">About</a>
+    </div>
+  </div>
+</nav>
+
+---------------------------------------------------------------------------------------------
+Bulma also has ways to size the text easily if you need bigger/smaller text
+
+<h1 class="title is-1">Main Title</h1>
+<h2 class="subtitle is-3">Subheading</h2>
+
+---------------------------------------------------------------------------------------------
+Super easy way to make cards
+
+<div class="card">
+  <div class="card-content">
+    <p class="title">This is a card</p>
+    <p class="subtitle">Subtitle here</p>
+  </div>
+</div>
+
+---------------------------------------------------------------------------------------------
+If you wanna have a confirmation popup or something, these are super easy to implement
+
+<div class="notification is-primary">
+  This is a primary notification.
+</div>
+<div class="notification is-danger">
+  This is a danger notification.
+</div>
+
+---------------------------------------------------------------------------------------------
+They make it incredibly easy to throw up a modal too, it wouldn't take long to replace ours
+
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <p>This is modal content</p>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>

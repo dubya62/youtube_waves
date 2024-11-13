@@ -6,12 +6,36 @@
     <title>Settings</title>
     <link rel="stylesheet" href="../root.css"/>
     <link rel="stylesheet" href="settings.css"/>
+
 </head>
 <body>
     <div id="settings-info">
         <h2>Account Settings</h2>
 
-        <img id="acc-img" src="../img/bara.jpg" alt="Profile Image"/>
+        <img id="acc-img"
+            <?php
+                include "../../includes/scripts.php";
+                $conn = initDb();
+                $user_id = getUserIdByCookie($conn);
+
+                $default_profile_picture = "profile_icon.png";
+                $profile_image_directory = "../profile/images/";
+
+                // Create the full path by appending the user ID and image file extension
+                $profile_picture = $profile_image_directory . $user_id;
+
+                // Check if the user's profile picture exists, else use default icon
+                if (file_exists($profile_picture)) {
+                    echo "<img src=" . $profile_picture . "/>";
+                } else {
+                    echo "<img src=" . $default_profile_picture . "/>";
+                }
+
+                $conn->close();
+            ?>
+        >
+
+        </img>
 
         <div id="settings-form">
 
@@ -19,13 +43,13 @@
                 
                 <!-- Username Section -->
                 <div class="form-group">
-                    <label for="username">Username:</label>
+                    <label for="username">New Username:</label>
                     <input type="text" id="username" placeholder="Username" class="input-field" name="username"/>
                 </div>
 
                 <!-- Password Section -->
                 <div class="form-group">
-                    <label for="password">Password:</label>
+                    <label for="password">New Password:</label>
                     <input type="password" id="password" placeholder="********" class="input-field" name="password"/>
                 </div>
 
@@ -34,7 +58,7 @@
 
                 <!-- PHP to update username and password -->
                 <?php 
-                    include '../../includes/scripts.php';
+                    
                     # open database connection
                     $conn = initDb();
                     # get username
@@ -85,15 +109,55 @@
                         }
                     }
 
-
-
                     # close database connection
                     closeDb($conn);
                 ?>
             </form>
         </div>
+    
+    <!-- Delete Account Button -->
+    <div>
+            <h3>Ready to Wave Goodbye?</h3>
+            <form id="delete-account-form" method="post">
+                <input type="button" id="delete-account" value="Delete Account"/>
+            </form>
+
+            <!-- JavaScript to handle confirmation and submit -->
+            <script>
+                // Add event listener to delete account button
+                document.getElementById("delete-account").addEventListener("click", function() {
+                // Display confirmation dialog
+                if (confirm("Are you sure you want to go? 🥺 \nDeleting your account cannot be undone.")) {
+                // If confirmed, submit the form
+                    document.getElementById("delete-account-form").submit();
+                    console.log("Account Deleted");
+            }
+            });
+            </script>
+
+            <?php
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $conn = initDb();
+                    $user_id = getUserIdByCookie($conn);
+                    $username = getUsername($conn, $user_id); 
+                    deleteUser($conn, $user_id);  
+
+                    //check if user in database, if not, redirect to landing page -> if user deleted, cookie should be deleted
+                    if (check_user($conn, $username) == 0) {
+                        logout();
+                        header("Location: ../landing_page/about.php");
+                    }
+
+                    closeDb($conn);
+
+                }
+            ?>
+        </div>
     </div>
 
+    <!-- Navigation Bar -->
     <?php include '../navigationBar/navigationBar.php'; ?>
+
 </body>
+<script src="../../node_modules/bulma-toast/dist/bulma-toast.min.js"></script>
 </html>

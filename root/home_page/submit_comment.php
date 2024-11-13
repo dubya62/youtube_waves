@@ -25,7 +25,15 @@ function createCommentDatabaseEntry($conn, $clip_id, $parent){
     return mysqli_insert_id($conn);
 }
 
-// Save the comment text
+
+
+// create a file with the comment's data in it
+function createCommentFile($comment_id, $comment){
+    $the_file = fopen("comments/" . $comment_id, "w") or die ("Could not save comment!");
+    fwrite($the_file, $comment);
+    fclose($the_file);
+}
+
 $comment_id = createCommentDatabaseEntry($conn, $clip_id, $parent);
 $commentFilePath = "comments/" . $comment_id;
 file_put_contents($commentFilePath, $comment);
@@ -47,9 +55,11 @@ if (isset($_FILES["comment_image"]) && $_FILES["comment_image"]["error"] === UPL
 
 closeDb($conn);
 
+
 // Return comment text and image URL to client as JSON
 echo json_encode([
     "message" => "Comment with image uploaded successfully",
     "imageURL" => $imageURL
 ]);
+
 ?>
