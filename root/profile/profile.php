@@ -149,7 +149,7 @@
                 <h3>
                   <?php
                         try {
-                            $following = getSubscriberCount($conn, $user_id);
+                            $following = getSubscribtionCount($conn, $user_id);
                             echo htmlspecialchars($following);
                         } catch (Exception $e){
                             echo "0";
@@ -162,9 +162,9 @@
                 <h3>
                     <?php
                         try {
-                            $wavecount = getClipsByCookie($conn, $user_id);
+                            $wavecount = getWaveCount($conn, $user_id);
                             // count the number of waves
-                            echo htmlspecialchars(count($wavecount));
+                            echo htmlspecialchars($wavecount);
                         } catch (Exception $e){
                             echo "0";
                         }
