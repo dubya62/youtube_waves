@@ -15,13 +15,13 @@ class CommentEntry{
 
 
 // get a single comment from saved file with like, dislike, and reply button for the comments 
-function getComment($comment_id, $author_name, $is_child) {
+function getComment($conn, $comment_id, $author_name, $is_child) {
     
     $likeButton = "<button class='like-button' onclick='incrementLikeComment($comment_id)'>Like</button>";
-    $likeCounter = "<span id='comment-like-counter-$comment_id' class='comment-like-counter'>0</span>";
+    $likeCounter = "<span id='comment-like-counter-$comment_id' class='comment-like-counter'>" . getCommentLikes($conn, $comment_id) . "</span>";
     
     $dislikeButton = "<button class='dislike-button' onclick='incrementDislikeComment($comment_id)'>Dislike</button>";
-    $dislikeCounter = "<span id='comment-dislike-counter-$comment_id' class='comment-dislike-counter'>0</span>";
+    $dislikeCounter = "<span id='comment-dislike-counter-$comment_id' class='comment-dislike-counter'>" . getCommentDislikes($conn, $comment_id) . "</span>";
 
     
     $replyButton = "<button class='reply-button' onclick='toggleReplyTextbox(" . $comment_id . ")'>Reply</button>";
@@ -46,16 +46,16 @@ function getComment($comment_id, $author_name, $is_child) {
 
 
 // get all comments from an array
-function getAllComments($id_array){
+function getAllComments($conn, $id_array){
     $result = "";
     $fix_children = "";
     foreach($id_array as $id){
         if (!$id->parent){
-            $result .= getComment($id->id, $id->author, 0);
+            $result .= getComment($conn, $id->id, $id->author, 0);
         } 
         else {
             // this is a reply. add it to the script
-            $fix_children .= "document.getElementById('comment-" . $id->parent . "').innerHTML += \"" . getComment($id->id, $id->author, 1) . "\"; ";
+            $fix_children .= "document.getElementById('comment-" . $id->parent . "').innerHTML += \"" . getComment($conn, $id->id, $id->author, 1) . "\"; ";
         }
     }
     // append a script that puts all of the replies at the end
@@ -88,7 +88,7 @@ function getClipComments($conn, $clip_id){
 
 function getClipCommentsAsHTML($conn, $clip_id){
     $comment_ids = getClipComments($conn, $clip_id);
-    return getAllComments($comment_ids);
+    return getAllComments($conn, $comment_ids);
 }
 
 
