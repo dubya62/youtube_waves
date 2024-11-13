@@ -178,28 +178,26 @@ function sleep(ms) {
 
 async function convertTimestamps(){
     for (let i=0; i<window.frames.length; i++){
-        if (window.frames[i].document.body != null){
-            let commentElement = window.frames[i].document.body.children[0];
+        let commentElement = window.frames[i].document.body.children[0];
 
-            if (commentElement != undefined){
-                if (commentElement.tagName == "PRE"){
-                    let commentText = commentElement.innerHTML;
+        if (commentElement != undefined){
+            if (commentElement.tagName == "PRE"){
+                let commentText = commentElement.innerHTML;
 
-                    let newText = commentText.replace(/\d+:\d{1,2}/gi, `<strong style='color:blue'><u>$&</u></strong>`);
-                    window.frames[i].document.body.innerHTML = newText;
+                let newText = commentText.replace(/\d+:\d{1,2}/gi, `<strong style='color:blue'><u>$&</u></strong>`);
+                window.frames[i].document.body.innerHTML = newText;
 
-                    let strongs = window.frames[i].document.body.getElementsByTagName("strong");
-                    for (let j=0; j<strongs.length; j++){
-                        strongs[j].addEventListener("click", function (){
-                            console.log("Hello");
-                            changeTime(window.frames[i].window.location.pathname, strongs[j].children[0].innerHTML);
-                        });
-                    }
+                let strongs = window.frames[i].document.body.getElementsByTagName("strong");
+                for (let j=0; j<strongs.length; j++){
+                    strongs[j].addEventListener("click", function (){
+                        console.log("Hello");
+                        changeTime(window.frames[i].window.location.pathname, strongs[j].children[0].innerHTML);
+                    });
                 }
-            } else {
-                await sleep(25);
-                i -= 1;
             }
+        } else {
+            await sleep(25);
+            i -= 1;
         }
 
     }

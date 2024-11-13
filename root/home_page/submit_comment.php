@@ -36,7 +36,6 @@ function createCommentFile($comment_id, $comment){
 
 $comment_id = createCommentDatabaseEntry($conn, $clip_id, $parent);
 $commentFilePath = "comments/" . $comment_id;
-file_put_contents($commentFilePath, $comment);
 
 // Handle image upload
 if (isset($_FILES["comment_image"]) && $_FILES["comment_image"]["error"] === UPLOAD_ERR_OK) {
@@ -51,6 +50,9 @@ if (isset($_FILES["comment_image"]) && $_FILES["comment_image"]["error"] === UPL
         echo json_encode(["error" => "Failed to save image"]);
         exit;
     }
+    file_put_contents($commentFilePath, "<img src='$imageFileName' alt='funny image'>");
+} else {
+    file_put_contents($commentFilePath, $comment);
 }
 
 closeDb($conn);

@@ -737,7 +737,7 @@ function getLikedClips($conn, $user_id){
 
 // function to get whether or not a user has liked a clip
 function isCommentLikedById($conn, $user_id, $comment_id){
-    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE user_id=? AND clip_id=?");
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE user_id=? AND comment_id=?");
 
     $stmt->bind_param("ss", $user_id, $comment_id);
 
@@ -785,7 +785,7 @@ function isCommentDislikedByCookie($conn, $comment_id){
 
 // function to get the number of likes on a clip
 function getCommentLikes($conn, $comment_id){
-    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comment WHERE comment_id=?");
+    $stmt = $conn->prepare("SELECT COUNT(user_id) FROM liked_comments WHERE comment_id=?");
 
     $stmt->bind_param("s", $comment_id);
 
